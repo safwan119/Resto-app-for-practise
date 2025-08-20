@@ -134,7 +134,7 @@ class _BookTableState extends State<BookTable> {
             Center(
               child: Container(
                 width: 1000,
-                height: 300,
+                // height: 300,
                 color: Colors.black,
                 child: Image.asset(
                   "assets/image/image1.jpg",
@@ -146,12 +146,12 @@ class _BookTableState extends State<BookTable> {
             Card(
               color: Colors.white,
               child: Container(
-                height: 110,
-                width: 1000,
+                // height: 110,
+                width: double.infinity,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
                         "Mcdonald's-Seri Austin DT",
                         style: TextStyle(
@@ -162,7 +162,7 @@ class _BookTableState extends State<BookTable> {
                       ),
                     ),
                     Text(
-                      "McDonald's Corporation is an American multinational fast food chain,\nfounded in 1940 as a restaurant operated by Richard and Maurice McDonald,\nin san Bernardino,California,United States.",
+                      "McDonald's Corporation is an American multinational fast food chain,founded in 1940 as a restaurant operated by Richard and Maurice McDonald,in san Bernardino,California,United States.",
                     ),
                   ],
                 ),
@@ -172,8 +172,8 @@ class _BookTableState extends State<BookTable> {
             Card(
               color: Colors.white,
               child: Container(
-                height: 490,
-                width: 1000,
+                // height: 490,
+                width: double.infinity,
                 child: Column(
                   children: [
                     SizedBox(height: 20),
@@ -187,12 +187,12 @@ class _BookTableState extends State<BookTable> {
                     ),
                     Container(
                       height: 40,
-                      width: 900,
+                      width: double.infinity,
                       color: Colors.black12,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 14),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "SUNDAY-TUESDAY",
                               style: TextStyle(
@@ -201,7 +201,7 @@ class _BookTableState extends State<BookTable> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 660),
+                         Spacer(),
                           Text(
                             "10:00 - 18:00",
                             style: TextStyle(
@@ -215,12 +215,12 @@ class _BookTableState extends State<BookTable> {
                     SizedBox(height: 12),
                     Container(
                       height: 40,
-                      width: 900,
+                      width: double.infinity,
                       color: Colors.black12,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 14),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "WEDNESDAY-THURSDAY",
                               style: TextStyle(
@@ -229,7 +229,7 @@ class _BookTableState extends State<BookTable> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 620),
+                          Spacer(),
                           Text(
                             "11:00 - 18:00",
                             style: TextStyle(
@@ -243,12 +243,12 @@ class _BookTableState extends State<BookTable> {
                     SizedBox(height: 12),
                     Container(
                       height: 40,
-                      width: 900,
+                      width: double.infinity,
                       color: Colors.black12,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 14),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "WEEKENDS",
                               style: TextStyle(
@@ -257,7 +257,7 @@ class _BookTableState extends State<BookTable> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 710),
+                          Spacer(),
                           Text(
                             "12:00 - 18:00",
                             style: TextStyle(
@@ -279,12 +279,12 @@ class _BookTableState extends State<BookTable> {
                     ),
                     Container(
                       height: 40,
-                      width: 900,
+                      width: double.infinity,
                       color: Colors.black12,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 14),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "RECEiVE 30% OFF",
                               style: TextStyle(
@@ -293,7 +293,7 @@ class _BookTableState extends State<BookTable> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 665),
+                          Spacer(),
                           Text(
                             "10:00 - 12:00",
                             style: TextStyle(
@@ -307,12 +307,12 @@ class _BookTableState extends State<BookTable> {
                     SizedBox(height: 12),
                     Container(
                       height: 40,
-                      width: 900,
+                      width: double.infinity,
                       color: Colors.black12,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 14),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "RECEiVE 45% OFF",
                               style: TextStyle(
@@ -321,7 +321,7 @@ class _BookTableState extends State<BookTable> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 665),
+                          Spacer(),
                           Text(
                             "11:00 - 18:00",
                             style: TextStyle(
@@ -335,12 +335,12 @@ class _BookTableState extends State<BookTable> {
                     SizedBox(height: 12),
                     Container(
                       height: 40,
-                      width: 900,
+                      width:double.infinity,
                       color: Colors.black12,
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 14),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "RECEiVE 50% OFF",
                               style: TextStyle(
@@ -349,7 +349,7 @@ class _BookTableState extends State<BookTable> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 665),
+                         Spacer(),
                           Text(
                             "12:00 - 18:00",
                             style: TextStyle(
@@ -361,13 +361,14 @@ class _BookTableState extends State<BookTable> {
                       ),
                     ),
                     SizedBox(height: 15),
-                    Text(
-                      "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Divider(color: Colors.black,),
                     ),
                     Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 27),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: IconButton(
                             onPressed: () {},
                             icon: Icon(
@@ -378,8 +379,10 @@ class _BookTableState extends State<BookTable> {
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Text(
-                          "Lot 132943,Persiaran Jaya Putra,Taman Seri Austin,81100 johor \nBahru,johor",
+                        Expanded(
+                          child: Text(
+                            "Lot 132943,Persiaran Jaya Putra,Taman Seri Austin,81100 johor Bahru,johor",
+                          ),
                         ),
                       ],
                     ),
@@ -389,36 +392,34 @@ class _BookTableState extends State<BookTable> {
             ),
             SizedBox(height: 12,),
             Container(
-              height: 54,
-              width: 1000,
+              height: 40,
+              // width: 1000,
               // color: Colors.black,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                  onPressed: (){}, child: Text("BOOK A TABLE NOW",style: TextStyle(color: Colors.black,fontSize: 26,fontWeight: FontWeight.bold),)),
+                  onPressed: (){}, child: Text("BOOK A TABLE NOW",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),)),
             ),
             SizedBox(height: 15),
 
             // Message Container
             Container(
-              width: 1000,
-              height: 50,
+              width:double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.black, width: 1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: Icon(Icons.do_not_disturb_alt_sharp),
-                  ),
-                  SizedBox(width: 15),
-                  Text(
-                    "At the moment there is no availability for today. The next availability\n for 3 guests is tomorrow",
-                    style: TextStyle(color: Colors.black),
-                    textAlign: TextAlign.center,
+                  SizedBox(width: 5,),
+                  Icon(Icons.do_not_disturb_alt_sharp),
+                  SizedBox(width: 5),
+                  Expanded(
+                    child: Text(
+                      "At the moment there is no availability for today. The next availability\n for 3 guests is tomorrow",
+                      style: TextStyle(color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
 
                 ],
