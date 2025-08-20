@@ -17,27 +17,53 @@ class _SepearImagState extends State<SepearImag> {
   String guestcount1 = "1";
   var guestno1 = TextEditingController();
   var itemIndex = 0;
+  String srch = "";
   var Search = TextEditingController();
-  List<Map<String,dynamic>> FoodList=[
+  List<Map<String, dynamic>> FoodList = [
+    {"title": "Asian"},
+    {"title": "Western"},
+    {"title": "Non-Halal"},
+    {"title": "Vegeterian"},
+    {"title": "Thailand"},
+    {"title": "Chinese"},
+  ];
+  List<Map<String, dynamic>> Menu = [
     {
-      "title":"Asian",
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
     },
     {
-      "title":"Western",
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
     },
     {
-      "title":"Non-Halal",
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
     },
     {
-      "title":"Vegeterian",
-    },
-    {
-      "title":"Thailand",
-    },
-    {
-      "title":"Chinese",
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
     },
   ];
+  List<Map<String, dynamic>> FilterMenuFood = [];
+
+  @override
+  void initState() {
+    super.initState();
+    FilterMenuFood = List.from(Menu);
+  }
+
+  void FilterSearch() {
+    setState(() {
+      FilterMenuFood = srch.isEmpty
+          ? List.from(Menu)
+          : Menu.where(
+              (item) => item['title'].toString().toLowerCase().contains(
+                srch.toLowerCase(),
+              ),
+            ).toList();
+    });
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +94,10 @@ class _SepearImagState extends State<SepearImag> {
                 ),
                 child: TextField(
                   controller: Search,
+                  onChanged: (String value) {
+                    srch = value;
+                    FilterSearch();
+                  },
                   decoration: InputDecoration(
                     hintText: "Search for food",
                     prefixIcon: Icon(Icons.search, size: 20),
@@ -226,6 +256,143 @@ class _SepearImagState extends State<SepearImag> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Card(
+                elevation: 6,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "Guests",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      "$guestcount1 Guests",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("Enter number of guest"),
+                                        content: TextField(
+                                          controller: guestno1,
+                                          decoration: InputDecoration(
+                                            hintText: "Enter number",
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                guestcount1 = guestno1.text
+                                                    .toString();
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("ok"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Text("|"),
+                      Expanded(
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Text("Date", style: TextStyle(fontSize: 12)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      "SAT,2 AUG",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text("|"),
+                      Expanded(
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Text("Time", style: TextStyle(fontSize: 12)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      "12:00 PM",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -250,49 +417,185 @@ class _SepearImagState extends State<SepearImag> {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    "assets/image/picture.jpg",
+                    fit: BoxFit.cover,
+                    height: 150,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 height: 40,
-                child: ListView.separated(scrollDirection: Axis.horizontal,
-                    // physics: NeverScrollableScrollPhysics(),
-                    // shrinkWrap: true,
-
-                    itemCount: FoodList.length,
-                    itemBuilder: (context,index){
-                  String title=FoodList[index]["title"];
-                  Color color=index==0?Colors.amber:Colors.black12;
-                  return CountryFood(title,color);
-
-                }, separatorBuilder: (context, index) => SizedBox(width: 8),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: FoodList.length,
+                  itemBuilder: (context, index) {
+                    String title = FoodList[index]["title"];
+                    Color color = index == 0 ? Colors.amber : Colors.black12;
+                    return CountryFood(title, color);
+                  },
+                  separatorBuilder: (context, index) => SizedBox(width: 8),
                 ),
               ),
-            )
+            ),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: FilterMenuFood.isNotEmpty
+                      ? GridView.count(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2, // Two widgets per line
+                          // crossAxisSpacing: 8.0, // Horizontal gap between widgets
+                          // mainAxisSpacing: 8.0, // Vertical gap between widgets
+                          // padding: EdgeInsets.all(16.0), // Padding around the grid
+                          children: FilterMenuFood.map((item) {
+                            return FoodMenu(item['title'], item['subtitle']);
+                          }).toList(),
+                        )
+                      : Text("No result found"),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.amber,
+                        ),
+                        child: ListTile(
+                          title: Text("Proceed to Booking"),
+                          trailing: Text("RM 17.00"),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20),
+            //   child: FoodMenu(),
+            // ),
           ],
         ),
       ),
     );
   }
 }
+
 class CountryFood extends StatelessWidget {
   String? title;
   Color? colors;
-  CountryFood(this.title,this.colors);
+
+  CountryFood(this.title, this.colors);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 30,
-      // width: 130,
-      // color: Colors.black12,
       child: TextButton(
-          style: TextButton.styleFrom(backgroundColor: colors!,overlayColor: Colors.amber,shape: RoundedRectangleBorder(side: BorderSide(color: Colors.black12),borderRadius: BorderRadius.circular(8))),
-          onPressed: (){},
-          child: Center(child: Text(title!),
-
-          )),
+        style: TextButton.styleFrom(
+          backgroundColor: colors!,
+          overlayColor: Colors.amber,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black12),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {},
+        child: Center(child: Text(title!)),
+      ),
     );
   }
 }
 
+class FoodMenu extends StatelessWidget {
+  String? title;
+  String? subtitle;
+
+  FoodMenu(this.title, this.subtitle);
+
+  @override
+  Widget build(BuildContext context) {
+    // double screenWidth = MediaQuery.of(context).size.width;
+
+    return InkWell(
+      onTap: () {},
+      child: Card(
+        child: SingleChildScrollView(
+          child: Container(
+            width: 200,
+            // height: screenWidth * 0.5,
+            // height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black12,
+            ),
+
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 5),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      "assets/image/picture.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      title!,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(subtitle!, style: TextStyle(color: Colors.black)),
+                  Row(
+                    children: [
+                      Text(
+                        "RM 17.00",
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Spacer(),
+                      Icon(Icons.add_box, size: 20, color: Colors.amber),
+                      // ListTile(
+                      // title: Text("RM 17.00",style: TextStyle(color: Colors.amber,fontWeight: FontWeight.bold),),
+                      // trailing: Icon(Icons.add_box,size: 20,color: Colors.amber,),
+                      // ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
