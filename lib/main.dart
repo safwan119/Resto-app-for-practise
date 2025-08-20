@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       title: "Any Appliction",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: FoodPicture(),
+      home: AdresDetail(),
     );
   }
 }
