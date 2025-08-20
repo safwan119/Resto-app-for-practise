@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/seperateImagfood.dart';
+
+import '../forPass.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -23,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(Duration.zero, () {
       if (user != null) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => SepearImag()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => ForgPass()));
       } else {
         Navigator.push(context, MaterialPageRoute(builder: (_) => RestoApp()));
       }

@@ -80,7 +80,9 @@ class _ForgPassState extends State<ForgPass> {
         ),
         backgroundColor: Colors.amber,
       ),
-     endDrawer:  Drawer1(),
+     // endDrawer:  Drawer(
+     //
+     // ),
 
       body: Container(
         width: double.infinity,
