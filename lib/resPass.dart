@@ -8,7 +8,6 @@ class ResPasCode extends StatefulWidget {
 }
 
 class _ResPasCodeState extends State<ResPasCode> {
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,283 +52,130 @@ class _ResPasCodeState extends State<ResPasCode> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(alignment: Alignment.centerRight,
+            Align(
+              alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(),
+                padding: const EdgeInsets.all(8.0),
                 child: IconButton(
-                    style:IconButton.styleFrom(backgroundColor: Colors.white,
-
-                        shape: CircleBorder()
-                    ) ,
-                    onPressed: (){
-                      Navigator.pop(context);
-                    }, icon: Icon(Icons.close,size: 20,grade: 12,)),
-              ),
-            ),
-            SizedBox(height: 35,),
-            ListTile(
-              title: Text("My Profile",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text("RESTO.COM Bussiness",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("Help Centre",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("Privacy&Policy",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("LogOut",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.logout),
-              onTap: (){
-
-              },
-            )
-          ],
-        ),
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(onPressed: (){
-                                Navigator.pop(context);
-
-                            }, icon: Icon(Icons.arrow_back_outlined)
-                            ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back_outlined),
                 ),
               ),
+            ),
 
-              SizedBox(height: 30),
-              Wrap(
-                  children:[ Align(alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Password Reset Code",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 32,
-                      ),
-                    ),
-                  ),
-
+            SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Password Reset Code",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
                 ),
-
-              // SizedBox(height: 3,),
-              Row(
-                children: [
-                  SizedBox(width: 6,),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("We sent a code to", style: TextStyle(fontSize: 17)),
-                  ),
-                  // SizedBox(width: 12,),
-                  Text(
-                    "example@resto.com",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                ],
               ),
-              SizedBox(height: 2,),
+            ),
             Row(
               children: [
-                SizedBox(width: 15,),
-               Container(
-                 width: 60,
-                 height: 60,
-                 child: TextField(
-                   keyboardType: TextInputType.number,
-                   decoration: InputDecoration(
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(7),bottomRight: Radius.circular(7),topLeft: Radius.circular(7),topRight: Radius.circular(7)),
-
-
-                    ),
-                     enabledBorder: OutlineInputBorder(
-                       borderSide: BorderSide(color: Colors.black), // Default color
-                     ),
-
-                     focusedBorder: OutlineInputBorder(
-                       borderSide: BorderSide(color: Colors.blue), // Color when focused
-                     ),
-
-
-                   ),
-                 ),
-               ),
-                SizedBox(width: 8,),
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(7),bottomRight: Radius.circular(7),topLeft: Radius.circular(7),topRight: Radius.circular(7)),
-
-
-                        ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 9,),
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(7),bottomRight: Radius.circular(7),topLeft: Radius.circular(7),topRight: Radius.circular(7)),
-
-
-                        ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8,),
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(7),bottomRight: Radius.circular(7),topLeft: Radius.circular(7),topRight: Radius.circular(7)),
-
-
-                        ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
-                      ),
-                    ),
-
-                  ),
-                ),
-                SizedBox(width: 8,),
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(7),bottomRight: Radius.circular(7),topLeft: Radius.circular(7),topRight: Radius.circular(7)),
-
-
-                        ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
-                      ),
-                    ),
-
-                  ),
+                Text("We sent a code to", style: TextStyle(fontSize: 17)),
+                Text(
+                  "example@resto.com",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-              SizedBox(height: 12,),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(child: TextField1()),
+                SizedBox(width: 4,),
+                Expanded(child: TextField1()),
+                SizedBox(width: 4,),
+                Expanded(child: TextField1()),
+                SizedBox(width: 4,),
+                Expanded(child: TextField1()),
+                SizedBox(width: 4,),
+                Expanded(child: TextField1()),
+              ],
+            ),
 
-              Align(alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 27),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NewPass()));
-                    },
+            SizedBox(height: 12),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewPass()),
+                );
+              },
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(12),
+                ),
 
-                    child: Container(
-                      width: double.infinity,
-                      height: 40,
-                      // color: Colors.black,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                      ),
-
-                      child: Center(
-                        child: Text(
-                          "Continue",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
+                child: Center(
+                  child: Text(
+                    "Continue",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  SizedBox(width: 20,),
-                  Text("Didn't receive a code?"),
-                  SizedBox(width: 4,),
-                  InkWell(child: Text("Click here to resend code",style: TextStyle(color: Colors.blue),),
-                  onTap: (){},
-                  )
-                ],
-              ),
+            ),
 
-            ],
-          ),]
-                    ),
-      ),),
+            Row(
+              children: [
+                Text("Didn't receive a code?"),
+                SizedBox(width: 4),
+                InkWell(
+                  child: Text(
+                    "Click here to resend code",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TextField1 extends StatelessWidget {
+  const TextField1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextField(
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(7),
+              bottomRight: Radius.circular(7),
+              topLeft: Radius.circular(7),
+              topRight: Radius.circular(7),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black), // Default color
+          ),
+
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue), // Color when focused
+          ),
+        ),
+      ),
     );
   }
 }

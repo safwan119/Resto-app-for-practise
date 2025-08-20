@@ -4,6 +4,8 @@ import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/adreDeta.dart';
 import 'package:my_first_proj/utill/utills.dart';
 
+import 'drawer/drawer.dart';
+
 class SignUp extends StatefulWidget {
   @override
   State<SignUp> createState() => _SignUpState();
@@ -86,66 +88,8 @@ class _SignUpState extends State<SignUp> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
-          children: [
-            Align(alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                    style:IconButton.styleFrom(backgroundColor: Colors.white,
-
-                        shape: CircleBorder()
-                    ) ,
-                    onPressed: (){
-                      Navigator.pop(context);
-                    }, icon: Icon(Icons.close,size: 20,grade: 12,)),
-              ),
-            ),
-            SizedBox(height: 35,),
-            ListTile(
-              title: Text("My Profile",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text("RESTO.COM Bussiness",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("Help Centre",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("Privacy&Policy",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("LogOut",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.logout),
-              onTap: (){
-
-              },
-            )
-          ],
-        ),
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.white,
+      endDrawer: Drawer1(),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -156,14 +100,13 @@ class _SignUpState extends State<SignUp> {
               padding: const EdgeInsets.only(),
               child: IconButton(onPressed: (){
                 Navigator.pop(context);
-
+        
               }, icon: Icon(Icons.arrow_back_outlined)
               ),
             ),),
               SizedBox(height: 30),
               Align(
                 alignment: Alignment.centerLeft,
-
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
@@ -179,7 +122,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerLeft,
-
+        
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12),
                   child: Text(
@@ -213,12 +156,12 @@ class _SignUpState extends State<SignUp> {
                       hintText: "hello@example.com",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-
+        
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black), // Default color
                       ),
-
+        
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue), // Color when focused
                       ),
@@ -226,13 +169,13 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 Container(
-
+        
                   padding: EdgeInsets.only(bottom: 1),
                 ),
                 // SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerLeft,
-
+        
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
@@ -271,7 +214,7 @@ class _SignUpState extends State<SignUp> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black), // Default color
                       ),
-
+        
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue), // Color when focused
                       ),
@@ -304,7 +247,7 @@ class _SignUpState extends State<SignUp> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black), // Default color
                       ),
-
+        
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue), // Color when focused
                       ),
@@ -312,7 +255,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ],)),
-
+        
                Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: InkWell(onTap: (){
@@ -321,14 +264,14 @@ class _SignUpState extends State<SignUp> {
                    }
                  },
                    child: Container(
-
+        
                       height: 50,
                       // color: Colors.black,
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(10),
                       ),
-
+        
                       child: Center(
                         child:loading?CircularProgressIndicator(strokeWidth: 4,color: Colors.white,):Text(
                           "Create acount",
@@ -351,35 +294,37 @@ class _SignUpState extends State<SignUp> {
                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RestoApp()));
                      },
                      ),
-
+        
                      )
                    ]
                  )),
                ),
-
-
-
+        
+        
+        
               SizedBox(height: 50),
           Padding(
           padding: const EdgeInsets.all(8.0),
-          child: RichText(text: TextSpan(
-              style: TextStyle(color: Colors.black),
-              children: [
-                TextSpan(
+          child: Align(alignment: Alignment.centerLeft,
+            child: RichText(text: TextSpan(
+                style: TextStyle(color: Colors.black),
+                children: [
+                  TextSpan(
 
-                  text:
-                  "Resto.com uses cookies for analytics and personalized Contacts and ads.By using resto.com servises you agree to this use of cookies. ",
-                ),
-                WidgetSpan(child:
-                InkWell(child: Text("Learn more ",style: TextStyle(color: Colors.blue),),
-                  onTap: (){},
+                    text:
+                    "Resto.com uses cookies for analytics and personalized Contacts and ads.By using resto.com servises you agree to this use of cookies. ",
+                  ),
+                  WidgetSpan(child:
+                  InkWell(child: Text("Learn more ",style: TextStyle(color: Colors.blue),),
+                    onTap: (){},
 
-                ),
-                )
-              ]
-          )),
+                  ),
+                  )
+                ]
+            )),
+          ),
         ),
-
+        
             ],
           ),
         ),

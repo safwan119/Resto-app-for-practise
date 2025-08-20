@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       title: "Any Appliction",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: SplashScreen(),
+      home: NewPass(),
     );
   }
 }
@@ -97,283 +97,282 @@ class _RestoAppState extends State<RestoApp> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("REST0.COM", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black26,
       ),
 
       body: Container(
         width: double.infinity,
         height: double.infinity,
         color: Colors.amber,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            // direction: Axis.vertical,
-            children: [
-              // SizedBox(height: 20),
-              Text(
-                "RESTO.COM",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 33,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              Container(height: 0),
-              Container(
-                width: 150,
-                height: 30,
-                // color: Colors.black,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(25), // Half of the height
-                ),
-
-                // decoration: BoxDecoration(
-                //
-                //   ),
-                child: Center(
-                  child: Text(
-                    "MAKE FLASH ORDER",
-                    style: TextStyle(
-                      color: Colors.yellow,
-                      // backgroundColor: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                    ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              // direction: Axis.vertical,
+              children: [
+                // SizedBox(height: 20),
+                Text(
+                  "RESTO.COM",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 33,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Form(key: formkey,
-                  child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Email",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-
-                          child: TextFormField(
-                            validator: (value){
-                              if(value!.isEmpty){
-                                return "Enter email";
-                              }
-                              else if(!value.contains("@") || !value.contains(".com")){
-                                return "Enter a valid email";
-                              }
-                              else{
-                                return null;
-                              }
-                            },
-                            controller: email,
-                            decoration: InputDecoration(
-                              hintText: "hello@example.com",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-
-                    SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Password",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                     Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          child: TextFormField(
-                            validator: (value){
-                              if(value!.isEmpty){
-                                return "Enter password";
-                              }
-                              else{
-                                return null;
-                              }
-                            },
-                            controller: passsword,
-                            obscureText: isobsecur,
-                            decoration: InputDecoration(
-                          
-                              hintText: "Your Password",
-                              suffixIcon: IconButton(icon:isobsecur? Icon(Icons.visibility_off):Icon(Icons.visibility),onPressed: (){
-                                setState(() {
-                                  isobsecur=!isobsecur;
-                                });
-                              },),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-              ],)),
-              //
-
-
-              SizedBox(height: 8),
-              InkWell(
-                child: Text(
-                  "Forget Password",
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ForgPass()),
-                  );
-                },
-              ),
-
-              SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: (){
-                    if(formkey.currentState!.validate()){
-                      Login();
-                    }
-                  },
-                  child: Container(
-                    height: 45,
-                    // color: Colors.black,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-
-                    child: Center(
-                      child:loading?CircularProgressIndicator(strokeWidth: 4,color: Colors.white,): Text(
-                        "Login",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 6),
-
-              TextButton(
-                style: TextButton.styleFrom(),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUp()),
-                  );
-                },
-
-                child: Container(
-                  height: 45,
-
+                Container(height: 0),
+                Container(
+                  width: 150,
+                  height: 30,
                   // color: Colors.black,
                   decoration: BoxDecoration(
-                    color: Colors.amber,
-
-                    // color: Colors.yellow,
-                    border: Border.all(color: Colors.black),
-
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(25), // Half of the height
+                  ),
+              
+                  // decoration: BoxDecoration(
+                  //
+                  //   ),
+                  child: Center(
+                    child: Text(
+                      "MAKE FLASH ORDER",
+                      style: TextStyle(
+                        color: Colors.yellow,
+                        // backgroundColor: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                   ),
-
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                ),
+                SizedBox(height: 20),
+                Form(key: formkey,
+                    child: Column(children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Email",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.contact_emergency),
-                      ),
-                      Expanded(
-                        child: Center(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                            ),
+              
+                            child: TextFormField(
+                              validator: (value){
+                                if(value!.isEmpty){
+                                  return "Enter email";
+                                }
+                                else if(!value.contains("@") || !value.contains(".com")){
+                                  return "Enter a valid email";
+                                }
+                                else{
+                                  return null;
+                                }
+                              },
+                              controller: email,
+                              decoration: InputDecoration(
+                                hintText: "hello@example.com",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.only(),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+              
+              
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "CREATE AN ACCOUNT",
-                            style: TextStyle(color: Colors.black),
+                            "Password",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 80),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text:
-                            "Resto.com uses cookies for analytics and personalized Contacts and ads.By using resto.com servises you agree to this use of cookies. ",
-                      ),
-                      WidgetSpan(
-                        child: InkWell(
-                          child: Text(
-                            "Learn more ",
-                            style: TextStyle(color: Colors.blue),
+                       Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                            ),
+                            child: TextFormField(
+                              validator: (value){
+                                if(value!.isEmpty){
+                                  return "Enter password";
+                                }
+                                else{
+                                  return null;
+                                }
+                              },
+                              controller: passsword,
+                              obscureText: isobsecur,
+                              decoration: InputDecoration(
+              
+                                hintText: "Your Password",
+                                suffixIcon: IconButton(icon:isobsecur? Icon(Icons.visibility_off):Icon(Icons.visibility),onPressed: (){
+                                  setState(() {
+                                    isobsecur=!isobsecur;
+                                  });
+                                },),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.only(),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                              ),
+                            ),
                           ),
-                          onTap: () {},
+                        ),
+              
+                ],)),
+                //
+              
+              
+                SizedBox(height: 8),
+                InkWell(
+                  child: Text(
+                    "Forget Password",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgPass()),
+                    );
+                  },
+                ),
+              
+                SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: (){
+                      if(formkey.currentState!.validate()){
+                        Login();
+                      }
+                    },
+                    child: Container(
+                      height: 45,
+                      // color: Colors.black,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+              
+                      child: Center(
+                        child:loading?CircularProgressIndicator(strokeWidth: 4,color: Colors.white,): Text(
+                          "Login",
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              
+                SizedBox(height: 6),
+              
+                TextButton(
+                  style: TextButton.styleFrom(),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );
+                  },
+              
+                  child: Container(
+                    height: 45,
+              
+                    // color: Colors.black,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+              
+                      // color: Colors.yellow,
+                      border: Border.all(color: Colors.black),
+              
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+              
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.contact_emergency),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              "CREATE AN ACCOUNT",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 80),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(alignment: Alignment.centerLeft,
+                    child: RichText(
+                      text: TextSpan(
+
+                        style: TextStyle(color: Colors.black),
+                        children: [
+                          TextSpan(
+
+                            text:
+                                "Resto.com uses cookies for analytics and personalized Contacts and ads.By using resto.com servises you agree to this use of cookies. ",
+                          ),
+                          WidgetSpan(
+                            child: InkWell(
+                              child: Text(
+                                "Learn more ",
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              onTap: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

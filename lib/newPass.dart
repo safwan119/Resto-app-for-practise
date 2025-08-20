@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/adreDeta.dart';
 
-class NewPass extends StatefulWidget{
+class NewPass extends StatefulWidget {
   const NewPass({super.key});
 
   @override
@@ -10,13 +10,14 @@ class NewPass extends StatefulWidget{
 }
 
 class _NewPassState extends State<NewPass> {
-  var pass1=TextEditingController();
-  var pass=TextEditingController();
+  var pass1 = TextEditingController();
+  var pass = TextEditingController();
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading:false,
+        automaticallyImplyLeading: false,
         toolbarHeight: 90,
         title: Column(
           children: [
@@ -56,162 +57,110 @@ class _NewPassState extends State<NewPass> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
           children: [
-            Align(alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                    style:IconButton.styleFrom(backgroundColor: Colors.white,
+            Align(alignment: Alignment.centerLeft,
+              child: IconButton(
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
 
-                        shape: CircleBorder()
-                    ) ,
-                    onPressed: (){
-                      Navigator.pop(context);
-                    }, icon: Icon(Icons.close,size: 20,grade: 12,)),
+                  shape: CircleBorder(),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_outlined),
               ),
             ),
-            SizedBox(height: 35,),
-            ListTile(
-              title: Text("My Profile",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
+            SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Set a new password",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            ListTile(
-              title: Text("RESTO.COM Bussiness",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
+            SizedBox(height: 10,),
 
-              },
+            Align(alignment: Alignment.centerLeft,
+              child: Text(
+                "Password",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            ListTile(
-              title: Text("Help Centre",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("Privacy&Policy",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: (){
-
-              },
-            ),
-            ListTile(
-              title: Text("LogOut",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-              trailing: Icon(Icons.logout),
-              onTap: (){
-
-              },
-            )
-          ],
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 35),
-            child: IconButton(
-                style:IconButton.styleFrom(backgroundColor: Colors.white,
-
-                    shape: CircleBorder()
-                ) ,
-                onPressed: (){
-              Navigator.pop(context);
-
-            }, icon: Icon(Icons.arrow_back_outlined)
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Set a new password",style: TextStyle(color: Colors.black,fontSize: 37,fontWeight: FontWeight.bold),),
-              )),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Password",style: TextStyle(color: Colors.black,fontSize: 19,fontWeight: FontWeight.bold),),
-          )
-        ,
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
+            TextField(
               controller: pass,
-             decoration: InputDecoration(
-                 suffixIcon:IconButton(onPressed:(){
-
-                 }, icon: Icon(Icons.remove_red_eye)) ,
-               hintText: "Your password",
-               border: OutlineInputBorder(
-                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),
-                   bottomRight: Radius.circular(12),
-                   topLeft: Radius.circular(12),
-                   topRight: Radius.circular(12),)
-               ),
-               enabledBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Colors.black), // Default color
-               ),
-
-               focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Colors.blue), // Color when focused
-               ),
-             ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: pass1,
               decoration: InputDecoration(
-                suffixIcon:IconButton(onPressed:(){
-
-                }, icon: Icon(Icons.remove_red_eye)) ,
-                  hintText: "Confirm your password",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),
-                        bottomRight: Radius.circular(12),
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),)
-                  ),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.remove_red_eye),
+                ),
+                hintText: "Your password",
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black), // Default color
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(12),
                 ),
 
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue), // Color when focused
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
-          ),
-          InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              SizedBox(height: 10,),
+            TextField(
+              controller: pass1,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.remove_red_eye),
+                ),
+                hintText: "Confirm your password",
+
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(12), // Default color
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(12), // Color when focused
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            InkWell(
               child: Container(
-                width: 400,
-                height: 50,
+                height: 40,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.black
+                  color: Colors.black,
                 ),
-                child: Center(child: Text("Reset Password",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.bold),)),
+                child: Center(
+                  child: Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
+              onTap: () {},
             ),
-            onTap: (){},
-          ),
-
-
-        ],
+          ],
+        ),
       ),
     );
   }
