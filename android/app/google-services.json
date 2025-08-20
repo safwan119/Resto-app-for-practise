@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "434431094008",
+    "project_id": "resto-91e62",
+    "storage_bucket": "resto-91e62.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434431094008:android:d413aced07fa18f2d89f0d",
+        "android_client_info": {
+          "package_name": "com.techSaf.my_first_proj"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxmUTqwD0bvdY1mF0gaq-18R-KaZXZWiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434431094008:android:df7bca99b95bc923d89f0d",
+        "android_client_info": {
+          "package_name": "com.techsafwan.my_first_proj"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxmUTqwD0bvdY1mF0gaq-18R-KaZXZWiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
