@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/showPic.dart';
 import 'package:my_first_proj/bkTabl.dart';
@@ -17,6 +18,26 @@ class _SepearImagState extends State<SepearImag> {
   var guestno1 = TextEditingController();
   var itemIndex = 0;
   var Search = TextEditingController();
+  List<Map<String,dynamic>> FoodList=[
+    {
+      "title":"Asian",
+    },
+    {
+      "title":"Western",
+    },
+    {
+      "title":"Non-Halal",
+    },
+    {
+      "title":"Vegeterian",
+    },
+    {
+      "title":"Thailand",
+    },
+    {
+      "title":"Chinese",
+    },
+  ];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,57 +209,63 @@ class _SepearImagState extends State<SepearImag> {
                 ),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Divider(color: Colors.black),
             ),
-            RichText(text: TextSpan(
-              style: TextStyle(color: Colors.grey),
-              children: [
-                TextSpan(text: "Complete your reservation detail"),
-                TextSpan(text: "(Required)",style: TextStyle(color: Colors.red,)),
-              ]
-            )),
-            SizedBox(height: 5,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                child: Container(
-                  width: double.infinity,
-                  // height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white
+            RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.grey),
+                children: [
+                  TextSpan(text: "Complete your reservation detail"),
+                  TextSpan(
+                    text: "(Required)",
+                    style: TextStyle(color: Colors.red),
                   ),
-                  child: Row(
-                    children: [
-
-                    ],
-                  ),
-                )
+                ],
               ),
             ),
-            SizedBox(height: 5,),
+            SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
-              width: double.infinity,
+                width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black)
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black),
                 ),
                 child: Row(
                   children: [
-                    SizedBox(width: 5,),
-                    Icon(Icons.not_interested_rounded,color: Colors.black,),
-                    SizedBox(width: 5,),
+                    SizedBox(width: 5),
+                    Icon(Icons.not_interested_rounded, color: Colors.black),
+                    SizedBox(width: 5),
                     Expanded(
-                      child: Text("At the moment there is no availability for today. The next availability for 3 guests is tomorrow",
-                        ),
-                    )
+                      child: Text(
+                        "At the moment there is no availability for today. The next availability for 3 guests is tomorrow",
+                      ),
+                    ),
                   ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                height: 40,
+                child: ListView.separated(scrollDirection: Axis.horizontal,
+                    // physics: NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+
+                    itemCount: FoodList.length,
+                    itemBuilder: (context,index){
+                  String title=FoodList[index]["title"];
+                  Color color=index==0?Colors.amber:Colors.black12;
+                  return CountryFood(title,color);
+
+                }, separatorBuilder: (context, index) => SizedBox(width: 8),
                 ),
               ),
             )
@@ -248,3 +275,24 @@ class _SepearImagState extends State<SepearImag> {
     );
   }
 }
+class CountryFood extends StatelessWidget {
+  String? title;
+  Color? colors;
+  CountryFood(this.title,this.colors);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // height: 30,
+      // width: 130,
+      // color: Colors.black12,
+      child: TextButton(
+          style: TextButton.styleFrom(backgroundColor: colors!,overlayColor: Colors.amber,shape: RoundedRectangleBorder(side: BorderSide(color: Colors.black12),borderRadius: BorderRadius.circular(8))),
+          onPressed: (){},
+          child: Center(child: Text(title!),
+
+          )),
+    );
+  }
+}
+
