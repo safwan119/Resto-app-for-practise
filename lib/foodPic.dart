@@ -130,7 +130,15 @@ class _FoodPictureState extends State<FoodPicture> {
                 );
               },
             )
-          : Container(child: Center(child: Text("No result found"))),
+          : Container(child: Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.sentiment_dissatisfied_rounded,size: 50,),
+              Text("We couldn't found any result",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 22),),
+              Text("Try for different search keyword or look for your\n favorite dish at another restaurant")
+            ],
+          ))),
     );
   }
 }
