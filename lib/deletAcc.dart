@@ -1,5 +1,10 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
+import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/main.dart';
+import 'package:my_first_proj/utill/utills.dart';
 
 class DeleteAccount extends StatefulWidget{
   @override
@@ -9,6 +14,54 @@ class DeleteAccount extends StatefulWidget{
 class _DeleteAccountState extends State<DeleteAccount> {
   var itemIndex=0;
   var pass2=TextEditingController();
+  var emailController=TextEditingController();
+  final auth=FirebaseAuth.instance;
+  User? user;
+  void DeleteAccount1()async{
+    user=await FirebaseAuth.instance.currentUser;
+    if(user==null) {
+      return;
+    }
+    bool confirm=await showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text("Delete account"),
+        content: Text("Are you sure to delete your account?"),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: Text("Cancel")),
+          TextButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RestoApp()));
+          }, child: Text("Delete"))
+        ],
+      );
+    });
+    if(confirm!=true)return;
+    final credential=EmailAuthProvider.credential(email: emailController.text.trim(), password: pass2.text);
+    try{
+      await user!.reauthenticateWithCredential(credential);
+
+    }on FirebaseAuthException catch(e){
+      if(e.code=="wrong-password"){
+        Utills().toastmessage("Incorrect Password");
+      }
+      else{
+        Utills().toastmessage("Re_auth failed:${e.message}");
+      }
+    }
+    try{
+      await user!.delete();
+      Utills().toastmessage("Account deleted successfully.");
+      await auth.signOut();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (ctx) => RestoApp()),
+      );
+    } on FirebaseAuthException catch (e) {
+      Utills().toastmessage("Delete failed: ${e.message}");
+
+    }
+  }
   Widget build(BuildContext contex){
     return Scaffold(
       appBar: AppBar(
@@ -48,175 +101,103 @@ class _DeleteAccountState extends State<DeleteAccount> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-
-                    shape: CircleBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close, size: 20, grade: 12),
-                ),
-              ),
-            ),
-            SizedBox(height: 35),
-            ListTile(
-              title: Text(
-                "My Profile",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                "RESTO.COM Bussiness",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Help Centre",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Privacy&Policy",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "LogOut",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.logout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.amber,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-          });
-        },
-        currentIndex: itemIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity),
-            label: "Activity",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded),
-            label: "Finance",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
-        ],
-      ),
+      endDrawer: Drawer1(),
+      bottomNavigationBar: BottomNavigatorBar1(),
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 20,),
           Padding(
-            padding: const EdgeInsets.only(right: 380),
-            child: IconButton(
-              style: IconButton.styleFrom(backgroundColor: Colors.white,shape:CircleBorder()),
-                onPressed: (){}, icon: Icon(Icons.arrow_back,size: 30,)),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Align(alignment: Alignment.centerLeft,
+              child: IconButton(
+                style: IconButton.styleFrom(backgroundColor: Colors.white,shape:CircleBorder()),
+                  onPressed: (){}, icon: Icon(Icons.arrow_back,size: 30,)),
+            ),
           ),
           SizedBox(height: 20,),
           Padding(
-            padding: const EdgeInsets.only(right: 30),
-            child: Text("Enter your password",style: TextStyle(color: Colors.black,fontSize: 39,fontWeight: FontWeight.bold),),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Align(alignment: Alignment.centerLeft,
+                child: Text("Enter your password",style: TextStyle(color: Colors.black,fontSize: 39,fontWeight: FontWeight.bold),)),
           ),
           SizedBox(height: 30,),
           Padding(
-            padding: const EdgeInsets.only(right: 280),
-            child: Text("Password",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Align(alignment: Alignment.centerLeft,
+                child: Text("Email",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),)),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                  hintText: "Enter your current email",
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color:Colors.black),
+                    borderRadius: BorderRadius.circular(12),
+                  )
+              ),
+            ),
+          ),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Align(alignment: Alignment.centerLeft,
+                child: Text("Password",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
               controller: pass2,
               decoration: InputDecoration(
                 hintText: "Enter password to delete your account",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color:Colors.black),
+                  borderRadius: BorderRadius.circular(12),
                 )
               ),
             ),
           ),
           SizedBox(height: 10,),
-           Card(
-              child: InkWell(
-                child: Container(
-                  // width: 400,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(12),
+           Padding(
+             padding: const EdgeInsets.symmetric(horizontal: 20),
+             child: Card(
+                child: InkWell(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(12),
+
+                    ),
+                    child: Center(child: Text("Delete Account",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+
 
                   ),
-                  child: Center(child: Text("Delete Account",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
-
-
+                  onTap: (){
+              DeleteAccount1();
+              // Navigator.push(context, MaterialPageRoute(builder: (contex){
+              //   return RestoApp();
+              // }));
+                  },
                 ),
-                onTap: (){},
               ),
-            ),
+           ),
 
           SizedBox(height: 8,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_outlined)),
-              // SizedBox(width: 5,),
+              IconButton(onPressed: (){
+              }, icon: Icon(Icons.arrow_back_outlined)),
               Text("Back",style: TextStyle(fontSize: 19),),
             ],
           )
