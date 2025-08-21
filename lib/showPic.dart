@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
+import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/time_date_card/time_date_card.dart';
 
 class ShowPicture extends StatefulWidget {
   @override
@@ -8,10 +10,64 @@ class ShowPicture extends StatefulWidget {
 }
 
 class _ShowPictureState extends State<ShowPicture> {
-  String guestcount="1";
-  var gustno=TextEditingController();
-  var index1=1;
+  String guestcount = "1";
+  var gustno = TextEditingController();
+  var index1 = 1;
   var itemIndex = 0;
+  // bool isCheckBox=false;
+  String flavour="original";
+  
+  List<Map<String, dynamic>> FoodList1 = [
+    {"title": "Asian"},
+    {"title": "Western"},
+    {"title": "Non-Halal"},
+    {"title": "Vegeterian"},
+    {"title": "Thailand"},
+    {"title": "Chinese"},
+  ];
+  List<Map<String, dynamic>> Menu1 = [
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+    {
+      "title": "Laksa Johor",
+      "subtitle": "A speciality of Malaysian island of penag..",
+    },
+  ];
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -20,715 +76,295 @@ class _ShowPictureState extends State<ShowPicture> {
           "Mcdonald's-Seri Austin DT",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 35,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-
-                    shape: CircleBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close, size: 20, grade: 12),
-                ),
-              ),
-            ),
-            SizedBox(height: 60),
-            ListTile(
-              title: Text(
-                "My Profile",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                "RESTO.COM Bussiness",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Help Centre",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Privacy&Policy",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "LogOut",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.logout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.amber,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-          });
-        },
-        currentIndex: itemIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity),
-            label: "Activity",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded),
-            label: "Finance",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
-        ],
-      ),
+      endDrawer: Drawer1(),
+      bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 200),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 17),
-              Card(
-                color: Colors.white,
-                elevation: 3,
-                child: Container(
-                  width: 610,
-                  height: 70,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Guests
-                      Container(
-                        height: 80,
-                        width: 190,
-                        color: Colors.white,
-                        child: ListTile(
-                          title: Text("Guests"),
-                          subtitle: Text(
-                            "${guestcount} Guests",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            onPressed: (){
-                              showDialog(context: context, builder: (context){
-                                return AlertDialog(
-                                  title: Text("Enter the number of Guests",style: TextStyle(color: Colors.black),),
-                                  content: TextField(
-                                    controller: gustno,
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      hintText: "Enter value"
-                                    ),
-                                  ),
-                                  actions: [
-                                    ElevatedButton(
-                                         style:ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                                        onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("Exit",style: TextStyle(color: Colors.black),)),
-                                    ElevatedButton(
-                                        style:ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                                        onPressed: (){
-                                      // print("${gustno} GUESTS");
-                                      setState(() {
-                                     guestcount=gustno.text.toString();
-
-                                      });
-
-                                      Navigator.pop(context);
-                                    }, child: Text("Ok",style: TextStyle(color: Colors.black)))
-                                  ],
-                                  // content: SingleChildScrollView(
-                                  //   child: Column(
-                                  //     children: [
-                                  //       ElevatedButton(child: Text("Guest++"),onPressed: (){
-                                  //         setState(() {
-                                  //           index1++;
-                                  //
-                                  //         });
-                                  //       },),
-                                  //       SizedBox(height: 12,),
-                                  //       ElevatedButton(child: Text("Guest--"),onPressed: (){
-                                  //         setState(() {
-                                  //           index1--;
-                                  //           if(index1<=0){
-                                  //             Navigator.pop(context);
-                                  //           }
-                                  //         });
-                                  //       },),
-                                  //       // ElevatedButton(child: Text("GUEST+1"),onPressed: (){},),
-                                  //       // ElevatedButton(child: Text("${index1+2}  Guest"),onPressed: (){},),
-                                  //       // ElevatedButton(child: Text("${index1+3}  Guest"),onPressed: (){},),
-                                  //       // ElevatedButton(child: Text("${index1+4}  Guest"),onPressed: (){},),
-                                  //       // ElevatedButton(child: Text("${index1+5}  Guest"),onPressed: (){},),
-                                  //       // ElevatedButton(child: Text("${index1+6}  Guest"),onPressed: (){},),
-                                  //     ],
-                                  //   ),
-                                  // ),
-
-                                );
-                              });
-                            },
-
-                            icon: Icon(Icons.arrow_drop_down),
-                          ),
-                        ),
-                      ),
-                      Text("|",
-                          style: TextStyle(fontSize: 40,color: Colors.black12)
-                         ),
-
-                      // Date
-                      Container(
-                        height: 80,
-                        width: 190,
-                        color: Colors.white,
-                        child: ListTile(
-                          title: Text("Date"),
-                          subtitle: Text(
-                            "SAT 2,AUG",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_drop_down),
-                          ),
-                        ),
-                      ),
-                      Text("|", style: TextStyle(fontSize: 40,color: Colors.black12)),
-
-                      // Time
-                      Container(
-                        height: 80,
-                        width: 190,
-                        color: Colors.white,
-                        child: ListTile(
-                          title: Text("Time"),
-                          subtitle: Text(
-                            "10:00 PM",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_drop_down),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
-
-              // Message Container
-              Container(
-                width: 600,
-                height: 60,
+        child: Column(
+          children: [
+            SizedBox(height: 17),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TimeDateCard(),
+            ),
+            SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Container(
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black, width: 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(width: 5),
                     Icon(Icons.do_not_disturb_alt_sharp),
-                    SizedBox(width: 15),
-                    Text(
-                      "At the moment there is no availability for today. The next availability\n for 3 guests is tomorrow",
-                      style: TextStyle(color: Colors.black),
-                      textAlign: TextAlign.center,
+                    // SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        "At the moment there is no availability for today. The next availability for 3 guests is tomorrow",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 12),
-              Card(
-                child: Container(
-                  height: 50,
-                  width: 600,
-                  child: ListView(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.amber,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Asian")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Western")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Local")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Non-Halal")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Vegeterian")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Thailand")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Chinese")),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Container(
-                        height: 30,
-                        width: 130,
-                        // color: Colors.black12,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black12,
-                            overlayColor: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Center(child: Text("Beverian")),
-                        ),
-                      ),
-                    ],
-                  ),
+            ),
+            SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Container(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: FoodList1.length,
+                  itemBuilder: (context, index) {
+                    String title = FoodList1[index]["title"];
+                    Color color = index == 0 ? Colors.amber : Colors.black12;
+                    return CountryFood1(title, color);
+                  },
+                  separatorBuilder: (context, index) => SizedBox(width: 8),
                 ),
               ),
-              SizedBox(height: 10),
-              Column(
-                children: [
-                  Stack(
-                    children:[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            style: TextButton.styleFrom(fixedSize: Size(200, 300)),
-                            onPressed: (){
-                              Navigator.push(context,MaterialPageRoute(builder: (context) => ShowPicture(),));
-                            }, child:
-                          Container(
-                            height: 300,
-                            width: 200,
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    "assets/image/picture.jpg",
-                                    width: 200,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Text("Laksa Johor",style:
-                                TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                                Text("A speciality of Malaysian island of penag...",style: TextStyle(color: Colors.black),),
-                                ListTile(
-                                  title: Text("RM 17.00",style: TextStyle(color: Colors.amber,fontWeight: FontWeight.bold),),
-                                  trailing: Icon(Icons.add_box,size: 20,color: Colors.amber,),
-                                )
-                              ],
-                            ),
-                          ),),
-                          SizedBox(width: 60),
-                          // Text("Muhammad Safwan")
-                          Column(
-                            children: [
-                              TextButton(
-                                style: TextButton.styleFrom(fixedSize: Size(200, 300)),
-                                onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowPicture()));
-                                }, child:
-                              Container(
-                                height: 300,
-                                width: 200,
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.asset(
-                                        "assets/image/picture.jpg",
-                                        width: 200,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Text("Laksa Johor",style:
-                                    TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                                    Text("A speciality of Malaysian island of penag...",style: TextStyle(color: Colors.black),),
-                                    ListTile(
-                                      title: Text("RM 17.00",style: TextStyle(color: Colors.amber,fontWeight: FontWeight.bold),),
-                                      trailing: Icon(Icons.add_box,size: 20,color: Colors.amber,),
-                                    ),
-                                  ],
-                                ),
-                              ),),
-                            ],
-                          ),
-                        ],
-                      ),
-                      // SizedBox(height: 1000,),
-                      Stack(
+            ),
+            SizedBox(height: 10),
+            Stack(
+              children: [Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Menu1.isNotEmpty
+                    ? GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  children:Menu1.map((item) {
+                    return FoodMenu1(item['title'], item['subtitle']);
+                  }).toList(),
+                )
+                    : Text("No result found"),
+              ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Card(
+                      elevation: 8,
+                      child:Container(
+                        width: double.infinity,
+                        child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    "assets/image/picture.jpg",
-                                    width: 200,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: double.infinity,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
                                 ),
-                                SizedBox(width: 60,),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    "assets/image/picture.jpg",
-                                    width: 200,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                     // SizedBox(width: 50,),
-                     //
-                     // Container(
-                     //   width: 200,
-                     //   height: 300,
-                     //   child: Column(
-                     //     children: [
-                     //       ClipRRect(
-                     //         borderRadius: BorderRadius.circular(15),
-                     //         child: Image.asset(
-                     //           "assets/image/picture.jpg",
-                     //           width: 200,
-                     //           height: 150,
-                     //           fit: BoxFit.cover,
-                     //         ),
-                     //       ),
-                     //     ],
-                     //   ),
-                     // ),
-                     // Text("Laksa Johor",style:
-                     // TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                     // Text("A speciality of Malaysian island of penag...",style: TextStyle(color: Colors.black),),
-                     // ListTile(
-                     //   title: Text("RM 17.00",style: TextStyle(color: Colors.amber,fontWeight: FontWeight.bold),),
-                     //   trailing: Icon(Icons.add_box,size: 20,color: Colors.amber,),
-                     // ),
-
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 100),
-                          child: Card(
-                          color: Colors.white,
-                          elevation: 15,
-
-                          child: Positioned(
-                           top: 200,
-                            left: 20,
-                            right: 20,
-                            child: Container(
-                              height: 600,
-                              width: 650,
-
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        height: 200,
-                                        width: 630,
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(15),
-                                          child: Image.asset(
-                                            "assets/image/picture.jpg",
-                                            width: 200,
-                                            height: 150,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(),
-                                          child: IconButton(
-                                            style: IconButton.styleFrom(
-                                              backgroundColor: Colors.white,
-
-                                              shape: CircleBorder(),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            icon: Icon(Icons.close, size: 20, grade: 12),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "Laksa johor                                               RM 19.80",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 29,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Center(
-                                      child: Text(
-                                        "A specialiaty of the Malaysian Island of Penang.The soup is made with mackeral and \n autantic taste",
-                                      ),
-                                    ),
-                                  ),
-                                 SizedBox(height: 20,),
-                                  Column(
-                                    children: [
-                                      Align(
-                                          alignment:Alignment.centerLeft,
-                                          child: Text("Flavour",style: TextStyle(color: Colors.black,
-                                              fontWeight: FontWeight.bold,fontSize: 26),))
-                                    ,Row(
-                                      children: [
-                                        Icon(Icons.check_circle,color: Colors.blue,),
-                                        Text("Original"),
-
-                                      ],
-                                    ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.circle_outlined,),
-                                          Text("Medium"),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.circle_outlined,),
-                                          Text("Mix(Original and Spicy only)"),
-                                        ],
-                                      ),
-                                      Align(
-                                          alignment:Alignment.centerLeft,
-                                          child: Text("Spices",style: TextStyle(color: Colors.black,
-                                              fontWeight: FontWeight.bold,fontSize: 26),))
-                                      ,Row(
-                                        children: [
-                                          Icon(Icons.check_circle,color: Colors.blue,),
-                                          Text("Spicy"),
-
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.circle_outlined,),
-                                          Text("Spicier"),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.circle_outlined,),
-                                          Text("Extra Spicy"),
-                                        ],
-                                      ),
-
-                                    ],
-                                  ),
-                                  SizedBox(height: 20,),
-
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.amber,fixedSize: Size(1000, 40)),
-                                    onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("Add to Card"),
-
-                                  )
-
-
-                                ],
                               ),
                             ),
-                          ),
-                                          ),
+                            ListTile(
+                              title: Text("Laksa Johor",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                              trailing: Text("RM 18:30",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Align(alignment: Alignment.centerLeft,
+                                  child: Text("A specialty of the Malaysian Island of penang.the soup is made with mackerel and authentic taste.")),
+                            ),
+                            SizedBox(height: 20,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("Flavour",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),)),
+                            ),
+                            RadioListTile(
+                              activeColor: Colors.blue,
+                              title: Text("Original"),
+                                value: "original", groupValue: flavour
+                                , onChanged: (value){
+                              setState(() {
+                                flavour=value.toString();
+                              });
+                                }),
+                            RadioListTile(
+                                activeColor: Colors.blue,
+                                title: Text("Medium"),
+                                value: "original", groupValue: null
+                                , onChanged: (value){
+                              setState(() {
+                                flavour=value.toString();
+                              });
+                            }),
+                            RadioListTile(
+                                activeColor: Colors.blue,
+                                title: Text("Mix(Original and Spicy only)"),
+                                value: "original", groupValue: null
+                                , onChanged: (value){
+                              setState(() {
+                                flavour=value.toString();
+                              });
+                            }),
+                            SizedBox(height: 20,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("Spices",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),)),
+                            ),
+                            RadioListTile(
+                                activeColor: Colors.blue,
+                                title: Text("Spicy"),
+                                value: "original", groupValue: flavour
+                                , onChanged: (value){
+                              setState(() {
+                                flavour=value.toString();
+                              });
+                            }),
+                            RadioListTile(
+                                activeColor: Colors.blue,
+                                title: Text("Spicier"),
+                                value: "original", groupValue: null
+                                , onChanged: (value){
+                              setState(() {
+                                flavour=value.toString();
+                              });
+                            }),
+                            RadioListTile(
+                                activeColor: Colors.blue,
+                                title: Text("Extra Spicy"),
+                                value: "original", groupValue: null
+                                , onChanged: (value){
+                              setState(() {
+                                flavour=value.toString();
+                              });
+                            }),
+                             Padding(
+                               padding: const EdgeInsets.symmetric(horizontal: 20),
+                               child: Card(
+                                 elevation: 6,
+                                 child: InkWell(onTap: (){},
+                                   child: Container(
+                                     height: 40,
+                                     width: double.infinity,
+                                     decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(12),
+                                       color: Colors.amber,
+                                     ),
+                                     child: Center(child: Text("Add to Card")),
+                                   ),
+                                 ),
+                               ),
+                             ),
+                            SizedBox(height: 20,),
+
+                          ],
                         ),
-                      ),]
+                      ),
+                    ),
+                  ),
+                )
+              ]
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CountryFood1 extends StatelessWidget {
+  String? title;
+  Color? colors;
+
+  CountryFood1(this.title, this.colors);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: colors!,
+          overlayColor: Colors.amber,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black12),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        onPressed: () {},
+        child: Center(child: Text(title!)),
+      ),
+    );
+  }
+}
+class FoodMenu1 extends StatelessWidget {
+  String? title;
+  String? subtitle;
+  FoodMenu1(this.title, this.subtitle);
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Card(
+        child: SingleChildScrollView(
+          child: Container(
+            width: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black12,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 5),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      "assets/image/picture.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      title!,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(subtitle!, style: TextStyle(color: Colors.black)),
+                  Row(
+                    children: [
+                      Text(
+                        "RM 17.00",
+                        style: TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Spacer(),
+                      Icon(Icons.add_box, size: 20, color: Colors.amber),
+                    ],
                   ),
                 ],
               ),
-              // SizedBox(height: 20,),
-            
-            ],
+            ),
           ),
-    ],),),),
+        ),
+      ),
     );
   }
 }
