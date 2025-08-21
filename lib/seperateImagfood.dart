@@ -5,6 +5,7 @@ import 'package:my_first_proj/showPic.dart';
 import 'package:my_first_proj/bkTabl.dart';
 import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/review.dart';
+import 'package:my_first_proj/time_date_card/time_date_card.dart';
 
 import 'drawer/drawer.dart';
 
@@ -258,140 +259,7 @@ class _SepearImagState extends State<SepearImag> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                elevation: 6,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "Guests",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      "$guestcount1 Guests",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text("Enter number of guest"),
-                                        content: TextField(
-                                          controller: guestno1,
-                                          decoration: InputDecoration(
-                                            hintText: "Enter number",
-                                          ),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("Cancel"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                guestcount1 = guestno1.text
-                                                    .toString();
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("ok"),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      Text("|"),
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Text("Date", style: TextStyle(fontSize: 12)),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      "SAT,2 AUG",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Text("|"),
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Text("Time", style: TextStyle(fontSize: 12)),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      "12:00 PM",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+               child:TimeDateCard(),
             ),
             SizedBox(height: 5),
             Padding(
