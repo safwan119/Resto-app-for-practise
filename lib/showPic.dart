@@ -163,12 +163,29 @@ class _ShowPictureState extends State<ShowPicture> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: double.infinity,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-                                ),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 20,
+                                    right: 0,
+                                    top: 15,
+                                    child: IconButton(
+                                        style:IconButton.styleFrom(backgroundColor: Colors.white,
+
+                                            shape: CircleBorder()
+                                        ) ,
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        }, icon: Icon(Icons.close,size: 20,grade: 12,)),
+                                  ),
+                                ],
                               ),
                             ),
                             ListTile(
