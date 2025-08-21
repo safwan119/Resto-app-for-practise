@@ -325,10 +325,7 @@ class _SepearImagState extends State<SepearImag> {
                       ? GridView.count(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2, // Two widgets per line
-                          // crossAxisSpacing: 8.0, // Horizontal gap between widgets
-                          // mainAxisSpacing: 8.0, // Vertical gap between widgets
-                          // padding: EdgeInsets.all(16.0), // Padding around the grid
+                          crossAxisCount: 2,
                           children: FilterMenuFood.map((item) {
                             return FoodMenu(item['title'], item['subtitle']);
                           }).toList(),
@@ -358,10 +355,6 @@ class _SepearImagState extends State<SepearImag> {
                 ),
               ],
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20),
-            //   child: FoodMenu(),
-            // ),
           ],
         ),
       ),
@@ -393,30 +386,22 @@ class CountryFood extends StatelessWidget {
     );
   }
 }
-
 class FoodMenu extends StatelessWidget {
   String? title;
   String? subtitle;
-
   FoodMenu(this.title, this.subtitle);
-
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
-
     return InkWell(
       onTap: () {},
       child: Card(
         child: SingleChildScrollView(
           child: Container(
             width: 200,
-            // height: screenWidth * 0.5,
-            // height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.black12,
             ),
-
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
@@ -452,10 +437,6 @@ class FoodMenu extends StatelessWidget {
                       ),
                       Spacer(),
                       Icon(Icons.add_box, size: 20, color: Colors.amber),
-                      // ListTile(
-                      // title: Text("RM 17.00",style: TextStyle(color: Colors.amber,fontWeight: FontWeight.bold),),
-                      // trailing: Icon(Icons.add_box,size: 20,color: Colors.amber,),
-                      // ),
                     ],
                   ),
                 ],
