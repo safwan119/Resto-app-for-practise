@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
+import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/time_date_card/time_date_card.dart';
 
 class RateRestorant extends StatefulWidget{
   @override
@@ -12,6 +15,20 @@ class _RateRestorantState extends State<RateRestorant> {
   String guestcount1="1";
   var  itemIndex=0;
   var note1=TextEditingController();
+  List<Map<String,dynamic>> FoodDetailList1=[
+    {
+      "title":"Laksa johor"
+    },
+    {
+      "title":"Laksa Penang"
+    },
+    {
+      "title":"Laksa Lorem"
+    },
+    {
+      "title":"Laksa Ipsum"
+    },
+  ];
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
@@ -51,142 +68,37 @@ class _RateRestorantState extends State<RateRestorant> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-
-                    shape: CircleBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close, size: 20, grade: 12),
-                ),
-              ),
-            ),
-            SizedBox(height: 35),
-            ListTile(
-              title: Text(
-                "My Profile",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                "RESTO.COM Bussiness",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Help Centre",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Privacy&Policy",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "LogOut",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.logout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.amber,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-          });
-        },
-        currentIndex: itemIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity),
-            label: "Activity",
-
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded),
-            label: "Finance",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
-        ],
-      ),
+      endDrawer: Drawer1(),
+      bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10,),
-              Card(
+        child: Column(
+          children: [
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Card(
                 elevation: 3,
                 child:
                     Container(
-                      height: 70,
-                      width: 400,
+                      width: double.infinity,
                       color: Colors.white,
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundColor: Colors.red,
-                          child: Text("M",style: TextStyle(color: Colors.yellow,fontWeight: FontWeight.bold,fontSize: 20,fontStyle: FontStyle.italic),),
-          
+                          child: Text("M",style: TextStyle(color: Colors.amber,fontSize: 20,fontFamily: "M font"),),
+
                         ),
-                        title: Text("MC Donalds Austin DT",style: TextStyle(fontWeight: FontWeight.bold),),
+                        title: Text("MC Donald's Austin DT",style: TextStyle(fontWeight: FontWeight.bold),),
                         subtitle: Text("Dine in Reservation,2PM,aug 2",style: TextStyle(fontSize: 13),),
                         trailing: Text("Rate Restaurant",style: TextStyle(color: Colors.blue),),
                       ),
                     ),
-          
               ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(right: 160),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Align(alignment: Alignment.centerLeft,
                 child: Text(
                   "Reservation Summary",
                   style: TextStyle(
@@ -196,111 +108,23 @@ class _RateRestorantState extends State<RateRestorant> {
                   ),
                 ),
               ),
-              Card(
-                // elevation: 4,
-                child: Container(
-                  width: double.infinity,
-                  height: 66,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 7,),
-                      Column(
-
-                        children: [
-                          SizedBox(height: 19,),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Text("GUESTS",style: TextStyle(fontSize:15,color: Colors.black,fontWeight: FontWeight.bold),),
-                          ),
-                          Text("${guestcount1} GUESTS")
-                        ],
-                      ),
-                      IconButton(onPressed: (){
-                        showDialog(context: context, builder:(context){
-                          return AlertDialog(
-                            title:Text("Enter the Number of Guests",style: TextStyle(color: Colors.black),) ,
-                            content: TextField(
-                              controller: guestno1,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  hintText: "Enter value"
-                              ),
-                            ),
-                            actions: [
-
-                              ElevatedButton(
-                                  style:ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                                  onPressed: (){
-                                    Navigator.pop(context);
-                                  }, child: Text("Exit",style: TextStyle(color: Colors.black),)),
-                              ElevatedButton(
-                                  style:ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                                  onPressed: (){
-                                    setState(() {
-                                      guestcount1=guestno1.text.toString();
-                                    });
-                                    Navigator.pop(context);
-                                  }, child: Text("Ok",style: TextStyle(color: Colors.black),))
-                            ],
-                          );
-                        });
-                      },
-
-                          icon: Icon(Icons.arrow_drop_down)),
-                      SizedBox(width: 5,),
-                      Text("|",style: TextStyle(fontSize: 27),),
-                      SizedBox(width: 9,),
-                      Column(
-
-                        children: [
-                          SizedBox(height: 15,),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 27),
-                            child: Text("Date",style: TextStyle(fontSize:18,color: Colors.black,fontWeight: FontWeight.bold),),
-                          ),
-                          Text("SAT,2 AUG")
-                        ],
-                      ),
-                      // SizedBox(width: 2,),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_drop_down)),
-                      SizedBox(width: 2,),
-                      Text("|",style: TextStyle(fontSize: 27),),
-                      SizedBox(width: 9,),
-                      Column(
-
-                        children: [
-                          SizedBox(height: 15,),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text("Time",style: TextStyle(fontSize:18,color: Colors.black,fontWeight: FontWeight.bold),),
-                          ),
-                          Text("12:00 PM")
-                        ],
-                      ),
-                      // SizedBox(width: 4,),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_drop_down)),
-
-                    ],
-                  ),
-                ),
+            ),
+           Padding(
+             padding: const EdgeInsets.symmetric(horizontal: 15),
+             child: TimeDateCard(),
+           ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: LinearProgressIndicator(
+                color: Colors.black12,
+                value: 0,
               ),
-              SizedBox(height: 20,),
-              Container(
-                width: 380,
-                child: LinearProgressIndicator(
-                  color: Colors.black12,
-                  value: 0,
-          
-                ),
-              ),
-              SizedBox(height: 18,),
-              Padding(
-                padding: const EdgeInsets.only(right: 210),
+            ),
+            SizedBox(height: 18,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Align(alignment: Alignment.centerLeft,
                 child: Text(
                   "Order Summary",
                   style: TextStyle(
@@ -310,330 +134,120 @@ class _RateRestorantState extends State<RateRestorant> {
                   ),
                 ),
               ),
-              SizedBox(height: 2),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 22),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                ],
+            ),
+            SizedBox(height: 2),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ListView.builder(physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: FoodDetailList1.length,
+                  itemBuilder: (context,index){
+                    String title=FoodDetailList1[index]["title"];
+                    return FoodDetail1(title);
+                  }),
+            ),
+            SizedBox(height: 2),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: LinearProgressIndicator(
+                color: Colors.black12,
+                value: 0,
               ),
-              SizedBox(height: 2),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
+            ),
+            SizedBox(height: 20,),
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 15),
+               child: Align(
+                   alignment: Alignment.centerLeft,
+                   child: Text("Your added note",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),)),
+             ),
+            SizedBox(height: 1,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+                controller: note1,
+                maxLines: 5,
+                decoration: InputDecoration(
 
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Icon(Icons.delete_rounded, color: Colors.red, size: 30),
-                ],
-              ),
-              SizedBox(height: 2),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Icon(Icons.delete_rounded, color: Colors.red, size: 30),
-                ],
-              ),
-              SizedBox(height: 2),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Icon(Icons.delete_rounded, color: Colors.red, size: 30),
-                ],
-              ),
-              SizedBox(height: 20,),
-              Container(
-                width: 380,
-                child: LinearProgressIndicator(
-                  color: Colors.black12,
-                  value: 0,
-                ),
-              ),
-              SizedBox(height: 20,),
-               Padding(
-                 padding: const EdgeInsets.only(right: 215),
-                 child: Text("Your added note",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),),
-               ),
-              SizedBox(height: 1,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: note1,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-
-                    hintText: "Please make the laksa I ordered extra spicy!",
-                    hintStyle:TextStyle(color: Colors.black)  ,
-                    border: OutlineInputBorder(
+                  hintText: "Please make the laksa I ordered extra spicy!",
+                  hintStyle:TextStyle(color: Colors.black)  ,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
                       borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black)
-                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.circular(8),
                   ),
                 ),
               ),
-              SizedBox(height: 24,),
-              Container(
-                width: 380,
-                child: LinearProgressIndicator(
-                  value: 0,
-                  color: Colors.black12,
+            ),
+            SizedBox(height: 24,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: LinearProgressIndicator(
+                color: Colors.black12,
+                value: 0,
+              ),
+            ),
+            SizedBox(height: 8,),
+            Row(
+              children: [
+                SizedBox(width: 17,),
+                Text("SUBTOTAL",style: TextStyle(),),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text("RM 78.00",style: TextStyle(color: Colors.black,fontSize: 15),),
                 ),
-              ),
-              SizedBox(height: 8,),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Text("SUBTOTAL",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                  ),
-                  SizedBox(width: 220,),
-                  Text("RM 78.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15),),
-                ],
-              ),
-              // SizedBox(height: 6,),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Text("SERVICE CHARGE",style: TextStyle(),),
-                  ),
-                  SizedBox(width: 185,),
-                  Text("RM 7.02",style: TextStyle(color: Colors.black,fontSize: 15),),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Text("PROMO CODE",style: TextStyle(),),
-                  ),
-                  SizedBox(width: 202,),
-                  Text("- RM 5.00",style: TextStyle(color: Colors.black,fontSize: 15),),
-                ],
-              ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(width: 17,),
+                Text("SERVICE CHARGE",style: TextStyle(),),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text("RM 7.02",style: TextStyle(color: Colors.black,fontSize: 15),),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(width: 17,),
+                Text("PROMO CODE",style: TextStyle(),),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text("- RM 5.00",style: TextStyle(color: Colors.black,fontSize: 15),),
+                ),
+              ],
+            ),
 
-              SizedBox(height: 10,),
-              Container(
-                width: 380,
-                child: LinearProgressIndicator(
-                  color: Colors.black12,
-                  value: 0,
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: LinearProgressIndicator(
+                color: Colors.black12,
+                value: 0,
 
-                ),
               ),
-              SizedBox(height: 20,),
-              InkWell(
+            ),
+            SizedBox(height: 20,),
+            InkWell(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Card(
                   elevation: 5,
                   child: Container(
-                    width: 390,
+                    width: double.infinity,
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
                       color: Colors.amber,
-                  
+
                     ),
                     child: Center(
                       child: Row(
@@ -647,15 +261,57 @@ class _RateRestorantState extends State<RateRestorant> {
                     ),
                   ),
                 ),
-                onTap: (){},
               ),
-              SizedBox(height: 20,),
-          
-            ],
-          ),
+              onTap: (){},
+            ),
+            SizedBox(height: 20,),
+
+          ],
         ),
       ),
     );
 
+  }
+}
+class FoodDetail1 extends StatelessWidget {
+  String? title;
+  FoodDetail1(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+            child: Container(
+              color: Colors.white,
+              child: Row(
+                children: [
+                  SizedBox(width: 6,),
+                  Container(
+                    width: 100,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(2),
+                      child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
+
+                    ),
+                  ),
+                  SizedBox(width: 6,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8,),
+                      Text(title!,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("Original flavour,spicy spices"),
+                      Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+                      SizedBox(height: 8,),
+                    ],
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),),
+                  )
+                ],
+              ),
+            ),
+          );
   }
 }
