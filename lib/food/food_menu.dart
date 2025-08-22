@@ -21,54 +21,47 @@ class FoodMenuScreen extends StatelessWidget {
     FoodItem(
       title: "Laksa Johor",
       description: "A specialty of the Malaysian Island of Penang.",
-      imageUrl:
-      "assets/image/picture.jpg",
+      imageUrl: "assets/image/picture.jpg",
       price: 17.00,
     ),
     FoodItem(
       title: "Laksa Johor",
       description: "A specialty of the Malaysian Island of Penang.",
-      imageUrl:
-      "assets/image/picture.jpg",
+      imageUrl: "assets/image/picture.jpg",
       price: 17.00,
     ),
     FoodItem(
       title: "Laksa Johor",
       description: "A specialty of the Malaysian Island of Penang.",
-      imageUrl:
-      "assets/image/picture.jpg",
+      imageUrl: "assets/image/picture.jpg",
       price: 17.00,
     ),
     FoodItem(
       title: "Laksa Johor",
       description: "A specialty of the Malaysian Island of Penang.",
-      imageUrl:
-      "assets/image/picture.jpg",
+      imageUrl: "assets/image/picture.jpg",
       price: 17.00,
     ),
     FoodItem(
       title: "Laksa Johor",
       description: "A specialty of the Malaysian Island of Penang.",
-      imageUrl:
-      "assets/image/picture.jpg",
+      imageUrl: "assets/image/picture.jpg",
       price: 17.00,
     ),
     FoodItem(
       title: "Laksa Johor",
       description: "A specialty of the Malaysian Island of Penang.",
-      imageUrl:
-      "assets/image/picture.jpg",
+      imageUrl: "assets/image/picture.jpg",
       price: 17.00,
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Food Menu")),
-      body: Padding(
+
+    return  Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
-
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             mainAxisExtent: 270,
             maxCrossAxisExtent: 260,
@@ -82,10 +75,11 @@ class FoodMenuScreen extends StatelessWidget {
             return FoodCard(food: foods[index]);
           },
         ),
-      ),
-    );
+      );
+
   }
 }
+
 class FoodCard extends StatelessWidget {
   final FoodItem food;
 
@@ -117,9 +111,13 @@ class FoodCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(food.title,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text(
+                    food.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     food.description,
@@ -132,17 +130,21 @@ class FoodCard extends StatelessWidget {
                       Text(
                         "RM ${food.price.toStringAsFixed(2)}",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.orange),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange,
+                        ),
                       ),
                       Spacer(),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.add_box_sharp,color: Colors.amber,))
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.add_box_sharp, color: Colors.amber),
+                      ),
                     ],
                   ),
-                  
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
