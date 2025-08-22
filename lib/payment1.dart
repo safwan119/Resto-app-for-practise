@@ -1,13 +1,15 @@
-
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
+import 'package:my_first_proj/drawer/drawer.dart';
 
-class Payment2 extends StatefulWidget{
+class Payment2 extends StatefulWidget {
   @override
   State<Payment2> createState() => _Payment2State();
 }
 
 class _Payment2State extends State<Payment2> {
-  var itemIndex=0;
+  var itemIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,188 +50,129 @@ class _Payment2State extends State<Payment2> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-
-                    shape: CircleBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close, size: 20, grade: 12),
-                ),
-              ),
-            ),
-            SizedBox(height: 35),
-            ListTile(
-              title: Text(
-                "My Profile",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                "RESTO.COM Bussiness",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Help Centre",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Privacy&Policy",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "LogOut",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.logout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.amber,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-          });
-        },
-        currentIndex: itemIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity),
-            label: "Activity",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded),
-            label: "Finance",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
-        ],
-      ),
+      endDrawer: Drawer1(),
+      bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 80,
+        child: Column(
+          children: [
+            SizedBox(height: 80),
+            Center(
+              child: Icon(
+                Icons.cancel,
+                size: 90,
+                color: Colors.red,
               ),
-              Center(child: Icon(Icons.cancel,size: 90,color: Colors.red,)),
-              SizedBox(height: 10,),
-              Text("Reservation placed successful!",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 23),),
-              Text("18 August 2024,12:39 PM",style: TextStyle(fontSize: 17),),
-              SizedBox(height: 40,),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Reservation placed successful!",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 23,
+              ),
+            ),
+            Text("18 August 2024,12:39 PM", style: TextStyle(fontSize: 17)),
+            SizedBox(height: 40),
 
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3),
-                    child: Text("PAYMENT",style: TextStyle(color: Colors.black,fontSize: 20),),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "PAYMENT",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
                   ),
-                  SizedBox(width: 200,),
-                  Text("RM 90.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 19),
+                ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    "RM 90.00",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 19,
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
 
-              Padding(
-                padding: const EdgeInsets.only(right: 140),
-                child: Text("Amount deducted from app wallet",style: TextStyle(fontSize: 16),),
-              ),
-
-
-              SizedBox(height: 12,),
-              Container(
-                width: 380,
-                child: LinearProgressIndicator(
-                  color: Colors.black12,
-                  value: 0,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Amount deducted from app wallet",
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 17,),
-              Padding(
-                padding: const EdgeInsets.only(right: 200),
-                child: Text("PAYMENT METHOD",style: TextStyle(color: Colors.black,fontSize: 20),),
+            ),
+
+            SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
+            ),
+            SizedBox(height: 17),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "PAYMENT METHOD",
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 250),
-                child: Text("In APP WALLET",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "In APP WALLET",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              SizedBox(height: 200,),
-              InkWell(
+            ),
+            SizedBox(height: 200),
+            InkWell(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Card(
                   elevation: 4,
                   child: Container(
-                    width: 400,
-                    height: 45,
+                    width: double.infinity,
+                    height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color:Colors.amber,
-
+                      color: Colors.amber,
                     ),
 
-
-                    child:  Center(child: Text("VIEW ORDER DETAILS",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),)),
-
-
+                    child: Center(
+                      child: Text(
+                        "VIEW ORDER DETAILS",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                onTap: (){},
-              )
-
-
-
-
-            ],
-          ),
+              ),
+              onTap: () {},
+            ),
+          ],
         ),
       ),
     );
