@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
+
+import 'drawer/drawer.dart';
 
 class WalletBalance extends StatefulWidget {
   @override
@@ -7,6 +10,17 @@ class WalletBalance extends StatefulWidget {
 
 class _WalletBalanceState extends State<WalletBalance> {
   var itemIndex = 0;
+  List<Map<String, dynamic>> walletList = [
+    {"subtitle": "Payment to McDonald's Seri Austin DT", "title": "PAYMENT"},
+    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
+    {"subtitle": "Top up to app account", "title": "CASH IN TOP UP"},
+    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
+    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
+    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
+    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
+    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
+  ];
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,141 +60,41 @@ class _WalletBalanceState extends State<WalletBalance> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer(
-        backgroundColor: Colors.yellow,
-        child: ListView(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(),
-                child: IconButton(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-
-                    shape: CircleBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close, size: 20, grade: 12),
-                ),
-              ),
-            ),
-            SizedBox(height: 60),
-            ListTile(
-              title: Text(
-                "My Profile",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                "RESTO.COM Bussiness",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Help Centre",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "Privacy&Policy",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text(
-                "LogOut",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              trailing: Icon(Icons.logout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.amber,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-          });
-        },
-        currentIndex: itemIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity),
-            label: "Activity",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded),
-            label: "Finance",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
-        ],
-      ),
+      endDrawer: Drawer1(),
+      bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  // SizedBox(width: 10),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_back_outlined, size: 27),
-                  ),
-                  Text(
-                    "Wallet Balance",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.arrow_back_outlined, size: 27),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 10,),
-              Card(
+                ),
+                Text(
+                  "Wallet Balance",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Card(
                 elevation: 4,
                 child: Container(
-                  width: 400,
-                  height: 310,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -188,252 +102,198 @@ class _WalletBalanceState extends State<WalletBalance> {
                   child: Column(
                     children: [
                       Stack(
-                        children: [ Container(
-                          width: 400,
-                          height: 170,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
+                        children: [
+                          Container(
+                            width: double.infinity,
+
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              ),
+                              child: Image.asset(
+                                "assets/image/Screenshot.jpg",
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                              child: Image.asset("assets/image/Screenshot.jpg",
-                          fit: BoxFit.cover,
-                          )
                           ),
-                          
-                        ),
                           Column(
                             children: [
-                              SizedBox(height: 10,),
+                              SizedBox(height: 10),
                               Padding(
-                                padding: const EdgeInsets.only(right:240),
-                                child: Text("RESTO.COM",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right:240),
-                                child: Container(
-                                  height: 17,
-                                  width: 105,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: Align(alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "RESTO.COM",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  child: Center(child: Text("MAKE FLASH ORDER",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 10),)),
-                                   
                                 ),
                               ),
-                              SizedBox(height: 20,),
                               Padding(
-                                padding: const EdgeInsets.only(right: 260),
-                                child: Text("RM 99.00",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                child: Align(alignment:Alignment.centerLeft,
+                                  child: Container(
+                                    height: 17,
+                                    width: 105,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "MAKE FLASH ORDER",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Text("Your current balance that is available to be used for payments",style: TextStyle(color: Colors.white),),
-                              ),
-
-
-
                             ],
                           ),
                           Positioned(
-                            top: 132,
-                            left: 130,
-                            child: Container(
-                              width: 170,
-                              height: 25,
-                              color: Colors.black,
+                            bottom: 50,
+                            right: 0,
+                            left: 20,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "RM 99.00",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Your current balance that is available to be used for payments",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-
-                          
-                        ]
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 10),
                       ListTile(
-                        leading: Icon(Icons.monetization_on_outlined,size: 30,color: Colors.yellow,),
-                        title: Text("142 POINTS",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-
+                        leading: Icon(
+                          Icons.monetization_on_outlined,
+                          size: 30,
+                          color: Colors.yellow,
+                        ),
+                        title: Text(
+                          "142 POINTS",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      LinearProgressIndicator(
-                        value: 0,
-
-                      ),
+                      LinearProgressIndicator(value: 0),
                       ListTile(
-                        leading: Icon(Icons.card_membership_sharp,size: 30,color: Colors.yellow,),
-                        title: Text("TOP UP YOUR BALANCE",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                        trailing: IconButton(onPressed: (){}, icon: Icon(Icons.keyboard_arrow_right)),
+                        leading: Icon(
+                          Icons.card_membership_sharp,
+                          size: 30,
+                          color: Colors.yellow,
+                        ),
+                        title: Text(
+                          "TOP UP YOUR BALANCE",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.keyboard_arrow_right),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 30,),
-              Card(
-                elevation: 6,
-                child: Container(
-                  height: 900,
-                  width: 400,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 116),
-                        child: Text("Recent Transactions",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 24),),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to McDonalds Seri Austin DT"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
+            ),
+            SizedBox(height: 30),
+            Card(
+              elevation: 6,
+              child: Container(
+                width: double.infinity,
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Recent Transaction",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to Starbucks TD Central"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: walletList.length,
+                        separatorBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: LinearProgressIndicator(value: 0),
+                          );
+                        },
+                        itemBuilder: (context, index) {
+                          String title = walletList[index]["title"];
+                          String subtitle = walletList[index]["subtitle"];
+                          return Wallet(subtitle, title);
+                        },
                       ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("CASH IN TOP UP",),
-                          subtitle: Text("Top up to app account"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to Starbucks TD Central"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to Starbucks TD Central"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to Starbucks TD Central"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to Starbucks TD Central"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text("PAYMENT",),
-                          subtitle: Text("Payment to Starbucks TD Central"),
-                          trailing: Text("RM 82.30",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.bold),),
-
-
-                        ),
-
-                      ),
-                      Container(
-                        width: 350,
-                        child: LinearProgressIndicator(
-                          color: Colors.black12,
-                          value: 0,
-                        ),
-                      ),
-
-
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Wallet extends StatelessWidget {
+  String subtitle;
+  String title;
+
+  Wallet(this.subtitle, this.title);
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(subtitle, overflow: TextOverflow.ellipsis),
+      trailing: Text(
+        "RM 82.30",
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
