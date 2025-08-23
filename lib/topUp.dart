@@ -152,6 +152,7 @@ class _TopUpState extends State<TopUp> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10,),
                     ],
                   ),
                 ),
@@ -268,7 +269,7 @@ class _TopUpState extends State<TopUp> {
                     ),
                     SizedBox(height: 7),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Container(
                         width: double.infinity,
                         height: 60,
