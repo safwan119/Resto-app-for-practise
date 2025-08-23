@@ -49,7 +49,7 @@ class _DrawerState extends State<DrawerFor> {
             ),
             ListTile(
               title: Text(
-                "RESTO.COM Bussiness",
+                "RESTO.COM Business",
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
