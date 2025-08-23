@@ -1,13 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
+import 'package:my_first_proj/deletAcc.dart';
 class Drawer2 extends StatefulWidget{
   @override
   State<Drawer2> createState() => _Drawer2State();
 }
 
 class _Drawer2State extends State<Drawer2> {
-  var itemIndex=0;
+  List<Map<String,dynamic>> FoodDetailList2=[
+    {
+      "title":"Laksa johor"
+    },
+    {
+      "title":"Laksa Penang"
+    },
+    {
+      "title":"Laksa Lorem"
+    },
+    {
+      "title":"Laksa Ipsum"
+    },
+  ];
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +83,7 @@ class _Drawer2State extends State<Drawer2> {
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 10),
             ListTile(
               title: Text(
                 "Full Name",
@@ -79,13 +92,12 @@ class _Drawer2State extends State<Drawer2> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text("Jhon Doe bin Lorem Ipsum"),
+              subtitle: Text("Jon Doe bin Lorem Ipsum"),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
 
               },
             ),
-            // SizedBox(height: 60),
             ListTile(
               title: Text(
                 "Email Address",
@@ -115,7 +127,6 @@ class _Drawer2State extends State<Drawer2> {
 
               },
             ),
-            // SizedBox(height: 60),
             ListTile(
               title: Text(
                 "Address",
@@ -124,7 +135,7 @@ class _Drawer2State extends State<Drawer2> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text("2,Jalan Perjiranan 2,Bandar Dato Onn"),
+              subtitle: Text("2,Jalan Perjiranan 2,Bandar Data Onn"),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
 
@@ -132,7 +143,7 @@ class _Drawer2State extends State<Drawer2> {
             ),
             ListTile(
               title: Text(
-                "RESTO.COM Bussiness",
+                "RESTO.COM Business",
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -165,6 +176,21 @@ class _Drawer2State extends State<Drawer2> {
             ),
             ListTile(
               title: Text(
+                "Delete account",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return DeleteAccount();
+                }));
+              },
+            ),
+            ListTile(
+              title: Text(
                 "LogOut",
                 style: TextStyle(
                   color: Colors.black,
@@ -174,325 +200,66 @@ class _Drawer2State extends State<Drawer2> {
               trailing: Icon(Icons.logout),
               onTap: () {},
             ),
-            SizedBox(height: 100,)
+            SizedBox(height: 50,)
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.amber,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-          });
-        },
-        currentIndex: itemIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity),
-            label: "Activity",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded),
-            label: "Finance",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
-        ],
-      ),
+      bottomNavigationBar: BottomNavigatorBar1(),
       body:SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Icon(Icons.delete_rounded, color: Colors.red, size: 30),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Container(
-                        width: 371,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 2,),
-                            Container(
-                              width: 110,
-                              height: 90,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                              ),
-                            ),
-                            SizedBox(width: 3,),
-                            Column(
-                              children: [
-                                SizedBox(height: 6,),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 82),
-                                  child: Text("Laksa lpsum",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Text("Original flavour,spicy spices"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 110),
-                                  child: Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(width: 27,),
-                            Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),)
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-            ],
-          ),
+        child:  Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: ListView.builder(physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: FoodDetailList2.length,
+              itemBuilder: (context,index){
+                String title=FoodDetailList2[index]["title"];
+                return FoodDetail2(title);
+              }),
         ),
       ),
     );
 
+  }
+}
+class FoodDetail2 extends StatelessWidget {
+  String? title;
+  FoodDetail2(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Container(
+        color: Colors.white,
+        child: Row(
+          children: [
+            SizedBox(width: 6,),
+            Container(
+              width: 100,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(2),
+                child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
+
+              ),
+            ),
+            SizedBox(width: 6,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8,),
+                Text(title!,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+                Text("Original flavour,spicy spices"),
+                Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
+                SizedBox(height: 8,),
+              ],
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
