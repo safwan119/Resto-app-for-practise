@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/asian_food_menu/asian_menu.dart';
 
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/showPic.dart';
@@ -33,7 +34,7 @@ class _SepearImagState extends State<SepearImag> {
     {"title": "Asian"},
     {"title": "Western"},
     {"title": "Non-Halal"},
-    {"title": "Vegeterian"},
+    {"title": "Vegetarian"},
     {"title": "Thailand"},
     {"title": "Chinese"},
   ];
@@ -430,7 +431,11 @@ class CountryFood extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          if(title=="Asian"){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuScreen()));
+          }
+        },
         child: Center(child: Text(title!)),
       ),
     );
