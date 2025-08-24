@@ -1,8 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/foodPic.dart';
 import 'package:my_first_proj/main.dart';
+import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/seperateImagfood.dart';
 
 import '../forPass.dart';
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(Duration.zero, () {
       if (user != null) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => ForgPass()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => FoodPicture()));
       } else {
         Navigator.push(context, MaterialPageRoute(builder: (_) => RestoApp()));
       }
