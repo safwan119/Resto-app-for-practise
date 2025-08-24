@@ -23,6 +23,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   final FoodController = TextEditingController();
   String srch = "";
+  String flavour="original";
   List<Map<String, dynamic>> titleList = [
     {"title": "Asian"},
     {"title": "Western"},
@@ -70,7 +71,6 @@ class _MenuScreenState extends State<MenuScreen> {
         imagePath: "assets/image/picture.jpg"),
   ];
   List<FoodMenu> FilterMenuFood3 = [];
-
   void initState() {
     super.initState();
     FilterMenuFood3 = List.from(FoodList);
@@ -172,7 +172,10 @@ class _MenuScreenState extends State<MenuScreen> {
                           mainAxisSpacing: 11.0
                       ),
                       itemBuilder: (context, index) {
-                        return FoodMenuClass(food: FilterMenuFood3[index],);
+                        return InkWell(onTap: (){
+                          showDialogBox(FilterMenuFood3[index]);
+                        },
+                            child: FoodMenuClass(food: FilterMenuFood3[index],));
                       }) : Container(
                       child: Center(child: Text("No result found"))),
                 ),
@@ -219,6 +222,142 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
       ),
     );
+  }
+  Future<void> showDialogBox(FoodMenu foodItem)async{
+    return showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title:Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(foodItem.imagePath.toString(),fit: BoxFit.cover,),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right:0,
+              top: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(alignment: Alignment.centerLeft,
+                  child: IconButton(
+                      style:IconButton.styleFrom(backgroundColor: Colors.white,
+
+                          shape: CircleBorder()
+                      ) ,
+                      onPressed: (){
+                        Navigator.pop(context);
+                      }, icon: Icon(Icons.close,size: 20,grade: 12,)),
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(foodItem.title.toString(),style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                trailing: Text("RM ${foodItem.price}",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Align(alignment: Alignment.centerLeft,
+                    child: Text("A specialty of the Malaysian Island of penang.the soup is made with mackerel and authentic taste.")),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Flavour",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),)),
+              ),
+              RadioListTile(
+                  activeColor: Colors.blue,
+                  title: Text("Original"),
+                  value: "original", groupValue: flavour
+                  , onChanged: (value){
+                setState(() {
+                  flavour=value.toString();
+                });
+              }),
+              RadioListTile(
+                  activeColor: Colors.blue,
+                  title: Text("Medium"),
+                  value: "original", groupValue: null
+                  , onChanged: (value){
+                setState(() {
+                  flavour=value.toString();
+                });
+              }),
+              RadioListTile(
+                  activeColor: Colors.blue,
+                  title: Text("Mix(Original and Spicy only)"),
+                  value: "original", groupValue: null
+                  , onChanged: (value){
+                setState(() {
+                  flavour=value.toString();
+                });
+              }),
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Spices",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),)),
+              ),
+              RadioListTile(
+                  activeColor: Colors.blue,
+                  title: Text("Spicy"),
+                  value: "original", groupValue: flavour
+                  , onChanged: (value){
+                setState(() {
+                  flavour=value.toString();
+                });
+              }),
+              RadioListTile(
+                  activeColor: Colors.blue,
+                  title: Text("Spicier"),
+                  value: "original", groupValue: null
+                  , onChanged: (value){
+                setState(() {
+                  flavour=value.toString();
+                });
+              }),
+              RadioListTile(
+                  activeColor: Colors.blue,
+                  title: Text("Extra Spicy"),
+                  value: "original", groupValue: null
+                  , onChanged: (value){
+                setState(() {
+                  flavour=value.toString();
+                });
+              }),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Card(
+                  elevation: 6,
+                  child: InkWell(onTap: (){},
+                    child: Container(
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.amber,
+                      ),
+                      child: Center(child: Text("Add to Card")),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }
 
