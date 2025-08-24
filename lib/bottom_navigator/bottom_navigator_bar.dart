@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/adreDeta.dart';
+import 'package:my_first_proj/foodPic.dart';
+
 class BottomNavigatorBar1 extends StatefulWidget {
   const BottomNavigatorBar1({super.key});
 
@@ -7,29 +10,32 @@ class BottomNavigatorBar1 extends StatefulWidget {
 }
 
 class _BottomNavigatorBar1State extends State<BottomNavigatorBar1> {
-  @override
   var itemIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.amber,
+      currentIndex: itemIndex,
 
       onTap: (index) {
         setState(() {
           itemIndex = index;
+
         });
+        if(index==0){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPicture()));
+        }
+        if(index==3){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
+        }
       },
-      currentIndex: itemIndex,
+
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.local_activity),
-          label: "Activity",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.monetization_on_rounded),
-          label: "Finance",
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.local_activity), label: "Activity"),
+        BottomNavigationBarItem(icon: Icon(Icons.monetization_on_rounded), label: "Finance"),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),
       ],
