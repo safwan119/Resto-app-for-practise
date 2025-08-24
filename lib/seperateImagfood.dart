@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_first_proj/asian_food_menu/asian_menu.dart';
 
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
-import 'package:my_first_proj/showPic.dart';
 import 'package:my_first_proj/bkTabl.dart';
 import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/review.dart';
