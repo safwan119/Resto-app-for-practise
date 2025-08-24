@@ -1,4 +1,3 @@
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_navigator/bottom_navigator_bar.dart';
@@ -16,12 +15,12 @@ class _FoodPictureState extends State<FoodPicture> {
   String srch = "";
   List<Map<String, dynamic>> menu = [
     {
-      "title": "Legend Licious Cafe House",
+      "title": "Legend Vicious Cafe House",
       "subtitle": "210-Km away -Pick up in 15 min",
       "image": "assets/image/image.png",
     },
     {
-      "title": "RZ Restoran",
+      "title": "RZ Restaurant",
       "subtitle": "242-Km away -Pick up in 15 min",
       "image": "assets/image/rz_restouran.jpg",
     },
@@ -51,40 +50,42 @@ class _FoodPictureState extends State<FoodPicture> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 125,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 120,
         title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  "Hello,Aiman",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.arrow_back_outlined)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Hello,Aiman",
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    Text(
+                      "Let's Make a Flash Order",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  "Let's Make a Flash Order",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 2),
+
+
+            SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 10),
               child: Container(
-                height: 40,
+
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -95,12 +96,9 @@ class _FoodPictureState extends State<FoodPicture> {
                     srch = value;
                     updateFilterMenu();
                   },
-
                   decoration: InputDecoration(
                     hintText: "Search for food",
                     prefixIcon: Icon(Icons.search),
-
-                    // prefixIcon: Icon(Icons.search,size: 20,),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(color: Colors.black),
@@ -214,3 +212,4 @@ class FoodMenu extends StatelessWidget {
     );
   }
 }
+
