@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/adreDeta.dart';
+import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/utill/utills.dart';
 
 import 'drawer/drawer.dart';
@@ -193,6 +194,7 @@ class _SignUpState extends State<SignUp> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: Password,
+                    obscureText: isobsecure,
                     validator: (value){
                       if(value!.isEmpty){
                         return "Enter password";
@@ -226,6 +228,7 @@ class _SignUpState extends State<SignUp> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: ConfirmPassword,
+                    obscureText: isobsecure,
                     validator: (value){
                       if(value!.isEmpty){
                         return "Enter password";
@@ -262,11 +265,11 @@ class _SignUpState extends State<SignUp> {
                    if(formkey.currentState!.validate()){
                      ConfirmPassword1();
                    }
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPicture()));
                  },
                    child: Container(
         
                       height: 50,
-                      // color: Colors.black,
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(10),
@@ -274,7 +277,7 @@ class _SignUpState extends State<SignUp> {
         
                       child: Center(
                         child:loading?CircularProgressIndicator(strokeWidth: 4,color: Colors.white,):Text(
-                          "Create acount",
+                          "Create account",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
