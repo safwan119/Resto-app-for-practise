@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 class TimeDateCard extends StatefulWidget {
   const TimeDateCard({super.key});
 
@@ -9,6 +10,8 @@ class TimeDateCard extends StatefulWidget {
 class _TimeDateCardState extends State<TimeDateCard> {
   String guestcount1 = "1";
   var guestno1 = TextEditingController();
+  DateTime? selectedDate;
+  TimeOfDay? selectedtime;
   @override
   Widget build(BuildContext context) {
     return  Card(
@@ -96,14 +99,24 @@ class _TimeDateCardState extends State<TimeDateCard> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "SAT,2 AUG",
-                            style: TextStyle(fontSize: 12),
+                              selectedDate == null ? 'SAT,4 AUG' : DateFormat('EEE,d MMM').format(selectedDate!),style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async{
+                   DateTime? datePicker=await showDatePicker(context: context,
+                       initialDate: DateTime.now(),
+                       firstDate: DateTime(2025),
+                       lastDate: DateTime(2026),
+                   );
+                   if(datePicker!=null){
+                     setState(() {
+                       selectedDate=datePicker;
+                     });
+                   }
+                      },
                       icon: Icon(
                         Icons.arrow_drop_down,
                         color: Colors.black,
@@ -124,14 +137,23 @@ class _TimeDateCardState extends State<TimeDateCard> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "12:00 PM",
+                            selectedtime == null ? '12:00 PM' : DateFormat('hh:mm a').format(DateTime(0,0,0, selectedtime!.hour, selectedtime!.minute)),
                             style: TextStyle(fontSize: 12),
                           ),
                         ),
                       ],
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async{
+                        TimeOfDay? timePicker=await showTimePicker(context: context, initialTime: TimeOfDay.now()
+                        );
+                        if(timePicker!=null){
+                          setState(() {
+                            selectedtime=timePicker;
+                          });
+
+                        }
+                      },
                       icon: Icon(
                         Icons.arrow_drop_down,
                         color: Colors.black,
