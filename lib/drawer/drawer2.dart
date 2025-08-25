@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/main.dart';
 import '../deletAcc.dart';
 import '../utill/utills.dart';
 class Drawer2 extends StatefulWidget {
@@ -14,9 +15,9 @@ class Drawer2 extends StatefulWidget {
 class _Drawer2State extends State<Drawer2> {
   final auth = FirebaseAuth.instance;
   final DatabaseRef = FirebaseDatabase.instance.ref("UserDetail");
-
   void logout() {
-    auth.signOut().then((value) {
+    auth.signOut().then((_) {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>RestoApp()));
       Utills().toastmessage("LogOut Successfully");
     }).onError((error,stackTrace) {
       Utills().toastmessage(error.toString());
@@ -33,12 +34,11 @@ class _Drawer2State extends State<Drawer2> {
               query: DatabaseRef,
               itemBuilder: (context, snapshot, animation, index) {
                 if (!snapshot.exists) return Container();
-
                 return SizedBox(
-                  height: 700,
+                  height: 1000,
                   child: ListView(
                     children: [
-                      SizedBox(height: 20),
+                      SizedBox(height: 50),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
@@ -53,7 +53,7 @@ class _Drawer2State extends State<Drawer2> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
                       ListTile(
                         title: Text("Full Name", style: TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Text(snapshot.child("Full name").value.toString()),
@@ -106,7 +106,7 @@ class _Drawer2State extends State<Drawer2> {
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),
                         onTap: () {
-                          DeleteAccount();
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteAccount()));
                         },
                       ),
                       ListTile(
