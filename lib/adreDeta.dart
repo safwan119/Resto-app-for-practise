@@ -368,6 +368,10 @@ class _AdresDetailState extends State<AdresDetail> {
                           isloading = false;
                         });
                         Utills().toastmessage("Your detail removed");
+                        emailAddressController.clear();
+                        Fullname.clear();
+                        addressController.clear();
+                        phoneNoController.clear();
                       })
                       .onError((error, stackTrace) {
                         Utills().toastmessage(error.toString());
