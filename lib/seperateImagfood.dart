@@ -100,24 +100,27 @@ class _SepearImagState extends State<SepearImag> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 110,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Mcdonald's-Seri Austin DT",
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.arrow_back_outlined)),
+                Text(
+                  "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Container(
-                height: 40,
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -137,8 +140,8 @@ class _SepearImagState extends State<SepearImag> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         backgroundColor: Colors.amber,
       ),
