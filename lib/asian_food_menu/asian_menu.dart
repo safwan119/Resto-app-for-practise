@@ -3,6 +3,8 @@ import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
 
+import '../searchPic.dart';
+
 class FoodMenu {
   double? price;
   String? title;
@@ -93,15 +95,25 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        toolbarHeight: 90,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 110,
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Mc Donald's - Seri Austin DT", style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 22),),
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.arrow_back_outlined)),
+                Text("Mc Donald's - Seri Austin DT", style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(left: 10),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -436,7 +448,11 @@ class CountryFood3 extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          if(title=="Chinese"){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPicture()));
+          }
+        },
         child: Center(child: Text(title!)),
       ),
     );
