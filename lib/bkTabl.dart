@@ -14,14 +14,22 @@ class _BookTableState extends State<BookTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 80,
-        title: Text(
-          "Mcdonald's-Seri Austin DT",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          children: [
+            IconButton(onPressed: (){
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back_outlined)),
+            Text(
+              "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.amber,
       ),
@@ -39,7 +47,6 @@ class _BookTableState extends State<BookTable> {
                   color: Colors.black,
                   child: Image.asset(
                     "assets/image/image1.jpg",
-                    // width: 1000,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -47,7 +54,6 @@ class _BookTableState extends State<BookTable> {
               Card(
                 color: Colors.white,
                 child: Container(
-                  // height: 110,
                   width: double.infinity,
                   child: Column(
                     children: [
@@ -346,7 +352,7 @@ class _BookTableState extends State<BookTable> {
                           ),
                           Expanded(
                             child: Text(
-                              "Lot 132943,Persiaran Jaya Putra,Taman Seri Austin,81100 johor Bahru,johor",
+                              "Lot 132943,Persian Jaya Petra,Tasman Seri Austin,81100 johor Bahri,johor",
                             ),
                           ),
                         ],
