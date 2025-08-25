@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_first_proj/utill/utills.dart';
 import '../adreDeta.dart';
 import '../deletAcc.dart';
+import '../main.dart';
 
 class Drawer1 extends StatefulWidget {
   @override
@@ -12,7 +13,9 @@ class Drawer1 extends StatefulWidget {
 class _Drawer1State extends State<Drawer1> {
   final auth=FirebaseAuth.instance;
   void logout() {
-    auth.signOut().then((value) {
+    auth.signOut().then((_) {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>RestoApp()));
+
       Utills().toastmessage("LogOut Successfully");
     }).onError((error,stackTrace) {
       Utills().toastmessage(error.toString());
