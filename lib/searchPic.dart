@@ -2,6 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+class FoodMenu3 {
+  double? price;
+  String? title;
+  String? description;
+  String? imagePath;
+
+  FoodMenu3(
+      {required this.price, required this.title, required this.description, required this.imagePath});
+}
 
 class SearchPicture extends StatefulWidget{
   @override
@@ -16,56 +25,65 @@ class _SearchPictureState extends State<SearchPicture> {
     {"title": "Asian"},
     {"title": "Western"},
     {"title": "Non-Halal"},
-    {"title": "Vegeterian"},
+    {"title": "Vegetarian"},
     {"title": "Thailand"},
     {"title": "Chinese"},
   ];
-  List<Map<String, dynamic>> Menu = [
-    {
-      "title": "Laksa Johor",
-      "subtitle": "A speciality of Malaysian island of penag..",
-    },
+  List<FoodMenu3> FoodList3 = [
+    FoodMenu3(price: 17.00,
+        title: "Laksa Johor",
+        description: "A specialty of the Malaysian Island of Penang.",
+        imagePath: "assets/image/picture.jpg"),
   ];
-  List<Map<String, dynamic>> FilterMenuFood = [];
+  List<FoodMenu3> FilterMenuFood4 = [];
 
-  @override
   void initState() {
     super.initState();
-    FilterMenuFood = List.from(Menu);
+    FilterMenuFood4 = List.from(FoodList3);
   }
 
   void FilterSearch() {
     setState(() {
-      FilterMenuFood = srch.isEmpty
-          ? List.from(Menu)
-          : Menu.where(
-            (item) => item['title'].toString().toLowerCase().contains(
-          srch.toLowerCase(),
-        ),
+      FilterMenuFood4 = srch.isEmpty
+          ? List.from(FoodList3)
+          : FoodList3.where(
+            (item) =>
+            item.toString().toLowerCase().contains(
+              srch.toLowerCase(),
+            ),
       ).toList();
     });
   }
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 110,
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Mcdonald's-Seri Austin DT",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.arrow_back_outlined)),
+                Column(
+                  children: [
+                    Text(
+                      "Mcdonald's-Seri Austin DT",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:  Container(
-                height: 40,
+              padding: const EdgeInsets.only(left: 10),
+              child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -128,48 +146,65 @@ class _SearchPictureState extends State<SearchPicture> {
               ),
             ),
            SizedBox(height: 12,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: FilterMenuFood.isNotEmpty
-                  ? GridView.count(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                children: FilterMenuFood.map((item) {
-                  return FoodMenu2(item['title'], item['subtitle']);
-                }).toList(),
-              )
-                  : Text("No result found"),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: FilterMenuFood4.isNotEmpty ? GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: FilterMenuFood4.length,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 250,
+                          mainAxisExtent: 280,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 11.0,
+                          mainAxisSpacing: 11.0
+                      ),
+                      itemBuilder: (context, index) {
+                        return FoodMenuClass1(food: FilterMenuFood4[index],);
+                      }) : Container(
+                      child: Center(child: Text("No result found"))),
+                ),
+                Positioned(bottom: 8,
+                    left: 0,
+                    right: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Card(
+                        elevation: 4,
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.amber,
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: FilterMenuFood4.isNotEmpty ? Text(
+                                  "Proceed to booking", style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),) : Container(),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: Text("RM 49.20", style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ))
+              ],
             ),
-
-            SizedBox(height: 100,),
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 20),
-               child:FilterMenuFood.isNotEmpty? Card(elevation: 4,
-                 child: InkWell(
-                   child: Container(
-                     width: double.infinity,
-                     height: 40,
-                     decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(13),
-                       color: Colors.amber,
-                     ),
-                     child:Row(
-                       children: [
-                         SizedBox(width: 30,),
-                         Text("Proceeds to Booking",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                         Spacer(),
-                         Padding(
-                           padding: const EdgeInsets.only(right: 20),
-                           child: Text("RM 49.20",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
-                         ),
-                       ],
-                     )
-                   ),
-                   onTap: (){},
-                 ),
-               ):Container(),
-             ),
             SizedBox(height: 20,),
           ],
         ),
@@ -201,64 +236,58 @@ class CountryFood2 extends StatelessWidget {
     );
   }
 }
-class FoodMenu2 extends StatelessWidget {
-  String? title;
-  String? subtitle;
-  FoodMenu2(this.title, this.subtitle);
+class FoodMenuClass1 extends StatelessWidget {
+  final FoodMenu3 food;
+
+  FoodMenuClass1({required this.food});
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Card(
-        child: SingleChildScrollView(
-          child: Container(
-            width: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.black12,
-            ),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+      elevation: 6,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(borderRadius: BorderRadius.circular(12),
+                child: Image.asset(food.imagePath!, fit: BoxFit.cover,
+                  height: 120,
+                  width: double.infinity,)),
+          ),
+          Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 5),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      "assets/image/picture.jpg",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      title!,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Text(subtitle!, style: TextStyle(color: Colors.black)),
+                  Text(food.title!, style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),),
+                  SizedBox(height: 8),
+                  Text(food.description!,
+                    style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,),
+                  SizedBox(height: 15,),
                   Row(
                     children: [
-                      Text(
-                        "RM 17.00",
-                        style: TextStyle(
-                          color: Colors.amber,
+                      Text("RM ${food.price!}",
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                          color: Colors.orange,
+                        ),),
                       Spacer(),
-                      Icon(Icons.add_box, size: 20, color: Colors.amber),
+                      Icon(Icons.add_box_sharp, color: Colors.amber,),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
