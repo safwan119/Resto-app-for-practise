@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/foodPic.dart';
 import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/adreDeta.dart';
 import 'package:my_first_proj/searchPic.dart';
@@ -22,8 +24,10 @@ class _SignUpState extends State<SignUp> {
   final auth=FirebaseAuth.instance;
   var ConfirmPassword = TextEditingController();
   bool isobsecure=true;
+  final firebaseDatabase=FirebaseDatabase.instance.ref("User SignUp detail");
+  String? id;
   @override
-  void SignUp2(){
+  void SignUp2()async{
     setState(() {
       loading=true;
     });
@@ -31,6 +35,10 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         loading=false;
       });
+      User? user=value.user;
+      if(user!=null){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPicture()));
+      }
       Utills().toastmessage("SignUp successfully");
     }).onError((error,stackTrace){
       Utills().toastmessage(error.toString());
@@ -46,6 +54,12 @@ class _SignUpState extends State<SignUp> {
     else{
       SignUp2();
     }
+  }
+  @override
+  void dispose() {
+    Password.dispose();
+    email.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -77,7 +91,6 @@ class _SignUpState extends State<SignUp> {
                   "MAKE FLASH ORDER",
                   style: TextStyle(
                     color: Colors.amber,
-                    // backgroundColor: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
@@ -89,7 +102,7 @@ class _SignUpState extends State<SignUp> {
         ),
         backgroundColor: Colors.amber,
       ),
-      endDrawer: Drawer1(),
+      // endDrawer: Drawer1(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -160,11 +173,11 @@ class _SignUpState extends State<SignUp> {
         
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
+                        borderSide: BorderSide(color: Colors.black),
                       ),
         
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                   ),
@@ -214,7 +227,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
+                        borderSide: BorderSide(color: Colors.black),
                       ),
         
                       focusedBorder: OutlineInputBorder(
@@ -248,24 +261,22 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black), // Default color
+                        borderSide: BorderSide(color: Colors.black),
                       ),
         
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                   ),
                 ),
               ],)),
-        
                Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: InkWell(onTap: (){
                    if(formkey.currentState!.validate()){
                      ConfirmPassword1();
                    }
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPicture()));
                  },
                    child: Container(
         
@@ -302,9 +313,6 @@ class _SignUpState extends State<SignUp> {
                    ]
                  )),
                ),
-        
-        
-        
               SizedBox(height: 50),
           Padding(
           padding: const EdgeInsets.all(8.0),
