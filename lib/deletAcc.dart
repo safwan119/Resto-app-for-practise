@@ -28,10 +28,10 @@ class _DeleteAccountState extends State<DeleteAccount> {
         content: Text("Are you sure to delete your account?"),
         actions: [
           TextButton(onPressed: (){
-            Navigator.pop(context);
+            Navigator.pop(context,false);
           }, child: Text("Cancel")),
           TextButton(onPressed: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RestoApp()));
+            Navigator.pop(context, true);
           }, child: Text("Confirm"))
         ],
       );
