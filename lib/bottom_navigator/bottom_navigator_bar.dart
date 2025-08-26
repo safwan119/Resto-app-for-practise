@@ -17,24 +17,24 @@ class _BottomNavigatorBar1State extends State<BottomNavigatorBar1> {
     return  BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.amber,
-        currentIndex: itemIndex,
-
-        onTap: (index) {
-          setState(() {
-            itemIndex = index;
-
-          });
-          if(itemIndex==0){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPicture()));
-          }
-        else  if(itemIndex==3){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-          }
+        onTap:(index) {
+            setState(() {
+              itemIndex = index;
+            });
+            if(itemIndex==0){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPicture()));
+            }
+            else if(itemIndex==1){
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>TabBar1()));
+            }
+            else  if(itemIndex==3){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
+            }
         },
-
+      currentIndex: itemIndex,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Restaurants"),
-          BottomNavigationBarItem(icon: Icon(Icons.local_activity), label: "Activity"),
+          BottomNavigationBarItem(icon: Icon(Icons.local_activity,), label: "Activity"),
           BottomNavigationBarItem(icon: Icon(Icons.monetization_on_rounded), label: "Finance"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.support), label: "Support"),

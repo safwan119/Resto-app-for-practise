@@ -6,7 +6,6 @@ import 'package:my_first_proj/bkTabl.dart';
 import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/review.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
-
 import 'drawer/drawer.dart';
 class FoodMenu2 {
   double? price;
@@ -108,12 +107,16 @@ class _SepearImagState extends State<SepearImag> {
                 IconButton(onPressed: (){
                   Navigator.pop(context);
                 }, icon: Icon(Icons.arrow_back_outlined)),
-                Text(
-                  "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -183,12 +186,13 @@ class _SepearImagState extends State<SepearImag> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
+                                  horizontal: 18,
                                 ),
                                 child: Text(
-                                  "McDonald's – Seri Austin DT",
+                                  "McDonald's – Seri Austin DT",overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -436,6 +440,9 @@ class CountryFood extends StatelessWidget {
         onPressed: () {
           if(title=="Asian"){
             Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuScreen()));
+          }
+          else if (title=="Chinese"){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPicture()));
           }
         },
         child: Center(child: Text(title!)),

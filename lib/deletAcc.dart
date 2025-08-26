@@ -78,7 +78,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ),
             Container(
-              width: 150,
+              width: 170,
               height: 25,
               decoration: BoxDecoration(
                 color: Colors.black,
@@ -121,7 +121,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Align(alignment: Alignment.centerLeft,
-                  child: Text("Enter your password",style: TextStyle(color: Colors.black,fontSize: 39,fontWeight: FontWeight.bold),)),
+                  child: Text("Enter your password",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.bold),)),
             ),
             SizedBox(height: 30,),
             Padding(

@@ -35,7 +35,7 @@ class _ReviewProductsState extends State<ReviewProducts> {
               ),
             ),
             Container(
-              width: 150,
+              width: 170,
               height: 25,
               decoration: BoxDecoration(
                 color: Colors.black,

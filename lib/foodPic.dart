@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/adreDeta.dart';
 import 'package:my_first_proj/seperateImagfood.dart';
+import 'package:my_first_proj/tabBar.dart';
 
 import 'bottom_navigator/bottom_navigator_bar.dart';
 import 'drawer/drawer.dart';
@@ -179,35 +181,41 @@ class FoodMenu extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    Text(
-                      title!,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
+                      Text(
+                        title!,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),overflow: TextOverflow.visible,
+                        softWrap: true,
+                        maxLines: 2,
                       ),
-                    ),
-                    Text(subtitle!),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Icon(Icons.star, color: Colors.amber),
-                        SizedBox(width: 12),
-                        Text(
-                          "4.9",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+                      Text(subtitle!,overflow: TextOverflow.visible,softWrap: true,
+                        maxLines: 2,),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Icon(Icons.star, color: Colors.amber),
+                          SizedBox(width: 12),
+                          Text(
+                            "4.9",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(". Halal"),
-                      ],
-                    ),
-                  ],
+                          Text(". Halal"),
+                        ],
+                      ),
+                      SizedBox(height: 10,)
+                    ],
+                  ),
                 ),
               ],
             ),

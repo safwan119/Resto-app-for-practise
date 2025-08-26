@@ -15,34 +15,44 @@ class _TabBarState extends State<TabBar1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 90,
         title: Column(
           children: [
-            Text(
-              "RESTO.COM",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              width: 150,
-              height: 25,
-              // color: Colors.black,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Center(
-                child: Text(
-                  "MAKE FLASH ORDER",
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.arrow_back_outlined)),
+                Text(
+                  "RESTO.COM",
                   style: TextStyle(
-                    color: Colors.amber,
-                    // backgroundColor: Colors.black,
-                    fontSize: 14,
+                    color: Colors.black,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Container(
+                width: 170,
+                height: 25,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Center(
+                  child: Text(
+                    "MAKE FLASH ORDER",
+                    style: TextStyle(
+                      color: Colors.amber,
+                      // backgroundColor: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
               ),

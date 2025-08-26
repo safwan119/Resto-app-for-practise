@@ -90,7 +90,6 @@ class _MenuScreenState extends State<MenuScreen> {
       ).toList();
     });
   }
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -105,10 +104,12 @@ class _MenuScreenState extends State<MenuScreen> {
                 IconButton(onPressed: (){
                   Navigator.pop(context);
                 }, icon: Icon(Icons.arrow_back_outlined)),
-                Text("Mc Donald's - Seri Austin DT", style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22),overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Text("Mc Donald's - Seri Austin DT", style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

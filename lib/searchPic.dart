@@ -67,18 +67,16 @@ class _SearchPictureState extends State<SearchPicture> {
                 IconButton(onPressed: (){
                   Navigator.pop(context);
                 }, icon: Icon(Icons.arrow_back_outlined)),
-                Column(
-                  children: [
-                    Text(
-                      "Mcdonald's-Seri Austin DT",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Text(
+                        "Mcdonald's-Seri Austin DT",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ],
-                ),
               ],
             ),
             Padding(

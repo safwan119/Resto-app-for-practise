@@ -52,23 +52,17 @@ class _ForgPassState extends State<ForgPass> {
               ),
             ),
             Container(
-              width: 150,
+              width: 170,
               height: 25,
-              // color: Colors.black,
               decoration: BoxDecoration(
                 color: Colors.black,
-                borderRadius: BorderRadius.circular(25), // Half of the height
+                borderRadius: BorderRadius.circular(20),
               ),
-
-              // decoration: BoxDecoration(
-              //
-              //   ),
               child: Center(
                 child: Text(
                   "MAKE FLASH ORDER",
                   style: TextStyle(
                     color: Colors.yellow,
-                    // backgroundColor: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,

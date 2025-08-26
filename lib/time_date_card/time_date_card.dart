@@ -6,7 +6,6 @@ class TimeDateCard extends StatefulWidget {
   @override
   State<TimeDateCard> createState() => _TimeDateCardState();
 }
-
 class _TimeDateCardState extends State<TimeDateCard> {
   String guestcount1 = "1";
   var guestno1 = TextEditingController();
@@ -15,7 +14,6 @@ class _TimeDateCardState extends State<TimeDateCard> {
   @override
   Widget build(BuildContext context) {
     return  Card(
-      elevation: 6,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -23,23 +21,26 @@ class _TimeDateCardState extends State<TimeDateCard> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Expanded(
+            Flexible(
+              flex: 1,
               child: Container(
                 child: Row(
                   children: [
+
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Guests",
                           style: TextStyle(fontSize: 12),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            "$guestcount1 Guests",
-                            style: TextStyle(fontSize: 12),
-                          ),
+                        Text(
+                          "$guestcount1 Guests",
+                          style: TextStyle(fontSize: 9),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ],
                     ),
@@ -89,19 +90,21 @@ class _TimeDateCardState extends State<TimeDateCard> {
             ),
 
             Text("|"),
-            Expanded(
+            Flexible(
+              flex: 1,
               child: Container(
                 child: Row(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Date", style: TextStyle(fontSize: 12)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                              selectedDate == null ? 'SAT,4 AUG' : DateFormat('EEE,d MMM').format(selectedDate!),style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,
-                          ),
+                        Text(
+                            selectedDate == null ? 'SAT,4 AUG' : DateFormat('EEE,d MMM').format(selectedDate!),style: TextStyle(fontSize: 9),overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          softWrap: true,
                         ),
+
                       ],
                     ),
                     IconButton(
@@ -127,19 +130,19 @@ class _TimeDateCardState extends State<TimeDateCard> {
               ),
             ),
             Text("|"),
-            Expanded(
+            Flexible(
+              flex: 1,
               child: Container(
                 child: Row(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Time", style: TextStyle(fontSize: 12)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            selectedtime == null ? '12:00 PM' : DateFormat('hh:mm a').format(DateTime(0,0,0, selectedtime!.hour, selectedtime!.minute)),
-                            style: TextStyle(fontSize: 12),
-                          ),
+                        Text(
+                          selectedtime == null ? '12:00 PM' : DateFormat('hh:mm a').format(DateTime(0,0,0, selectedtime!.hour, selectedtime!.minute)),
+                          style: TextStyle(fontSize: 9),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

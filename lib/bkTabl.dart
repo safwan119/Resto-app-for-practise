@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
-
 class BookTable extends StatefulWidget {
   @override
   State<BookTable> createState() => _BookTableState();
 }
-
 class _BookTableState extends State<BookTable> {
   var itemIndex = 0;
 
@@ -21,12 +19,14 @@ class _BookTableState extends State<BookTable> {
             IconButton(onPressed: (){
               Navigator.pop(context);
             }, icon: Icon(Icons.arrow_back_outlined)),
-            Text(
-              "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -110,13 +110,14 @@ class _BookTableState extends State<BookTable> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
+                                    horizontal: 18),
                                 child: Text(
                                   "SUNDAY-TUESDAY",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Spacer(),
@@ -145,19 +146,25 @@ class _BookTableState extends State<BookTable> {
                             color: Colors.black12,
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
-                                child: Text(
-                                  "WEDNESDAY-THURSDAY",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 18),
+                                  child: Text(
+                                    "WEDNESDAY-THURSDAY",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                     softWrap: true,
+                                    maxLines: 1,
                                   ),
                                 ),
                               ),
-                              Spacer(),
+                              // Spacer(),
                               Padding(
                                 padding: const EdgeInsets.only(right: 15),
                                 child: Text(
@@ -186,7 +193,7 @@ class _BookTableState extends State<BookTable> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
+                                    horizontal: 18),
                                 child: Text(
                                   "WEEKENDS",
                                   style: TextStyle(
@@ -232,7 +239,7 @@ class _BookTableState extends State<BookTable> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
+                                    horizontal:18),
                                 child: Text(
                                   "RECEiVE 30% OFF",
                                   style: TextStyle(
@@ -270,7 +277,7 @@ class _BookTableState extends State<BookTable> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
+                                    horizontal: 18),
                                 child: Text(
                                   "RECEiVE 45% OFF",
                                   style: TextStyle(
@@ -308,7 +315,7 @@ class _BookTableState extends State<BookTable> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
+                                    horizontal: 18),
                                 child: Text(
                                   "RECEiVE 50% OFF",
                                   style: TextStyle(

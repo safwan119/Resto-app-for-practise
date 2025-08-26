@@ -79,7 +79,7 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
             Container(
-              width: 150,
+              width: 170,
               height: 25,
               // color: Colors.black,
               decoration: BoxDecoration(

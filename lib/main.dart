@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: SearchPicture(),
+      home: SplashScreen(),
     );
   }
 }
@@ -116,7 +116,7 @@ class _RestoAppState extends State<RestoApp> {
                 ),
                 Container(height: 0),
                 Container(
-                  width: 150,
+                  width: 170,
                   height: 30,
                   decoration: BoxDecoration(
                     color: Colors.black,
