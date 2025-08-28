@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: RestaurantMenuPractise(),
+      home: SplashScreen(),
     );
   }
 }
