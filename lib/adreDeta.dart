@@ -22,7 +22,6 @@ class _AdresDetailState extends State<AdresDetail> {
   var addressController = TextEditingController();
   User? user = FirebaseAuth.instance.currentUser;
   String? id;
-
   @override
   void initState() {
     super.initState();
@@ -302,29 +301,80 @@ class _AdresDetailState extends State<AdresDetail> {
                       loading = true;
                     });
                     if (id != null) {
-                      dbRef
-                          .child(id!)
-                          .update({
+                      dbRef.child(id!).once().then((snapshot) async {
+
+                        final data = snapshot.snapshot.value as Map?;
+                        if (data != null && data.isNotEmpty) {
+                       await   dbRef.child(id!).update({
                             "Full name": Fullname.text,
                             "Email address": emailAddressController.text,
                             "Phone number": phoneNoController.text,
                             "Address": addressController.text,
-                          })
-                          .then((value) {
+                          }).then((value) {
                             setState(() {
                               loading = false;
                             });
-                            Utills().toastmessage("Your detail updated");
-                          })
-                          .onError((error, stackTrace) {
+                            Utills().toastmessage("Your details updated");
+                          }).onError((error, stackTrace) {
                             Utills().toastmessage(error.toString());
                             setState(() {
                               loading = false;
                             });
                           });
-                    } else {
+                          print("Saving Full Name: ${Fullname.text}");
+                          print("Saving Email: ${emailAddressController.text}");
+                          print("Saving Phone: ${phoneNoController.text}");
+                          print("Saving Address: ${addressController.text}");
+                        }
+
+                          // Set new data since it doesn't exist
+                        await  dbRef.child(id!).set({
+                            "Full name": Fullname.text,
+                            "Email address": emailAddressController.text,
+                            "Phone number": phoneNoController.text,
+                            "Address": addressController.text,
+                          }).then((value) {
+                            setState(() {
+                              loading = false;
+                            });
+                            Utills().toastmessage("Your details set");
+                          }).onError((error, stackTrace) {
+                            Utills().toastmessage(error.toString());
+                            setState(() {
+                              loading = false;
+                            });
+                          });
+
+                      });
+                    }
+                    else {
                       print("Can't save any data because no User is logged in");
                     }
+
+                    // if (id != null) {
+                    //   dbRef
+                    //       .child(id!)
+                    //       .update({
+                    //         "Full name": Fullname.text,
+                    //         "Email address": emailAddressController.text,
+                    //         "Phone number": phoneNoController.text,
+                    //         "Address": addressController.text,
+                    //       })
+                    //       .then((value) {
+                    //         setState(() {
+                    //           loading = false;
+                    //         });
+                    //         Utills().toastmessage("Your detail updated");
+                    //       })
+                    //       .onError((error, stackTrace) {
+                    //         Utills().toastmessage(error.toString());
+                    //         setState(() {
+                    //           loading = false;
+                    //         });
+                    //       });
+                    // } else {
+                    //   print("Can't save any data because no User is logged in");
+                    // }
                   }
                 },
               ),
