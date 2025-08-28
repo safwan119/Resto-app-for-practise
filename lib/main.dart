@@ -8,7 +8,6 @@ import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/resPass.dart';
 import 'package:my_first_proj/forPass.dart';
 import 'package:my_first_proj/newPass.dart';
-import 'package:my_first_proj/drawer.dart';
 import 'package:my_first_proj/adreDeta.dart';
 import 'package:my_first_proj/searBAr.dart';
 import 'package:my_first_proj/butNaviBar.dart';
