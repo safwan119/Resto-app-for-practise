@@ -6,14 +6,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_first_proj/cloudinary_sevice/cloudinary.dart';
 import 'package:my_first_proj/rounded_button/rounded_button.dart';
 import 'package:my_first_proj/utill/utills.dart';
-class AddingFirestoreDatabase extends StatefulWidget {
-  const AddingFirestoreDatabase({super.key});
+class RestaurantFirebaseDatabase extends StatefulWidget {
+  const RestaurantFirebaseDatabase({super.key});
 
   @override
-  State<AddingFirestoreDatabase> createState() => _AddingFirestoreDatabaseState();
+  State<RestaurantFirebaseDatabase> createState() => _RestaurantFirebaseDatabaseState();
 }
 
-class _AddingFirestoreDatabaseState extends State<AddingFirestoreDatabase> {
+class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase> {
   bool loading =false;
   final titleController=TextEditingController();
   final subtitleController=TextEditingController();
