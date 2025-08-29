@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/foodPic.dart';
 import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/adreDeta.dart';
+import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/utill/utills.dart';
 
@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
       });
       User? user=value.user;
       if(user!=null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPicture()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
       }
       Utills().toastmessage("SignUp successfully");
     }).onError((error,stackTrace){

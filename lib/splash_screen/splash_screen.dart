@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/foodPic.dart';
 import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/seperateImagfood.dart';
