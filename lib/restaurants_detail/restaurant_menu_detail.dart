@@ -5,16 +5,15 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import '../firestore/adding_firestore_database.dart';
 
-class RestaurantMenuPractise extends StatefulWidget {
-  const RestaurantMenuPractise({super.key});
+class RestaurantMenuDetail extends StatefulWidget {
+  const RestaurantMenuDetail({super.key});
 
   @override
-  State<RestaurantMenuPractise> createState() => _RestaurantMenuPractiseState();
+  State<RestaurantMenuDetail> createState() => _RestaurantMenuPractiseState();
 }
-
-class _RestaurantMenuPractiseState extends State<RestaurantMenuPractise> {
+class _RestaurantMenuPractiseState extends State<RestaurantMenuDetail> {
   final dbRef = FirebaseDatabase.instance.ref("Restaurant");
-  final search = TextEditingController();
+  final Search = TextEditingController();
   List<dynamic> originalList = [];
   List<dynamic> filteredList = [];
   bool _initialized = false;
@@ -36,19 +35,39 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuPractise> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 120,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: Icon(Icons.arrow_back_outlined),
                 ),
-                Text("Restaurant Menu"),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Hello,Aiman",
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    Text(
+                      "Let's Make a Flash Order",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
+            SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Container(
@@ -69,7 +88,7 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuPractise> {
         ),
         backgroundColor: Colors.amber,
       ),
-      body: StreamBuilder<DatabaseEvent>(
+      body: StreamBuilder(
         stream: dbRef.onValue,
         builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -117,7 +136,7 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuPractise> {
                                     errorBuilder: (context, error, stackTrace) {
                                       return Center(
                                         child: Text('Image not found'),
-                                      ); // Display if image fails to load
+                                      );
                                     },
                                   ),
                                 ),
@@ -176,7 +195,28 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuPractise> {
                     );
                   },
                 )
-              : Container(child: Center(child: Text("No data found")));
+              : Container(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.sentiment_dissatisfied_rounded, size: 50),
+                        Text(
+                          "We couldn't found any result",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                        Text(
+                          "Try for different search keyword or look for your\n favorite dish at another restaurant",
+                        ),
+                      ],
+                    ),
+                  ),
+                );
         },
       ),
       floatingActionButton: FloatingActionButton(
