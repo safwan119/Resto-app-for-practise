@@ -25,7 +25,8 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   final FoodController = TextEditingController();
   String srch = "";
-  String flavour="original";
+  String? SelectedFlavour;
+  String? SelectedSpices;
   List<Map<String, dynamic>> titleList = [
     {"title": "Asian"},
     {"title": "Western"},
@@ -290,28 +291,29 @@ class _MenuScreenState extends State<MenuScreen> {
               RadioListTile(
                   activeColor: Colors.blue,
                   title: Text("Original"),
-                  value: "original", groupValue: flavour
+                  value: "original",
+                  groupValue: SelectedFlavour
                   , onChanged: (value){
                 setState(() {
-                  flavour=value.toString();
+                  SelectedFlavour=value;
                 });
               }),
               RadioListTile(
                   activeColor: Colors.blue,
                   title: Text("Medium"),
-                  value: "original", groupValue: null
+                  value: "Medium", groupValue: SelectedFlavour
                   , onChanged: (value){
                 setState(() {
-                  flavour=value.toString();
+                  SelectedFlavour=value;
                 });
               }),
               RadioListTile(
                   activeColor: Colors.blue,
                   title: Text("Mix(Original and Spicy only)"),
-                  value: "original", groupValue: null
+                  value: "Mix", groupValue: SelectedFlavour
                   , onChanged: (value){
                 setState(() {
-                  flavour=value.toString();
+                  SelectedFlavour=value;
                 });
               }),
               SizedBox(height: 20,),
@@ -321,33 +323,42 @@ class _MenuScreenState extends State<MenuScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text("Spices",style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),)),
               ),
-              RadioListTile(
-                  activeColor: Colors.blue,
-                  title: Text("Spicy"),
-                  value: "original", groupValue: flavour
-                  , onChanged: (value){
-                setState(() {
-                  flavour=value.toString();
-                });
-              }),
-              RadioListTile(
+              RadioListTile<String>(
+                activeColor: Colors.blue,
+                title: Text("Spicy"),
+                value: "spicy",
+                toggleable: true,
+                groupValue: SelectedSpices,
+                onChanged: (value) {
+                  setState(() {
+                    SelectedSpices = value;
+                  });
+                },
+              ),
+              RadioListTile<String>(
                   activeColor: Colors.blue,
                   title: Text("Spicier"),
-                  value: "original", groupValue: null
+                  value: "Spicier",
+                  toggleable: true,
+                  groupValue: SelectedSpices
                   , onChanged: (value){
                 setState(() {
-                  flavour=value.toString();
+                  SelectedSpices=value;
                 });
-              }),
+              }
+              ),
               RadioListTile(
                   activeColor: Colors.blue,
                   title: Text("Extra Spicy"),
-                  value: "original", groupValue: null
+                  value: "Extra Spicy",
+                  toggleable: true,
+                  groupValue: SelectedSpices
                   , onChanged: (value){
                 setState(() {
-                  flavour=value.toString();
+                  SelectedSpices=value;
                 });
-              }),
+              }
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Card(
