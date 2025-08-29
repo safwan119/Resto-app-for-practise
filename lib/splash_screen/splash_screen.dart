@@ -7,6 +7,7 @@ import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/seperateImagfood.dart';
 
 import '../forPass.dart';
+import '../restaurants_detail/restaurant_menu_detail.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(Duration.zero, () {
       if (user != null) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => FoodPicture()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => RestaurantMenuDetail()));
       } else {
         Navigator.push(context, MaterialPageRoute(builder: (_) => RestoApp()));
       }
