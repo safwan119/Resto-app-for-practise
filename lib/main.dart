@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_first_proj/asian_food_menu/asian_menu.dart';
-import 'package:my_first_proj/practise/restaurant_menu_practise.dart';
+import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/resPass.dart';
 import 'package:my_first_proj/forPass.dart';
@@ -11,7 +11,6 @@ import 'package:my_first_proj/newPass.dart';
 import 'package:my_first_proj/adreDeta.dart';
 import 'package:my_first_proj/searBAr.dart';
 import 'package:my_first_proj/butNaviBar.dart';
-import 'package:my_first_proj/foodPic.dart';
 import 'package:my_first_proj/seperateImagfood.dart';
 import 'package:my_first_proj/bkTabl.dart';
 import 'package:my_first_proj/searchPic.dart';
@@ -46,7 +45,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: SplashScreen(),
+      home: RestaurantMenuDetail(),
     );
   }
 }
@@ -78,7 +77,7 @@ class _RestoAppState extends State<RestoApp> {
           });
           User? user=value.user;
           if(user!=null){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodPicture()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
           }
           Utills().toastmessage("Login Successfully");
         })
