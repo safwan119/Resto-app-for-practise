@@ -29,7 +29,6 @@ class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase>
         image=null;
         ImageUrl=null;
         image=File(imagePicker.path);
-        UploadImages();
       }
     });
   }
@@ -49,7 +48,7 @@ class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Adding Firestore Database"),
+        title: Text("Adding Firebase Database"),
         backgroundColor: Colors.amber,
       ),
       body: SingleChildScrollView(
@@ -109,8 +108,9 @@ class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase>
                 setState(() {
                   loading=true;
                 });
+              await  UploadImages();
                 String id=DateTime.now().millisecondsSinceEpoch.toString();
-               await FirebaseDb.child(id).set({
+                FirebaseDb.child(id).set({
                   "title":titleController.text.toString(),
                   "subtitle":subtitleController.text.toString(),
                     "halalOrNonHalal":halaHaramController.text.toString(),
