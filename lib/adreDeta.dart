@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer2.dart';
 import 'package:my_first_proj/utill/utills.dart';
+
 class AdresDetail extends StatefulWidget {
   const AdresDetail({super.key});
+
   @override
   State<AdresDetail> createState() => _AdresDetailState();
 }
@@ -14,14 +16,15 @@ class _AdresDetailState extends State<AdresDetail> {
   final dbRef = FirebaseDatabase.instance.ref("UserDetail");
   var itemIndex = 0;
   bool loading = false;
-  bool isloading = false;
+  bool isLoading = false;
   final formKey = GlobalKey<FormState>();
-  var Fullname = TextEditingController();
+  var fullNameController = TextEditingController();
   var emailAddressController = TextEditingController();
   var phoneNoController = TextEditingController();
   var addressController = TextEditingController();
   User? user = FirebaseAuth.instance.currentUser;
   String? id;
+
   @override
   void initState() {
     super.initState();
@@ -31,9 +34,9 @@ class _AdresDetailState extends State<AdresDetail> {
           .child(id!)
           .once()
           .then((snapshot) {
-            final data = snapshot.snapshot.value as Map;
+            final data = snapshot.snapshot.value as Map?;
             if (data != null) {
-              Fullname.text = data["Full name"] ?? "";
+              fullNameController.text = data["Full name"] ?? "";
               emailAddressController.text = data["Email address"] ?? "";
               phoneNoController.text = data["Phone number"] ?? "";
               addressController.text = data["Address"] ?? "";
@@ -48,7 +51,7 @@ class _AdresDetailState extends State<AdresDetail> {
   }
 
   void dispose() {
-    Fullname.dispose();
+    fullNameController.dispose();
     emailAddressController.dispose();
     phoneNoController.dispose();
     addressController.dispose();
@@ -123,7 +126,7 @@ class _AdresDetailState extends State<AdresDetail> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        controller: Fullname,
+                        controller: fullNameController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Required field";
@@ -302,79 +305,53 @@ class _AdresDetailState extends State<AdresDetail> {
                     });
                     if (id != null) {
                       dbRef.child(id!).once().then((snapshot) async {
-
                         final data = snapshot.snapshot.value as Map?;
                         if (data != null && data.isNotEmpty) {
-                       await   dbRef.child(id!).update({
-                            "Full name": Fullname.text,
-                            "Email address": emailAddressController.text,
-                            "Phone number": phoneNoController.text,
-                            "Address": addressController.text,
-                          }).then((value) {
-                            setState(() {
-                              loading = false;
-                            });
-                            Utills().toastmessage("Your details updated");
-                          }).onError((error, stackTrace) {
-                            Utills().toastmessage(error.toString());
-                            setState(() {
-                              loading = false;
-                            });
-                          });
-                          print("Saving Full Name: ${Fullname.text}");
-                          print("Saving Email: ${emailAddressController.text}");
-                          print("Saving Phone: ${phoneNoController.text}");
-                          print("Saving Address: ${addressController.text}");
+                          await dbRef
+                              .child(id!)
+                              .update({
+                                "Full name": fullNameController.text,
+                                "Email address": emailAddressController.text,
+                                "Phone number": phoneNoController.text,
+                                "Address": addressController.text,
+                              })
+                              .then((value) {
+                                setState(() {
+                                  loading = false;
+                                });
+                                Utills().toastmessage("Your details updated");
+                              })
+                              .onError((error, stackTrace) {
+                                Utills().toastmessage(error.toString());
+                                setState(() {
+                                  loading = false;
+                                });
+                              });
                         }
-
-                          // Set new data since it doesn't exist
-                        await  dbRef.child(id!).set({
-                            "Full name": Fullname.text,
-                            "Email address": emailAddressController.text,
-                            "Phone number": phoneNoController.text,
-                            "Address": addressController.text,
-                          }).then((value) {
-                            setState(() {
-                              loading = false;
+                        await dbRef
+                            .child(id!)
+                            .set({
+                              "Full name": fullNameController.text,
+                              "Email address": emailAddressController.text,
+                              "Phone number": phoneNoController.text,
+                              "Address": addressController.text,
+                            })
+                            .then((value) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Utills().toastmessage("Your details set");
+                            })
+                            .onError((error, stackTrace) {
+                              Utills().toastmessage(error.toString());
+                              setState(() {
+                                loading = false;
+                              });
                             });
-                            Utills().toastmessage("Your details set");
-                          }).onError((error, stackTrace) {
-                            Utills().toastmessage(error.toString());
-                            setState(() {
-                              loading = false;
-                            });
-                          });
-
                       });
-                    }
-                    else {
+                    } else {
                       print("Can't save any data because no User is logged in");
                     }
-
-                    // if (id != null) {
-                    //   dbRef
-                    //       .child(id!)
-                    //       .update({
-                    //         "Full name": Fullname.text,
-                    //         "Email address": emailAddressController.text,
-                    //         "Phone number": phoneNoController.text,
-                    //         "Address": addressController.text,
-                    //       })
-                    //       .then((value) {
-                    //         setState(() {
-                    //           loading = false;
-                    //         });
-                    //         Utills().toastmessage("Your detail updated");
-                    //       })
-                    //       .onError((error, stackTrace) {
-                    //         Utills().toastmessage(error.toString());
-                    //         setState(() {
-                    //           loading = false;
-                    //         });
-                    //       });
-                    // } else {
-                    //   print("Can't save any data because no User is logged in");
-                    // }
                   }
                 },
               ),
@@ -390,7 +367,7 @@ class _AdresDetailState extends State<AdresDetail> {
                     ),
 
                     child: Center(
-                      child: isloading
+                      child: isLoading
                           ? CircularProgressIndicator(
                               strokeWidth: 4,
                               color: Colors.white,
@@ -408,25 +385,25 @@ class _AdresDetailState extends State<AdresDetail> {
                 ),
                 onTap: () {
                   setState(() {
-                    isloading = true;
+                    isLoading = true;
                   });
                   dbRef
                       .child(id!)
                       .remove()
                       .then((value) {
                         setState(() {
-                          isloading = false;
+                          isLoading = false;
                         });
                         Utills().toastmessage("Your detail removed");
                         emailAddressController.clear();
-                        Fullname.clear();
+                        fullNameController.clear();
                         addressController.clear();
                         phoneNoController.clear();
                       })
                       .onError((error, stackTrace) {
                         Utills().toastmessage(error.toString());
                         setState(() {
-                          isloading = false;
+                          isLoading = false;
                         });
                       });
                 },
