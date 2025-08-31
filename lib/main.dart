@@ -29,6 +29,7 @@ import 'package:my_first_proj/topUp1.dart';
 import 'package:my_first_proj/topUp2.dart';
 import 'package:my_first_proj/deletAcc.dart';
 import 'firebase_options.dart';
+import 'menu/menu.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: RestaurantMenuDetail(),
+      home:SepearImag(),
     );
   }
 }
