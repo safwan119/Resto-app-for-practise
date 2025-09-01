@@ -89,7 +89,7 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuDetail> {
         backgroundColor: Colors.amber,
       ),
       endDrawer: Drawer1(),
-      bottomNavigationBar: BottomNavigatorBar1(),
+      // bottomNavigationBar: BottomNavigatorBar1(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: InkWell(onTap: (){

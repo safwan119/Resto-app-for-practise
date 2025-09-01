@@ -98,7 +98,7 @@ class _AdresDetailState extends State<AdresDetail> {
         backgroundColor: Colors.amber,
       ),
       endDrawer: Drawer2(),
-      bottomNavigationBar: BottomNavigatorBar1(),
+      // bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -17,6 +17,7 @@ class _TimeDateCardState extends State<TimeDateCard> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   final databaseRefer = FirebaseDatabase.instance.ref("Reservation Setting");
+  final databaseReference = FirebaseDatabase.instance.ref("Tables");
   User? user = FirebaseAuth.instance.currentUser;
   String? id;
 
@@ -84,6 +85,23 @@ class _TimeDateCardState extends State<TimeDateCard> {
 
   Future<void> _saveReservation() async {
     if (selectedDate != null && selectedTime != null && id != null) {
+      final tableSnapshot = await databaseReference.once();
+      final data = tableSnapshot.snapshot.value as Map;
+      List list = data.values.toList();
+      int totalTables = list.length;
+      final listData = list[0];
+      int guestPerTable = listData["capacity"] ?? 0;
+      int totalGuest = int.parse(guestCount);
+      int requiredTables = (totalGuest / guestPerTable).ceil();
+      if (requiredTables > totalTables) {
+        Utills().toastmessage("No tables available for this number of guests.");
+        return;
+      }
+      List<String> tablesIds = [];
+      for (var i = 0; i < requiredTables; i++) {
+        tablesIds.add(list[i]["id"]);
+      }
+      String tablesAdded = tablesIds.join(",");
       databaseRefer.child(id!).once().then((snapshot) async {
         final data = snapshot.snapshot.value as Map?;
         if (data != null && data.isNotEmpty) {
@@ -95,6 +113,8 @@ class _TimeDateCardState extends State<TimeDateCard> {
                 'time': DateFormat('hh:mm a').format(
                   DateTime(0, 0, 0, selectedTime!.hour, selectedTime!.minute),
                 ),
+                "tablesAdded": requiredTables,
+                "TableIds": tablesAdded,
               })
               .then((value) {
                 Utills().toastmessage("Reservation Update Successfully");
@@ -111,6 +131,8 @@ class _TimeDateCardState extends State<TimeDateCard> {
                 'time': DateFormat('hh:mm a').format(
                   DateTime(0, 0, 0, selectedTime!.hour, selectedTime!.minute),
                 ),
+                "tablesAdded": requiredTables,
+                "TableIds": tablesAdded,
               })
               .then((value) {
                 Utills().toastmessage("Reservation set Successfully");
@@ -126,38 +148,47 @@ class _TimeDateCardState extends State<TimeDateCard> {
   Future<void> _checkAvailability() async {
     if (selectedDate != null && selectedTime != null) {
       final reservationSnapshot = await databaseRefer.child(id!).once();
-      int totalTables = 5;
-      int guestPerTable = 2;
-      int bookSeats = 0;
-      if (reservationSnapshot.snapshot.value != null) {
-        bookSeats = reservationSnapshot.snapshot.children.length;
-      }
-      int totalCapacity = totalTables * guestPerTable;
-      int availableSeats = totalCapacity - bookSeats;
-      int totalGuest = int.parse(guestCount);
-      if (totalGuest <= availableSeats) {
-        int availableTables = 0;
-        availableTables = (availableSeats / guestPerTable).floor();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              "$availableTables table is available at this selected date time",
-              style: TextStyle(color: Colors.black),
+      final tableSnapshot = await databaseReference.once();
+      final data = tableSnapshot.snapshot.value as Map;
+      List list = data.values.toList();
+      if (data != null && data.isNotEmpty) {
+        int totalTables = list.length;
+        int guestPerTable = 0;
+        if (totalTables > 0) {
+          var specificTableInfo = list[0];
+          guestPerTable = specificTableInfo['capacity'] ?? 0;
+        }
+        int bookSeats = 0;
+        if (reservationSnapshot.snapshot.value != null) {
+          bookSeats = reservationSnapshot.snapshot.children.length;
+        }
+        int totalCapacity = totalTables * guestPerTable;
+        int availableSeats = totalCapacity - bookSeats;
+        int totalGuest = int.parse(guestCount);
+        if (totalGuest <= availableSeats) {
+          int availableTables = 0;
+          availableTables = (availableSeats / guestPerTable).floor();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "$availableTables table is available at this selected date time",
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.amber,
             ),
-            backgroundColor: Colors.amber,
-          ),
-        );
-        await _saveReservation();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              "Not enough seats available for $totalGuest guests.",
-              style: TextStyle(color: Colors.white),
+          );
+          await _saveReservation();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "Not enough seats available for $totalGuest guests.",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       }
     }
   }

@@ -28,8 +28,9 @@ import 'package:my_first_proj/topUp.dart';
 import 'package:my_first_proj/topUp1.dart';
 import 'package:my_first_proj/topUp2.dart';
 import 'package:my_first_proj/deletAcc.dart';
+import 'bottom_navigator/bottom_navigation.dart';
+import 'firebase_database/table_database_added.dart';
 import 'firebase_options.dart';
-import 'menu/menu.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home:SepearImag(),
+      home:SplashScreen(),
     );
   }
 }
@@ -59,10 +60,10 @@ class RestoApp extends StatefulWidget {
 }
 
 class _RestoAppState extends State<RestoApp> {
-  var email = TextEditingController();
-  var passsword = TextEditingController();
-  var formkey = GlobalKey<FormState>();
-  bool isobsecur = true;
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  bool isObscure= true;
   final auth = FirebaseAuth.instance;
   bool loading = false;
 
@@ -71,7 +72,7 @@ class _RestoAppState extends State<RestoApp> {
       loading = true;
     });
     auth
-        .signInWithEmailAndPassword(email: email.text, password: passsword.text)
+        .signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
         .then((value) {
           setState(() {
             loading = false;
@@ -136,7 +137,7 @@ class _RestoAppState extends State<RestoApp> {
                 ),
                 SizedBox(height: 20),
                 Form(
-                  key: formkey,
+                  key: formKey,
                   child: Column(
                     children: [
                       Align(
@@ -172,7 +173,7 @@ class _RestoAppState extends State<RestoApp> {
                                 return null;
                               }
                             },
-                            controller: email,
+                            controller: emailController,
                             decoration: InputDecoration(
                               hintText: "hello@example.com",
                               border: OutlineInputBorder(
@@ -219,17 +220,17 @@ class _RestoAppState extends State<RestoApp> {
                                 return null;
                               }
                             },
-                            controller: passsword,
-                            obscureText: isobsecur,
+                            controller: passwordController,
+                            obscureText: isObscure,
                             decoration: InputDecoration(
                               hintText: "Your Password",
                               suffixIcon: IconButton(
-                                icon: isobsecur
+                                icon: isObscure
                                     ? Icon(Icons.visibility_off)
                                     : Icon(Icons.visibility),
                                 onPressed: () {
                                   setState(() {
-                                    isobsecur = !isobsecur;
+                                    isObscure = !isObscure;
                                   });
                                 },
                               ),
@@ -269,7 +270,7 @@ class _RestoAppState extends State<RestoApp> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      if (formkey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         Login();
                       }
                     },

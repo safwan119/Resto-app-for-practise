@@ -102,7 +102,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
       ),
 
       endDrawer: Drawer1(),
-      bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
         child: Column(
           children: [

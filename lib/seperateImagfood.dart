@@ -8,9 +8,6 @@ import 'package:my_first_proj/searchPic.dart';
 import 'package:my_first_proj/review.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
 import 'drawer/drawer.dart';
-import 'firebase_database/food_menu_database.dart';
-import 'menu/menu.dart';
-
 class FoodMenu2 {
   double? price;
   String? title;

@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/main.dart';
 import '../deletAcc.dart';
+import '../restaurants_detail/restaurant_menu_detail.dart';
 import '../utill/utills.dart';
 
 class Drawer2 extends StatefulWidget {
@@ -52,7 +53,12 @@ class _Drawer2State extends State<Drawer2> {
               stream: DatabaseRef.child(id!).onValue,
               builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator(strokeWidth: 6,color: Colors.white,));
+                }
+                if (snapshot.data!.snapshot.children.isEmpty) {
+                  return Center(
+                    child: Text("No data available for User"),
+                  );
                 }
                 final data = Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map,
@@ -116,7 +122,9 @@ class _Drawer2State extends State<Drawer2> {
                         ),
                       ),
                       trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
+                      },
                     ),
                     ListTile(
                       title: Text(

@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/utill/utills.dart';
 import '../adreDeta.dart';
 import '../deletAcc.dart';
 import '../main.dart';
-
 class Drawer1 extends StatefulWidget {
   @override
   State<Drawer1> createState() => _Drawer1State();
@@ -66,7 +66,9 @@ class _Drawer1State extends State<Drawer1> {
                   ),
                 ),
                 trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
+                },
               ),
               ListTile(
                 title: Text(
@@ -89,7 +91,7 @@ class _Drawer1State extends State<Drawer1> {
                 ),
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  DeleteAccount();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteAccount()));
                 },
               ),
               ListTile(

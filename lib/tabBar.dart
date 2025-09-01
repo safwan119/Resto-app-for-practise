@@ -19,25 +19,18 @@ class _TabBarState extends State<TabBar1> {
         toolbarHeight: 90,
         title: Column(
           children: [
-            Row(
-              children: [
-                IconButton(onPressed: (){
-                  Navigator.pop(context);
-                }, icon: Icon(Icons.arrow_back_outlined)),
-                Text(
-                  "RESTO.COM",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              "RESTO.COM",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(left: 6),
               child: Container(
-                width: 170,
+                width: 160,
                 height: 25,
                 decoration: BoxDecoration(
                   color: Colors.black,
@@ -62,7 +55,6 @@ class _TabBarState extends State<TabBar1> {
         backgroundColor: Colors.amber,
       ),
       endDrawer: Drawer1(),
-      bottomNavigationBar: BottomNavigatorBar1(),
       body: DefaultTabController(
         length: 2,
         child: Column(

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/adreDeta.dart';
-import 'package:my_first_proj/tabBar.dart';
-import '../restaurants_detail/restaurant_menu_detail.dart';
-
 class BottomNavigatorBar1 extends StatefulWidget {
   const BottomNavigatorBar1({super.key});
 
@@ -21,15 +17,6 @@ class _BottomNavigatorBar1State extends State<BottomNavigatorBar1> {
             setState(() {
               itemIndex = index;
             });
-            if(itemIndex==0){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
-            }
-            else if(itemIndex==1){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>TabBar1()));
-            }
-            else  if(itemIndex==3){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
-            }
         },
       currentIndex: itemIndex,
         items: [
