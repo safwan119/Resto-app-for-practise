@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/deleteAccount.dart';
 import 'package:my_first_proj/main.dart';
-import '../deletAcc.dart';
 import '../restaurants_detail/restaurant_menu_detail.dart';
-import '../utill/utills.dart';
+import '../util/utills.dart';
 
 class Drawer2 extends StatefulWidget {
   const Drawer2({super.key});
@@ -27,10 +27,10 @@ class _Drawer2State extends State<Drawer2> {
             context,
             MaterialPageRoute(builder: (context) => RestoApp()),
           );
-          Utills().toastmessage("LogOut Successfully");
+          Utils().toastMessage("LogOut Successfully");
         })
         .onError((error, stackTrace) {
-          Utills().toastmessage(error.toString());
+          Utils().toastMessage(error.toString());
         });
   }
 

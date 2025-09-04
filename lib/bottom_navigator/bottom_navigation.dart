@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/adreDeta.dart';
+import 'package:my_first_proj/addressDetail.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
-import 'package:my_first_proj/tabBar.dart';
+import 'package:my_first_proj/tab_bar.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
 

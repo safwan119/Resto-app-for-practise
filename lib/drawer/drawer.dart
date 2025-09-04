@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/deleteAccount.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
-import 'package:my_first_proj/utill/utills.dart';
-import '../adreDeta.dart';
-import '../deletAcc.dart';
+import 'package:my_first_proj/util/utills.dart';
+import '../addressDetail.dart';
 import '../main.dart';
 class Drawer1 extends StatefulWidget {
   @override
@@ -16,9 +16,9 @@ class _Drawer1State extends State<Drawer1> {
     auth.signOut().then((_) {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>RestoApp()));
 
-      Utills().toastmessage("LogOut Successfully");
+      Utils().toastMessage("LogOut Successfully");
     }).onError((error,stackTrace) {
-      Utills().toastmessage(error.toString());
+      Utils().toastMessage(error.toString());
     });
   }
 

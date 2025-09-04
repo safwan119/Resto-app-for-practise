@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer2.dart';
-import 'package:my_first_proj/utill/utills.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 class AdresDetail extends StatefulWidget {
   const AdresDetail({super.key});
@@ -43,7 +43,7 @@ class _AdresDetailState extends State<AdresDetail> {
             }
           })
           .onError((error, stackTrace) {
-            Utills().toastmessage(error.toString());
+            Utils().toastMessage(error.toString());
           });
     } else {
       print("No User login now");
@@ -319,10 +319,10 @@ class _AdresDetailState extends State<AdresDetail> {
                                 setState(() {
                                   loading = false;
                                 });
-                                Utills().toastmessage("Your details updated");
+                                Utils().toastMessage("Your details updated");
                               })
                               .onError((error, stackTrace) {
-                                Utills().toastmessage(error.toString());
+                                Utils().toastMessage(error.toString());
                                 setState(() {
                                   loading = false;
                                 });
@@ -340,10 +340,10 @@ class _AdresDetailState extends State<AdresDetail> {
                               setState(() {
                                 loading = false;
                               });
-                              Utills().toastmessage("Your details set");
+                              Utils().toastMessage("Your details set");
                             })
                             .onError((error, stackTrace) {
-                              Utills().toastmessage(error.toString());
+                              Utils().toastMessage(error.toString());
                               setState(() {
                                 loading = false;
                               });
@@ -394,14 +394,14 @@ class _AdresDetailState extends State<AdresDetail> {
                         setState(() {
                           isLoading = false;
                         });
-                        Utills().toastmessage("Your detail removed");
+                        Utils().toastMessage("Your detail removed");
                         emailAddressController.clear();
                         fullNameController.clear();
                         addressController.clear();
                         phoneNoController.clear();
                       })
                       .onError((error, stackTrace) {
-                        Utills().toastmessage(error.toString());
+                        Utils().toastMessage(error.toString());
                         setState(() {
                           isLoading = false;
                         });

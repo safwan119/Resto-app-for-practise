@@ -1,10 +1,10 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 
-class Utills{
-  void toastmessage(String meassage){
+class Utils{
+  void toastMessage(String message){
     Fluttertoast.showToast(
-        msg: meassage,
+        msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,

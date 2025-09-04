@@ -2,68 +2,76 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/main.dart';
-import 'package:my_first_proj/adreDeta.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
-import 'package:my_first_proj/searchPic.dart';
-import 'package:my_first_proj/utill/utills.dart';
-
-import 'drawer/drawer.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
   @override
   State<SignUp> createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  @override
-  
-  var email = TextEditingController();
-  var Password = TextEditingController();
-  final formkey=GlobalKey<FormState>();
-  bool loading=false;
-  final auth=FirebaseAuth.instance;
-  var ConfirmPassword = TextEditingController();
-  bool isobsecure=true;
-  final firebaseDatabase=FirebaseDatabase.instance.ref("User SignUp detail");
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  bool loading = false;
+  final auth = FirebaseAuth.instance;
+  var confirmPasswordController = TextEditingController();
+  bool isObscure = true;
+  final firebaseDatabase = FirebaseDatabase.instance.ref("User SignUp detail");
   String? id;
-  @override
-  void SignUp2()async{
+
+  void signUp2() async {
     setState(() {
-      loading=true;
+      loading = true;
     });
-    auth.createUserWithEmailAndPassword(email: email.text, password: Password.text).then((value){
-      setState(() {
-        loading=false;
-      });
-      User? user=value.user;
-      if(user!=null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
-      }
-      Utills().toastmessage("SignUp successfully");
-    }).onError((error,stackTrace){
-      Utills().toastmessage(error.toString());
-      setState(() {
-        loading=false;
-      });
-    });
+    auth
+        .createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        )
+        .then((value) {
+          setState(() {
+            loading = false;
+          });
+          User? user = value.user;
+          if (user != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RestaurantMenuDetail()),
+            );
+          }
+          Utils().toastMessage("SignUp successfully");
+        })
+        .onError((error, stackTrace) {
+          Utils().toastMessage(error.toString());
+          setState(() {
+            loading = false;
+          });
+        });
   }
-  void  ConfirmPassword1(){
-    if(Password.text!=ConfirmPassword.text){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter correct password")));
-    }
-    else{
-      SignUp2();
+
+  void ConfirmPassword1() {
+    if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Enter correct password")));
+    } else {
+      signUp2();
     }
   }
+
   @override
   void dispose() {
-    Password.dispose();
-    email.dispose();
+    passwordController.dispose();
+    emailController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -108,16 +116,18 @@ class _SignUpState extends State<SignUp> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-            Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(),
-              child: IconButton(onPressed: (){
-                Navigator.pop(context);
-        
-              }, icon: Icon(Icons.arrow_back_outlined)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back_outlined),
+                  ),
+                ),
               ),
-            ),),
               SizedBox(height: 30),
               Align(
                 alignment: Alignment.centerLeft,
@@ -136,7 +146,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerLeft,
-        
+
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12),
                   child: Text(
@@ -149,193 +159,220 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              Form(key: formkey,
-                  child: Column(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: email,
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Enter email";
-                      }
-                      else if(!value.contains("@") || !value.contains(".com")){
-                        return "Enter a valid email";
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "hello@example.com",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-        
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-        
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-        
-                  padding: EdgeInsets.only(bottom: 1),
-                ),
-                // SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerLeft,
-        
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Text(
-                      "Password",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: Password,
-                    obscureText: isobsecure,
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Enter password";
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Your Password",
-                      suffixIcon: IconButton(icon:isobsecure? Icon(Icons.visibility_off):Icon(Icons.visibility),onPressed: (){
-                        setState(() {
-                          isobsecure=!isobsecure;
-                        });
-                      },),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-        
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue), // Color when focused
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 7,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: ConfirmPassword,
-                    obscureText: isobsecure,
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Enter password";
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Confirm your Password",
-                      suffixIcon: IconButton(icon:isobsecure? Icon(Icons.visibility_off):Icon(Icons.visibility),onPressed: (){
-                        setState(() {
-                          isobsecure=!isobsecure;
-                        });
-                      },),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-        
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                ),
-              ],)),
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: InkWell(onTap: (){
-                   if(formkey.currentState!.validate()){
-                     ConfirmPassword1();
-                   }
-                 },
-                   child: Container(
-        
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-        
-                      child: Center(
-                        child:loading?CircularProgressIndicator(strokeWidth: 4,color: Colors.white,):Text(
-                          "Create account",
-                          style: TextStyle(color: Colors.white),
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter email";
+                          } else if (!value.contains("@") ||
+                              !value.contains(".com")) {
+                            return "Enter a valid email";
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "hello@example.com",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue),
+                          ),
                         ),
                       ),
                     ),
-                 ),
-               ),
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: RichText(text: TextSpan(
-                   style: TextStyle(color: Colors.black),
-                   children: [
-                     TextSpan(
-                       text: "Already have an account?"
-                     ),
-                     WidgetSpan(child: InkWell(child: Text("Login",style: TextStyle(color: Colors.blue),),
-                     onTap: (){
-                       Navigator.push(context, MaterialPageRoute(builder: (context)=>RestoApp()));
-                     },
-                     ),
-        
-                     )
-                   ]
-                 )),
-               ),
+                    Container(padding: EdgeInsets.only(bottom: 1)),
+                    // SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.centerLeft,
+
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Text(
+                          "Password",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: passwordController,
+                        obscureText: isObscure,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter password";
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Your Password",
+                          suffixIcon: IconButton(
+                            icon: isObscure
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ), // Color when focused
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 7),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: confirmPasswordController,
+                        obscureText: isObscure,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter password";
+                          } else {
+                            return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Confirm your Password",
+                          suffixIcon: IconButton(
+                            icon: isObscure
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      ConfirmPassword1();
+                    }
+                  },
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+
+                    child: Center(
+                      child: loading
+                          ? CircularProgressIndicator(
+                              strokeWidth: 4,
+                              color: Colors.white,
+                            )
+                          : Text(
+                              "Create account",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(text: "Already have an account?"),
+                      WidgetSpan(
+                        child: InkWell(
+                          child: Text(
+                            "Login",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RestoApp(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(height: 50),
-          Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Align(alignment: Alignment.centerLeft,
-            child: RichText(text: TextSpan(
-                style: TextStyle(color: Colors.black),
-                children: [
-                  TextSpan(
-
-                    text:
-                    "Resto.com uses cookies for analytics and personalized Contacts and ads.By using resto.com servises you agree to this use of cookies. ",
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(color: Colors.black),
+                      children: [
+                        TextSpan(
+                          text:
+                              "Resto.com uses cookies for analytics and personalized Contacts and ads.By using resto.com servises you agree to this use of cookies. ",
+                        ),
+                        WidgetSpan(
+                          child: InkWell(
+                            child: Text(
+                              "Learn more ",
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                            onTap: () {},
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  WidgetSpan(child:
-                  InkWell(child: Text("Learn more ",style: TextStyle(color: Colors.blue),),
-                    onTap: (){},
-
-                  ),
-                  )
-                ]
-            )),
-          ),
-        ),
-        
+                ),
+              ),
             ],
           ),
         ),

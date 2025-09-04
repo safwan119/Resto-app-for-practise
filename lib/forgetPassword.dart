@@ -1,11 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/main.dart';
-import 'package:my_first_proj/resPass.dart';
-import 'package:my_first_proj/adreDeta.dart';
-import 'package:my_first_proj/utill/utills.dart';
-
-import 'drawer/drawer.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 class ForgPass extends StatefulWidget {
   const ForgPass({super.key});
@@ -17,9 +13,9 @@ class ForgPass extends StatefulWidget {
 class _ForgPassState extends State<ForgPass> {
   final auth=FirebaseAuth.instance;
   bool loading =false;
-  final formkey=GlobalKey<FormState>();
+  final formKey=GlobalKey<FormState>();
   var email1 = TextEditingController();
-  void ForgetPassword(){
+  void forgetPassword(){
     setState(() {
       loading=true;
     });
@@ -27,9 +23,9 @@ class _ForgPassState extends State<ForgPass> {
       setState(() {
         loading=false;
       });
-      Utills().toastmessage("Email send successfully");
+      Utils().toastMessage("Email send successfully");
     }).onError((error,stackTrace){
-      Utills().toastmessage(error.toString());
+      Utils().toastMessage(error.toString());
       setState(() {
         loading=false;
       });
@@ -74,9 +70,6 @@ class _ForgPassState extends State<ForgPass> {
         ),
         backgroundColor: Colors.amber,
       ),
-     // endDrawer:  Drawer(
-     //
-     // ),
 
       body: Container(
         width: double.infinity,
@@ -128,7 +121,7 @@ class _ForgPassState extends State<ForgPass> {
                 ),
               ),
               // SizedBox(height: 6,),
-              Form(key: formkey,
+              Form(key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
@@ -167,7 +160,6 @@ class _ForgPassState extends State<ForgPass> {
                     child: Container(
                       width: double.infinity,
                       height: 50,
-                      // color: Colors.black,
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(12),
@@ -182,10 +174,8 @@ class _ForgPassState extends State<ForgPass> {
                     ),
                   ),
                  onTap: (){
-
-                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>ResPasCode()));
-                    if(formkey.currentState!.validate()){
-                      ForgetPassword();
+                    if(formKey.currentState!.validate()){
+                      forgetPassword();
                     }
                  },
                ),

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_first_proj/utill/utills.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 class TimeDateCard extends StatefulWidget {
   const TimeDateCard({super.key});
@@ -94,7 +94,7 @@ class _TimeDateCardState extends State<TimeDateCard> {
       int totalGuest = int.parse(guestCount);
       int requiredTables = (totalGuest / guestPerTable).ceil();
       if (requiredTables > totalTables) {
-        Utills().toastmessage("No tables available for this number of guests.");
+        Utils().toastMessage("No tables available for this number of guests.");
         return;
       }
       List<String> tablesIds = [];
@@ -117,10 +117,10 @@ class _TimeDateCardState extends State<TimeDateCard> {
                 "TableIds": tablesAdded,
               })
               .then((value) {
-                Utills().toastmessage("Reservation Update Successfully");
+                Utils().toastMessage("Reservation Update Successfully");
               })
               .onError((error, stackTrace) {
-                Utills().toastmessage(error.toString());
+                Utils().toastMessage(error.toString());
               });
         } else {
           await databaseRefer
@@ -135,10 +135,10 @@ class _TimeDateCardState extends State<TimeDateCard> {
                 "TableIds": tablesAdded,
               })
               .then((value) {
-                Utills().toastmessage("Reservation set Successfully");
+                Utils().toastMessage("Reservation set Successfully");
               })
               .onError((error, stackTrace) {
-                Utills().toastmessage(error.toString());
+                Utils().toastMessage(error.toString());
               });
         }
       });

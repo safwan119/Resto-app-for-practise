@@ -1,12 +1,13 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
 import 'package:my_first_proj/main.dart';
-import 'package:my_first_proj/utill/utills.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 class DeleteAccount extends StatefulWidget{
+  const DeleteAccount({super.key});
+
   @override
   State<DeleteAccount> createState() => _DeleteAccountState();
 }
@@ -17,8 +18,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
   var emailController=TextEditingController();
   final auth=FirebaseAuth.instance;
   User? user;
-  void DeleteAccount1()async{
-    user=await FirebaseAuth.instance.currentUser;
+  void deleteAccount1()async{
+    user=FirebaseAuth.instance.currentUser;
     if(user==null) {
       return;
     }
@@ -43,26 +44,27 @@ class _DeleteAccountState extends State<DeleteAccount> {
 
     }on FirebaseAuthException catch(e){
       if(e.code=="wrong-password"){
-        Utills().toastmessage("Incorrect Password");
+        Utils().toastMessage("Incorrect Password");
       }
       else{
-        Utills().toastmessage("Re_auth failed:${e.message}");
+        Utils().toastMessage("Re_auth failed:${e.message}");
       }
     }
     try{
       await user!.delete();
-      Utills().toastmessage("Account deleted successfully.");
+      Utils().toastMessage("Account deleted successfully.");
       await auth.signOut();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (ctx) => RestoApp()),
       );
     } on FirebaseAuthException catch (e) {
-      Utills().toastmessage("Delete failed: ${e.message}");
+      Utils().toastMessage("Delete failed: ${e.message}");
 
     }
   }
-  Widget build(BuildContext contex){
+  @override
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -185,7 +187,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
         
                     ),
                     onTap: (){
-                DeleteAccount1();
+                deleteAccount1();
                     },
                   ),
                 ),
