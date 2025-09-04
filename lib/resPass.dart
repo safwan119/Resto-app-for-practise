@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/newPass.dart';
-import 'package:my_first_proj/adreDeta.dart';
+import 'package:my_first_proj/new_password.dart';
+import 'package:my_first_proj/addressDetail.dart';
 
 class ResPasCode extends StatefulWidget {
   @override

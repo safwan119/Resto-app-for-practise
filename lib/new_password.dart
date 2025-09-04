@@ -1,6 +1,5 @@
-// import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/adreDeta.dart';
 
 class NewPass extends StatefulWidget {
   const NewPass({super.key});
