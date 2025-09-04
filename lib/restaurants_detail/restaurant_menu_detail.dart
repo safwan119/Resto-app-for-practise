@@ -1,8 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
-import 'package:my_first_proj/seperateImagfood.dart';
+import 'package:my_first_proj/restaurant_food_menu.dart';
 class RestaurantMenuDetail extends StatefulWidget {
   const RestaurantMenuDetail({super.key});
 
@@ -93,7 +92,7 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuDetail> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: InkWell(onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>SepearImag()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantFoodMenu()));
         },
           child: StreamBuilder(
             stream: dbRef.onValue,

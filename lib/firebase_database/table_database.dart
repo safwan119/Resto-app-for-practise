@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:my_first_proj/utill/utills.dart';
+import 'package:my_first_proj/util/utills.dart';
 class TablesServices{
   final dbRef=FirebaseDatabase.instance.ref("Tables");
    Future<void> addTables(String name,int capacity)async{
@@ -9,16 +9,16 @@ class TablesServices{
        "Name":name,
        "capacity":capacity,
      }).then((value){
-       Utills().toastmessage("Added Successfully");
+       Utils().toastMessage("Added Successfully");
      }).onError((error,stackTrace){
-       Utills().toastmessage(error.toString());
+       Utils().toastMessage(error.toString());
      });
    }
    Future<void> deleteTable(String id)async{
      await dbRef.child(id).remove().then((value){
-       Utills().toastmessage("Remove Successfully");
+       Utils().toastMessage("Remove Successfully");
      }).onError((error,stackTrace){
-       Utills().toastmessage(error.toString());
+       Utils().toastMessage(error.toString());
      });
    }
 }

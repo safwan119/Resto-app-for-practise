@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_first_proj/cloudinary_sevice/cloudinary.dart';
 import 'package:my_first_proj/rounded_button/rounded_button.dart';
-import 'package:my_first_proj/utill/utills.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 class FoodMenuDatabase extends StatefulWidget {
   const FoodMenuDatabase({super.key});
@@ -151,8 +151,6 @@ class _FoodMenuDatabaseState extends State<FoodMenuDatabase> {
                   loading = true;
                 });
                 final id = DateTime.now().millisecondsSinceEpoch.toString();
-                print('Saving image URL: $imageUrl');
-                print('Saving image URL: $imageUrl1');
                 databaseReference
                     .child(id)
                     .set({
@@ -168,10 +166,10 @@ class _FoodMenuDatabaseState extends State<FoodMenuDatabase> {
                       setState(() {
                         loading = false;
                       });
-                      Utills().toastmessage("Added Successfully");
+                      Utils().toastMessage("Added Successfully");
                     })
                     .onError((error, stackTrace) {
-                      Utills().toastmessage(error.toString());
+                      Utils().toastMessage(error.toString());
                       setState(() {
                         loading = false;
                       });

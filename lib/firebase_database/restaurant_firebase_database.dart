@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_first_proj/cloudinary_sevice/cloudinary.dart';
 import 'package:my_first_proj/rounded_button/rounded_button.dart';
-import 'package:my_first_proj/utill/utills.dart';
+import 'package:my_first_proj/util/utills.dart';
 class RestaurantFirebaseDatabase extends StatefulWidget {
   const RestaurantFirebaseDatabase({super.key});
 
@@ -18,7 +18,6 @@ class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase>
   final subtitleController=TextEditingController();
   final halaHaramController=TextEditingController();
   final FirebaseDb=FirebaseDatabase.instance.ref("Restaurant");
-  // final firestore=FirebaseFirestore.instance.collection("Restaurant");
   File? image;
   final picker=ImagePicker();
   String? ImageUrl;
@@ -119,9 +118,9 @@ class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase>
                   setState(() {
                     loading=false;
                   });
-                  Utills().toastmessage("FirebaseDatabase Added");
+                  Utils().toastMessage("FirebaseDatabase Added");
                 }).onError((error,stackTrace){
-                  Utills().toastmessage((error.toString()));
+                  Utils().toastMessage((error.toString()));
                   setState(() {
                     loading=false;
                   });
