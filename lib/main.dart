@@ -2,34 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:my_first_proj/asian_food_menu/asian_menu.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/signUp1.dart';
-import 'package:my_first_proj/resPass.dart';
-import 'package:my_first_proj/forPass.dart';
-import 'package:my_first_proj/newPass.dart';
-import 'package:my_first_proj/adreDeta.dart';
-import 'package:my_first_proj/searBAr.dart';
-import 'package:my_first_proj/butNaviBar.dart';
-import 'package:my_first_proj/seperateImagfood.dart';
-import 'package:my_first_proj/bkTabl.dart';
-import 'package:my_first_proj/searchPic.dart';
-import 'package:my_first_proj/review.dart';
-import 'package:my_first_proj/revOrder.dart';
-import 'package:my_first_proj/payment.dart';
-import 'package:my_first_proj/payment1.dart';
-import 'package:my_first_proj/splash_screen/splash_screen.dart';
-import 'package:my_first_proj/tabBar.dart';
-import 'package:my_first_proj/rateRest.dart';
-import 'package:my_first_proj/submRev.dart';
-import 'package:my_first_proj/utill/utills.dart';
-import 'package:my_first_proj/waleBalan.dart';
-import 'package:my_first_proj/topUp.dart';
-import 'package:my_first_proj/topUp1.dart';
-import 'package:my_first_proj/topUp2.dart';
-import 'package:my_first_proj/deletAcc.dart';
-import 'bottom_navigator/bottom_navigation.dart';
-import 'firebase_database/table_database_added.dart';
+import 'package:my_first_proj/forgetPassword.dart';
+import 'package:my_first_proj/restaurant_food_menu.dart';
+import 'package:my_first_proj/util/utills.dart';
 import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home:SplashScreen(),
+      home:RestaurantFoodMenu(),
     );
   }
 }
@@ -81,10 +58,10 @@ class _RestoAppState extends State<RestoApp> {
           if(user!=null){
             Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
           }
-          Utills().toastmessage("Login Successfully");
+          Utils().toastMessage("Login Successfully");
         })
         .onError((error, stackTrace) {
-          Utills().toastmessage(error.toString());
+          Utils().toastMessage(error.toString());
           setState(() {
             loading = false;
           });
@@ -94,7 +71,6 @@ class _RestoAppState extends State<RestoApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(automaticallyImplyLeading: false),
 
       body: Container(
         width: double.infinity,
