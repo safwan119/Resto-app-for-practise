@@ -801,88 +801,92 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                             },
                                           );
                                         },
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
+                                        child: Visibility(
+                                          key: ValueKey(filteredList[index]['id']),
+                                          visible:filteredList[index]["visibility"] ,
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                12,
+                                              ),
                                             ),
-                                          ),
-                                          elevation: 6,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(
-                                                  8.0,
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  child: Image.network(
-                                                    filteredList[index]["image"] ??
-                                                        " ",
-                                                    fit: BoxFit.cover,
-                                                    height: 120,
-                                                    width: double.infinity,
+                                            elevation: 6,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    8.0,
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(12),
+                                                    child: Image.network(
+                                                      filteredList[index]["image"] ??
+                                                          " ",
+                                                      fit: BoxFit.cover,
+                                                      height: 120,
+                                                      width: double.infinity,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                    ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      filteredList[index]["name"] ??
-                                                          " ",
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 16,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 10,
                                                       ),
-                                                    ),
-                                                    SizedBox(height: 8),
-                                                    Text(
-                                                      filteredList[index]["description"] ??
-                                                          " ",
-                                                      style: TextStyle(
-                                                        color: Colors.grey[600],
-                                                        fontSize: 12,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        filteredList[index]["name"] ??
+                                                            " ",
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16,
+                                                        ),
                                                       ),
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                    SizedBox(height: 15),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          "RM ${filteredList[index]["price"]}",
-                                                          style:
-                                                              const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .orange,
-                                                              ),
+                                                      SizedBox(height: 8),
+                                                      Text(
+                                                        filteredList[index]["description"] ??
+                                                            " ",
+                                                        style: TextStyle(
+                                                          color: Colors.grey[600],
+                                                          fontSize: 12,
                                                         ),
-                                                        Spacer(),
-                                                        Icon(
-                                                          Icons.add_box_sharp,
-                                                          color: Colors.amber,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                        maxLines: 2,
+                                                        overflow:
+                                                            TextOverflow.ellipsis,
+                                                      ),
+                                                      SizedBox(height: 15),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "RM ${filteredList[index]["price"]}",
+                                                            style:
+                                                                const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .orange,
+                                                                ),
+                                                          ),
+                                                          Spacer(),
+                                                          Icon(
+                                                            Icons.add_box_sharp,
+                                                            color: Colors.amber,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       );
