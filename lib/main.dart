@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:my_first_proj/book_table.dart';
+import 'package:my_first_proj/filter_menu/filter_menu_category.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/forgetPassword.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home:RestaurantFoodMenu(),
+      home:BookTable(),
     );
   }
 }

@@ -54,7 +54,7 @@ class _Drawer1State extends State<Drawer1> {
                 ),
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AdresDetail()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressDetail()));
                 },
               ),
               ListTile(

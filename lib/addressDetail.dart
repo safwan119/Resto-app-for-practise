@@ -1,18 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer2.dart';
 import 'package:my_first_proj/util/utills.dart';
 
-class AdresDetail extends StatefulWidget {
-  const AdresDetail({super.key});
+class AddressDetail extends StatefulWidget {
+  const AddressDetail({super.key});
 
   @override
-  State<AdresDetail> createState() => _AdresDetailState();
+  State<AddressDetail> createState() => _AddressDetailState();
 }
 
-class _AdresDetailState extends State<AdresDetail> {
+class _AddressDetailState extends State<AddressDetail> {
   final dbRef = FirebaseDatabase.instance.ref("UserDetail");
   var itemIndex = 0;
   bool loading = false;

@@ -14,7 +14,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     RestaurantMenuDetail(),
     TabBar1(),
     RestaurantMenuDetail(),
-    AdresDetail(),
+    AddressDetail(),
     RestaurantMenuDetail(),
   ];
   var itemIndex=0;
