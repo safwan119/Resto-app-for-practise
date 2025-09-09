@@ -1,9 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/book_table_database/address_google_link.dart';
 import 'package:my_first_proj/book_table_database/operation_promotion_hours.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
 import 'package:my_first_proj/restaurant_food_menu.dart';
+import 'package:url_launcher/url_launcher.dart';
 class BookTable extends StatefulWidget {
   const BookTable({super.key});
   @override
@@ -15,6 +17,7 @@ class _BookTableState extends State<BookTable> {
   final databaseReference = FirebaseDatabase.instance.ref("Name Desc");
   final databaseRef = FirebaseDatabase.instance.ref("Banner");
   final realtimeDatabaseRef=FirebaseDatabase.instance.ref("Operation Promotion Hours");
+  final firebaseDatabaseRef = FirebaseDatabase.instance.ref("Address and Link");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +54,7 @@ class _BookTableState extends State<BookTable> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => OperationalPromotionalHours()),
+            MaterialPageRoute(builder: (context) => AddressGoogleLink()),
           );
         },
         child: Icon(Icons.add, color: Colors.black),
@@ -426,26 +429,50 @@ class _BookTableState extends State<BookTable> {
                            padding: const EdgeInsets.symmetric(horizontal: 20),
                            child: Divider(color: Colors.black),
                          ),
-                         Row(
-                           children: [
-                             Padding(
-                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                               child: IconButton(
-                                 onPressed: () {},
-                                 icon: Icon(
-                                   Icons.location_on,
-                                   size: 30,
-                                   color: Colors.amber,
-                                 ),
-                               ),
-                             ),
-                             Expanded(
-                               child: Text(
-                                 "Lot 132943,Persian Jaya Petra,Tasman Seri Austin,81100 johor Bahri,johor",
-                               ),
-                             ),
-                           ],
-                         ),
+                         StreamBuilder(stream: firebaseDatabaseRef.onValue
+                             , builder: (context,AsyncSnapshot<DatabaseEvent>snapshot){
+                               if(snapshot.connectionState==ConnectionState.waiting){
+                                 return Center(child: CircularProgressIndicator());
+                               }
+                               if(!snapshot.hasData || snapshot.data!.snapshot.children.isEmpty){
+                                 return Center(child: Text("No data available"));
+                               }
+                               if(snapshot.hasError){
+                                 return Text("Any error accour");
+                               }
+                               final allMapData=Map<String,dynamic>.from(
+                                   snapshot.data!.snapshot.value as Map
+                               );
+                               return  Row(
+                                 children: [
+                                   Padding(
+                                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                                     child: IconButton(
+                                       onPressed: () async{
+                                         final String urlString = allMapData["googleMapLink"] ?? "";
+                                         final Uri uri = Uri.parse(urlString);
+                                       if(await canLaunchUrl(uri)){
+                                         await launchUrl(uri,mode: LaunchMode.externalApplication);
+                                       }
+                                       else{
+                                         throw 'Could not launch $uri';
+                                       }
+                                       },
+                                       icon: Icon(
+                                         Icons.location_on,
+                                         size: 30,
+                                         color: Colors.amber,
+                                       ),
+                                     ),
+                                   ),
+                                   Expanded(
+                                     child: Text(
+                                      allMapData["address"]??" ",
+                                     ),
+                                   ),
+                                 ],
+                               );
+                             }),
                        ],
                      ),
                    ),
