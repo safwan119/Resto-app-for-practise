@@ -1,14 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/book_table_database/operation_promotion_hours.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/restaurant_food_menu.dart';
 class BookTable extends StatefulWidget {
+  const BookTable({super.key});
   @override
   State<BookTable> createState() => _BookTableState();
 }
+
 class _BookTableState extends State<BookTable> {
   var itemIndex = 0;
-
+  final databaseReference = FirebaseDatabase.instance.ref("Name Desc");
+  final databaseRef = FirebaseDatabase.instance.ref("Banner");
+  final realtimeDatabaseRef=FirebaseDatabase.instance.ref("Operation Promotion Hours");
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -16,12 +23,16 @@ class _BookTableState extends State<BookTable> {
         toolbarHeight: 80,
         title: Row(
           children: [
-            IconButton(onPressed: (){
-              Navigator.pop(context);
-            }, icon: Icon(Icons.arrow_back_outlined)),
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back_outlined),
+            ),
             Expanded(
               child: Text(
-                "Mcdonald's-Seri Austin DT",overflow: TextOverflow.ellipsis,
+                "Mcdonald's-Seri Austin DT",
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -35,341 +46,417 @@ class _BookTableState extends State<BookTable> {
       ),
       endDrawer: Drawer1(),
       bottomNavigationBar: BottomNavigatorBar1(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amber,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => OperationalPromotionalHours()),
+          );
+        },
+        child: Icon(Icons.add, color: Colors.black),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: 20,),
-              Center(
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.black,
-                  child: Image.asset(
-                    "assets/image/image1.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              SizedBox(height: 20),
+              StreamBuilder(
+                stream: databaseRef.onValue,
+                builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                        strokeWidth: 4,
+                      ),
+                    );
+                  }
+                  if (!snapshot.hasData ||
+                      snapshot.data!.snapshot.children.isEmpty) {
+                    return Center(child: Text("No data available"));
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Any error contain");
+                  }
+                  final data = Map<String, dynamic>.from(
+                    snapshot.data!.snapshot.value as Map,
+                  );
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Container(
+                      width: double.infinity,
+                      color: Colors.black,
+                      child: Image.network(
+                        data["image"] ?? "",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
               ),
-              Card(
-                color: Colors.white,
-                child: Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          "Mcdonald's-Seri Austin DT",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+              StreamBuilder(
+                stream: databaseReference.onValue,
+                builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                        strokeWidth: 4,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          "McDonald's Corporation is an American multinational fast food chain,founded in 1940 as a restaurant operated by Richard and Maurice McDonald,in san Bernardino,California,United States.",
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              Card(
-                color: Colors.white,
-                child: Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        "OPERATION HOURS",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12,
-                          ),
-
-
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18),
-                                child: Text(
-                                  "SUNDAY-TUESDAY",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text(
-                                  "10:00 - 18:00",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 18),
-                                  child: Text(
-                                    "WEDNESDAY-THURSDAY",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                     softWrap: true,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                              ),
-                              // Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text(
-                                  "11:00 - 18:00",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18),
-                                child: Text(
-                                  "WEEKENDS",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text(
-                                  "12:00 - 18:00",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "PROMOTIONAL HOURS",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal:18),
-                                child: Text(
-                                  "RECEiVE 30% OFF",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text(
-                                  "10:00 - 12:00",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18),
-                                child: Text(
-                                  "RECEiVE 45% OFF",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text(
-                                  "11:00 - 18:00",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black12,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18),
-                                child: Text(
-                                  "RECEiVE 50% OFF",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text(
-                                  "12:00 - 18:00",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Divider(color: Colors.black,),
-                      ),
-                      Row(
+                    );
+                  }
+                  if (!snapshot.hasData ||
+                      snapshot.data!.snapshot.children.isEmpty) {
+                    return Center(child: Text("No data available"));
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Any error contain");
+                  }
+                  final data = Map<String, dynamic>.from(
+                    snapshot.data!.snapshot.value as Map,
+                  );
+                  return Card(
+                    color: Colors.white,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
                         children: [
+                          Text(
+                            data["name"] ?? "",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.location_on,
-                                size: 30,
-                                color: Colors.amber,
-                              ),
-                            ),
+                            child: Text(data["description"] ?? ""),
                           ),
-                          Expanded(
-                            child: Text(
-                              "Lot 132943,Persian Jaya Petra,Tasman Seri Austin,81100 johor Bahri,johor",
-                            ),
-                          ),
+                          SizedBox(height: 20),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
-              SizedBox(height: 12,),
-              InkWell(onTap: () {},
+              SizedBox(height: 16),
+              StreamBuilder(stream: realtimeDatabaseRef.onValue
+                  , builder: (context,AsyncSnapshot<DatabaseEvent>snapshot){
+                 if(snapshot.connectionState==ConnectionState.waiting){
+                   return Center(child: CircularProgressIndicator());
+                 }
+                 if(!snapshot.hasData || snapshot.data!.snapshot.children.isEmpty){
+                   return Center(child: Text("No data available"));
+                 }
+                 if(snapshot.hasError){
+                   return Text("Any error accour");
+                 }
+                 final allData=Map<String,dynamic>.from(
+                  snapshot.data!.snapshot.value as Map
+                 );
+                 return  Card(
+                   color: Colors.white,
+                   child: SizedBox(
+                     width: double.infinity,
+                     child: Column(
+                       children: [
+                         SizedBox(height: 20),
+                         Text(
+                           "OPERATION HOURS",
+                           style: TextStyle(
+                             color: Colors.black,
+                             fontWeight: FontWeight.bold,
+                             fontSize: 20,
+                           ),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Container(
+                             height: 40,
+                             width: double.infinity,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(8),
+                               color: Colors.black12,
+                             ),
+
+                             child: Row(
+                               children: [
+                                 Padding(
+                                   padding: const EdgeInsets.symmetric(
+                                     horizontal: 18,
+                                   ),
+                                   child: Text(
+                                     "SUNDAY-TUESDAY",
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                     overflow: TextOverflow.ellipsis,
+                                   ),
+                                 ),
+                                 Spacer(),
+                                 Padding(
+                                   padding: const EdgeInsets.only(right: 15),
+                                   child: Text(
+                                     "${allData["sunToTuesOpen"]??" "} - ${allData["sunToTuesClose"]??" "}",
+                                     style: TextStyle(
+                                       color: Colors.amber,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         SizedBox(height: 12),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Container(
+                             height: 40,
+                             width: double.infinity,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(8),
+                               color: Colors.black12,
+                             ),
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                               children: [
+                                 Flexible(
+                                   child: Padding(
+                                     padding: const EdgeInsets.symmetric(
+                                       horizontal: 18,
+                                     ),
+                                     child: Text(
+                                       "WEDNESDAY-THURSDAY",
+                                       style: TextStyle(
+                                         color: Colors.black,
+                                         fontWeight: FontWeight.bold,
+                                       ),
+                                       overflow: TextOverflow.ellipsis,
+                                       softWrap: true,
+                                       maxLines: 1,
+                                     ),
+                                   ),
+                                 ),
+                                 // Spacer(),
+                                 Padding(
+                                   padding: const EdgeInsets.only(right: 15),
+                                   child: Text(
+                                     "${allData["WedToThurOpen"]??" "} - ${allData["WedToThurClose"]??" "}",
+                                     style: TextStyle(
+                                       color: Colors.amber,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         SizedBox(height: 12),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Container(
+                             height: 40,
+                             width: double.infinity,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(8),
+                               color: Colors.black12,
+                             ),
+                             child: Row(
+                               children: [
+                                 Padding(
+                                   padding: const EdgeInsets.symmetric(
+                                     horizontal: 18,
+                                   ),
+                                   child: Text(
+                                     "WEEKENDS",
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                                 Spacer(),
+                                 Padding(
+                                   padding: const EdgeInsets.only(right: 15),
+                                   child: Text(
+                                     "${allData["weekEndOpen"]??" "} - ${allData["weekEndClose"]??" "}",
+                                     style: TextStyle(
+                                       color: Colors.amber,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         SizedBox(height: 20),
+                         Text(
+                           "PROMOTIONAL HOURS",
+                           style: TextStyle(
+                             color: Colors.black,
+                             fontWeight: FontWeight.bold,
+                             fontSize: 20,
+                           ),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Container(
+                             height: 40,
+                             width: double.infinity,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(8),
+                               color: Colors.black12,
+                             ),
+                             child: Row(
+                               children: [
+                                 Padding(
+                                   padding: const EdgeInsets.symmetric(
+                                     horizontal: 18,
+                                   ),
+                                   child: Text(
+                                     "RECEiVE ${allData["sunOff"]}",
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                                 Spacer(),
+                                 Padding(
+                                   padding: const EdgeInsets.only(right: 15),
+                                   child: Text(
+                                     "${allData["sunOpenOff"]??" "} - ${allData["sunCloseOff"]??" "}",
+                                     style: TextStyle(
+                                       color: Colors.amber,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         SizedBox(height: 12),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Container(
+                             height: 40,
+                             width: double.infinity,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(8),
+                               color: Colors.black12,
+                             ),
+                             child: Row(
+                               children: [
+                                 Padding(
+                                   padding: const EdgeInsets.symmetric(
+                                     horizontal: 18,
+                                   ),
+                                   child: Text(
+                                     "RECEiVE ${allData["monOff"]}",
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                                 Spacer(),
+                                 Padding(
+                                   padding: const EdgeInsets.only(right: 15),
+                                   child: Text(
+                                     "${allData["monOpenOff"]??" "} - ${allData["monCloseOff"]??" "}",
+                                     style: TextStyle(
+                                       color: Colors.amber,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         SizedBox(height: 12),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10),
+                           child: Container(
+                             height: 40,
+                             width: double.infinity,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(8),
+                               color: Colors.black12,
+                             ),
+                             child: Row(
+                               children: [
+                                 Padding(
+                                   padding: const EdgeInsets.symmetric(
+                                     horizontal: 18,
+                                   ),
+                                   child: Text(
+                                     "RECEiVE ${allData["tueOff"]}",
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                                 Spacer(),
+                                 Padding(
+                                   padding: const EdgeInsets.only(right: 15),
+                                   child: Text(
+                                     "${allData["tueOpenOff"]??" "} - ${allData["tueCloseOff"]??" "}",
+                                     style: TextStyle(
+                                       color: Colors.amber,
+                                       fontWeight: FontWeight.bold,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         SizedBox(height: 15),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 20),
+                           child: Divider(color: Colors.black),
+                         ),
+                         Row(
+                           children: [
+                             Padding(
+                               padding: const EdgeInsets.symmetric(horizontal: 20),
+                               child: IconButton(
+                                 onPressed: () {},
+                                 icon: Icon(
+                                   Icons.location_on,
+                                   size: 30,
+                                   color: Colors.amber,
+                                 ),
+                               ),
+                             ),
+                             Expanded(
+                               child: Text(
+                                 "Lot 132943,Persian Jaya Petra,Tasman Seri Austin,81100 johor Bahri,johor",
+                               ),
+                             ),
+                           ],
+                         ),
+                       ],
+                     ),
+                   ),
+                 );
+
+                  }),
+              SizedBox(height: 12),
+              InkWell(
+                onTap: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantFoodMenu()));
+                },
                 child: Container(
                   height: 40,
                   width: double.infinity,
@@ -377,10 +464,16 @@ class _BookTableState extends State<BookTable> {
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(child: Text("BOOK A TABLE NOW",
-                    style: TextStyle(color: Colors.black,
+                  child: Center(
+                    child: Text(
+                      "BOOK A TABLE NOW",
+                      style: TextStyle(
+                        color: Colors.black,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold),)),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 15),
@@ -395,7 +488,7 @@ class _BookTableState extends State<BookTable> {
                 ),
                 child: Row(
                   children: [
-                    SizedBox(width: 5,),
+                    SizedBox(width: 5),
                     Icon(Icons.do_not_disturb_alt_sharp),
                     SizedBox(width: 5),
                     Expanded(
@@ -404,11 +497,10 @@ class _BookTableState extends State<BookTable> {
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
-
                   ],
                 ),
               ),
-              SizedBox(height: 100,),
+              SizedBox(height: 100),
             ],
           ),
         ),
