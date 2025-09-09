@@ -7,12 +7,22 @@ import 'package:my_first_proj/review.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
 import 'drawer/drawer.dart';
 
+class PromotionHours {
+  final String day;
+  final String openTime;
+  final String closeTime;
+  final String discountPercentage;
+
+  PromotionHours(this.day, this.openTime, this.closeTime, this.discountPercentage);
+}
+
 class RestaurantFoodMenu extends StatefulWidget {
   const RestaurantFoodMenu({super.key});
 
   @override
   State<RestaurantFoodMenu> createState() => _RestaurantFoodMenuState();
 }
+
 class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
   List<bool> isSelected = [];
   List<bool> isSelected1 = [];
@@ -24,6 +34,9 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
   final dataReference = FirebaseDatabase.instance.ref("Menu item");
   final realtimeDatabaseReference = FirebaseDatabase.instance.ref("Option2");
   final dataBReference = FirebaseDatabase.instance.ref("Option1");
+  final realtimeDatabaseRefer = FirebaseDatabase.instance.ref(
+    "Operation Promotion Hours",
+  );
   var search = TextEditingController();
   List<dynamic> originalList = [];
   List<dynamic> filteredList = [];
@@ -34,6 +47,82 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
   @override
   void initState() {
     super.initState();
+    promotionalList();
+    isWithPromotionalHours();
+  }
+
+  List<PromotionHours> promotionHours = [];
+
+  Future<void> promotionalList() async {
+    final promotionalSnapshot = await realtimeDatabaseRefer.once();
+    final promotionalData = promotionalSnapshot.snapshot.value as Map?;
+    if (promotionalData != null && promotionalData.isNotEmpty) {
+      promotionHours = [
+        PromotionHours(
+          'Sunday',
+          promotionalData["sunOpenOff"],
+          promotionalData["sunCloseOff"],
+          promotionalData["sunOff"],
+        ),
+        PromotionHours(
+          'Monday',
+          promotionalData["monOpenOff"],
+          promotionalData["monCloseOff"],
+          promotionalData["monOff"],
+        ),
+        PromotionHours(
+          "Tuesday",
+          promotionalData["tueOpenOff"],
+          promotionalData["tueCloseOff"],
+          promotionalData["tueOff"],
+        ),
+      ];
+    }
+  }
+
+  bool isWithPromotionalHours() {
+    final now = DateTime.now();
+    final currentDay = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ][now.weekday];
+    final currentTime =
+        "${now.hour.toString().padLeft(2, "0")}:${now.minute.toString().padLeft(2, "0")}";
+    for (var promo in promotionHours) {
+      if (promo.day == currentDay) {
+        if (currentTime.compareTo(promo.openTime) >= 0 &&
+            currentTime.compareTo(promo.closeTime) <= 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  double applyDiscount(double price) {
+    if (!isWithPromotionalHours()) return price;
+
+    final now = DateTime.now();
+    final currentDay = [
+      "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday",
+    ][now.weekday];
+
+    final promo = promotionHours.firstWhere(
+          (p) => p.day == currentDay,
+    );
+
+    if (promo != null && promo.discountPercentage != null && promo.discountPercentage.isNotEmpty) {
+      final discountPercent = double.tryParse(promo.discountPercentage.replaceAll('% OFF', ''));
+      if (discountPercent != null) {
+        return price * (1 - discountPercent / 100);
+      }
+    }
+
+    return price;
   }
 
   void filterSearchResults(String query) {
@@ -357,7 +446,7 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                           itemCount: list1.length,
                           itemBuilder: (context, index) {
                             return TextButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   selectedIndex = index;
                                   selectedCategory = list1[index]["category"];
@@ -398,10 +487,10 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                           }
                           if (!snapshot.hasData ||
                               snapshot.data!.snapshot.children.isEmpty) {
-                            return Container(
-                              child: Center(child: Text("No data available")),
-                            );
+                            return Center(child: Text("No data available"));
                           }
+                          // final map1=snapshot.data!.snapshot.value as Map?;
+                          // final firstKey1=map1!.values.first;
                           if (snapshot.hasData && !_initialized) {
                             final map = snapshot.data!.snapshot.value as Map;
                             originalList = map.values.toList();
@@ -410,12 +499,15 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                           }
                           if (selectedIndex != null) {
                             filteredList = originalList
-                                .where((element) => element["category"].contains(selectedCategory))
+                                .where(
+                                  (element) => element["category"].contains(
+                                    selectedCategory,
+                                  ),
+                                )
                                 .toList();
                           } else {
                             filteredList = List.from(originalList);
                           }
-
                           return filteredList.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -432,6 +524,10 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                           mainAxisSpacing: 11.0,
                                         ),
                                     itemBuilder: (context, index) {
+                                      var priceValue = filteredList[index]["price"];
+                                      double price = double.tryParse(priceValue.toString()) ?? 0.0;
+                                      final discounted = applyDiscount(price);
+                                      print("Discounted:${discounted}");
                                       return InkWell(
                                         onTap: () async {
                                           return showDialog(
@@ -505,7 +601,17 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                      trailing: Text(
+                                                      trailing:
+                                                      isWithPromotionalHours()?Text(
+                                                        "RM ${discounted}",
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                        ),
+                                                      ):
+                                                      Text(
                                                         "RM ${filteredList[index]["price"] ?? " "}",
                                                         style: TextStyle(
                                                           color: Colors.black,
@@ -802,13 +908,15 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                           );
                                         },
                                         child: Visibility(
-                                          key: ValueKey(filteredList[index]['id']),
-                                          visible:filteredList[index]["visibility"] ,
+                                          key: ValueKey(
+                                            filteredList[index]['id'],
+                                          ),
+                                          visible:
+                                              filteredList[index]["visibility"],
                                           child: Card(
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                12,
-                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
                                             elevation: 6,
                                             child: Column(
@@ -821,7 +929,9 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                   ),
                                                   child: ClipRRect(
                                                     borderRadius:
-                                                        BorderRadius.circular(12),
+                                                        BorderRadius.circular(
+                                                          12,
+                                                        ),
                                                     child: Image.network(
                                                       filteredList[index]["image"] ??
                                                           " ",
@@ -838,7 +948,8 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                       ),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         filteredList[index]["name"] ??
@@ -854,17 +965,26 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                         filteredList[index]["description"] ??
                                                             " ",
                                                         style: TextStyle(
-                                                          color: Colors.grey[600],
+                                                          color:
+                                                              Colors.grey[600],
                                                           fontSize: 12,
                                                         ),
                                                         maxLines: 2,
-                                                        overflow:
-                                                            TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
                                                       SizedBox(height: 15),
                                                       Row(
                                                         children: [
-                                                          Text(
+                                                          isWithPromotionalHours()?Text(
+                                                            "RM ${discounted}",
+                                                            style: TextStyle(
+                                                              color: Colors.orange,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                            ),
+                                                          ):Text(
                                                             "RM ${filteredList[index]["price"]}",
                                                             style:
                                                                 const TextStyle(
