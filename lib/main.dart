@@ -2,13 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:my_first_proj/admin_auth/login_panel.dart';
+import 'package:my_first_proj/admin_dashboard/dashboard.dart';
 import 'package:my_first_proj/book_table.dart';
-import 'package:my_first_proj/filter_menu/filter_menu_category.dart';
+import 'package:my_first_proj/reservation/up_coming_reservation.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/forgetPassword.dart';
-import 'package:my_first_proj/restaurant_food_menu.dart';
+import 'package:my_first_proj/splash_screen/splash_screen.dart';
 import 'package:my_first_proj/util/utills.dart';
+import 'package:my_first_proj/vacation_mood/vacation_mode_database.dart';
 import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home:BookTable(),
+      home:SplashScreen(),
     );
   }
 }
