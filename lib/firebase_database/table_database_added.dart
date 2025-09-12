@@ -17,7 +17,7 @@ class _TableDatabaseAddedState extends State<TableDatabaseAdded> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Tables added"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black12,
       ),
       body:Column(
         children: [

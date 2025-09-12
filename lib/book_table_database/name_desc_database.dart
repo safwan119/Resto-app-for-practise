@@ -36,7 +36,7 @@ class _NameDescDatabaseState extends State<NameDescDatabase> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Name Description Added"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black12,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

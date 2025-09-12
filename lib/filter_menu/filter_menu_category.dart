@@ -75,7 +75,7 @@ class _FilterChipsState extends State<FilterChips> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Menu Management"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black12,
       ),
       body: SingleChildScrollView(
         child: Padding(

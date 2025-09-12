@@ -79,8 +79,8 @@ class _FoodMenuDatabaseState extends State<FoodMenuDatabase> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Firebase Database"),
-        backgroundColor: Colors.amber,
+        title: Text("Main Order Banners"),
+        backgroundColor: Colors.black12,
       ),
       body: Column(
         children: [

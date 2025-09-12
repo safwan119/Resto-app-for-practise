@@ -36,7 +36,7 @@ class _AddressGoogleLinkState extends State<AddressGoogleLink> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Address and google map link"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black12,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

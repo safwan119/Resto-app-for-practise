@@ -47,8 +47,8 @@ class _RestaurantFirebaseDatabaseState extends State<RestaurantFirebaseDatabase>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Adding Firebase Database"),
-        backgroundColor: Colors.amber,
+        title: Text("Main Listing Page Customization"),
+        backgroundColor: Colors.black12,
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -49,7 +49,7 @@ class _BannerDatabaseState extends State<BannerDatabase> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Adding Banner Database"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black12,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

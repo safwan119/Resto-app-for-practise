@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/book_table.dart';
 import 'package:my_first_proj/filter_menu/filter_menu_category.dart';
+import 'package:my_first_proj/revOrder.dart';
 import 'package:my_first_proj/review.dart';
+import 'package:my_first_proj/rounded_button/rounded_button.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
+import 'package:my_first_proj/util/utills.dart';
 import 'drawer/drawer.dart';
 
 class PromotionHours {
@@ -13,7 +17,12 @@ class PromotionHours {
   final String closeTime;
   final String discountPercentage;
 
-  PromotionHours(this.day, this.openTime, this.closeTime, this.discountPercentage);
+  PromotionHours(
+    this.day,
+    this.openTime,
+    this.closeTime,
+    this.discountPercentage,
+  );
 }
 
 class RestaurantFoodMenu extends StatefulWidget {
@@ -24,6 +33,11 @@ class RestaurantFoodMenu extends StatefulWidget {
 }
 
 class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
+  bool loading = false;
+  String? id;
+  User? user = FirebaseAuth.instance.currentUser;
+  List<String> selectedOptions1 = [];
+  List<String> selectedOptions2 = [];
   List<bool> isSelected = [];
   List<bool> isSelected1 = [];
   int? selectedIndex;
@@ -37,6 +51,7 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
   final realtimeDatabaseRefer = FirebaseDatabase.instance.ref(
     "Operation Promotion Hours",
   );
+  final database = FirebaseDatabase.instance.ref("AddToCard Menu");
   var search = TextEditingController();
   List<dynamic> originalList = [];
   List<dynamic> filteredList = [];
@@ -47,6 +62,11 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
   @override
   void initState() {
     super.initState();
+    if (user != null) {
+      id = user!.uid;
+    } else {
+      print("No user login currently..");
+    }
     promotionalList();
     isWithPromotionalHours();
   }
@@ -103,20 +123,29 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
     }
     return false;
   }
+
   double applyDiscount(double price) {
     if (!isWithPromotionalHours()) return price;
 
     final now = DateTime.now();
     final currentDay = [
-      "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
     ][now.weekday];
 
-    final promo = promotionHours.firstWhere(
-          (p) => p.day == currentDay,
-    );
+    final promo = promotionHours.firstWhere((p) => p.day == currentDay);
 
-    if (promo != null && promo.discountPercentage != null && promo.discountPercentage.isNotEmpty) {
-      final discountPercent = double.tryParse(promo.discountPercentage.replaceAll('% OFF', ''));
+    if (promo != null &&
+        promo.discountPercentage != null &&
+        promo.discountPercentage.isNotEmpty) {
+      final discountPercent = double.tryParse(
+        promo.discountPercentage.replaceAll('% OFF', ''),
+      );
       if (discountPercent != null) {
         return price * (1 - discountPercent / 100);
       }
@@ -489,8 +518,6 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                               snapshot.data!.snapshot.children.isEmpty) {
                             return Center(child: Text("No data available"));
                           }
-                          // final map1=snapshot.data!.snapshot.value as Map?;
-                          // final firstKey1=map1!.values.first;
                           if (snapshot.hasData && !_initialized) {
                             final map = snapshot.data!.snapshot.value as Map;
                             originalList = map.values.toList();
@@ -524,10 +551,14 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                           mainAxisSpacing: 11.0,
                                         ),
                                     itemBuilder: (context, index) {
-                                      var priceValue = filteredList[index]["price"];
-                                      double price = double.tryParse(priceValue.toString()) ?? 0.0;
+                                      var priceValue =
+                                          filteredList[index]["price"];
+                                      double price =
+                                          double.tryParse(
+                                            priceValue.toString(),
+                                          ) ??
+                                          0.0;
                                       final discounted = applyDiscount(price);
-                                      print("Discounted:${discounted}");
                                       return InkWell(
                                         onTap: () async {
                                           return showDialog(
@@ -602,24 +633,29 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                         ),
                                                       ),
                                                       trailing:
-                                                      isWithPromotionalHours()?Text(
-                                                        "RM ${discounted}",
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                          FontWeight.bold,
-                                                        ),
-                                                      ):
-                                                      Text(
-                                                        "RM ${filteredList[index]["price"] ?? " "}",
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
+                                                          isWithPromotionalHours()
+                                                          ? Text(
+                                                              "RM ${discounted}",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            )
+                                                          : Text(
+                                                              "RM ${filteredList[index]["price"] ?? " "}",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
                                                     ),
                                                     Padding(
                                                       padding:
@@ -715,7 +751,6 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                             return SizedBox(
                                                               width: double
                                                                   .maxFinite,
-                                                              // allows full width
                                                               height: 170,
                                                               child: ListView.builder(
                                                                 physics:
@@ -741,7 +776,18 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                                     onChanged: (value) {
                                                                       setState(() {
                                                                         isSelected1[index] =
-                                                                            !isSelected1[index];
+                                                                            value!;
+                                                                        if (value) {
+                                                                          selectedOptions1.add(
+                                                                            list2[index]["option1"] ??
+                                                                                "",
+                                                                          );
+                                                                        } else {
+                                                                          selectedOptions1.remove(
+                                                                            list2[index]["option1"] ??
+                                                                                "",
+                                                                          );
+                                                                        }
                                                                       });
                                                                     },
                                                                   );
@@ -817,9 +863,6 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                             List list2 = data2
                                                                 .values
                                                                 .toList();
-                                                            print(
-                                                              "The objects:${list2[index]["option1"]}",
-                                                            );
                                                             if (isSelected
                                                                     .length !=
                                                                 list2.length) {
@@ -833,7 +876,6 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                             return SizedBox(
                                                               width: double
                                                                   .maxFinite,
-                                                              // allows full width
                                                               height: 170,
                                                               child: ListView.builder(
                                                                 physics:
@@ -859,7 +901,18 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                                     onChanged: (value) {
                                                                       setState(() {
                                                                         isSelected[index] =
-                                                                            !isSelected[index];
+                                                                            value!;
+                                                                        if (value) {
+                                                                          selectedOptions2.add(
+                                                                            list2[index]["option2"] ??
+                                                                                "",
+                                                                          );
+                                                                        } else {
+                                                                          selectedOptions2.remove(
+                                                                            list2[index]["option2"] ??
+                                                                                "",
+                                                                          );
+                                                                        }
                                                                       });
                                                                     },
                                                                   );
@@ -874,30 +927,82 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                           const EdgeInsets.symmetric(
                                                             horizontal: 20,
                                                           ),
-                                                      child: Card(
-                                                        elevation: 6,
-                                                        child: InkWell(
-                                                          onTap: () {},
-                                                          child: Container(
-                                                            height: 40,
-                                                            width:
-                                                                double.infinity,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(
-                                                                        12,
-                                                                      ),
-                                                                  color: Colors
-                                                                      .amber,
-                                                                ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "Add to Card",
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
+                                                      child: RoundedButton(
+                                                        title: "Add to Card",
+                                                        loading: loading,
+                                                        ontap: () {
+                                                          setState(() {
+                                                            loading = true;
+                                                          });
+                                                          final id1=DateTime.now().millisecondsSinceEpoch.toString();
+                                                          if (id != null) {
+                                                            if (selectedOptions1
+                                                                .isEmpty) {
+                                                              Utils().toastMessage(
+                                                                "Please select at least one option.",
+                                                              );
+                                                              return;
+                                                            }
+                                                            if (selectedOptions2
+                                                                .isEmpty) {
+                                                              Utils().toastMessage(
+                                                                "Please select at least one option.",
+                                                              );
+                                                              return;
+                                                            }
+                                                            database
+                                                                .child(id!).child(id1)
+                                                                .set({
+                                                                "id":id1,
+                                                                  "title":
+                                                                      filteredList[index]["name"] ??
+                                                                      " ",
+                                                                  "description":
+                                                                      filteredList[index]["description"] ??
+                                                                      " ",
+                                                                  "price":
+                                                                      isWithPromotionalHours()
+                                                                      ? discounted
+                                                                      : filteredList[index]["price"] ??
+                                                                            " ",
+                                                                  "image":
+                                                                      filteredList[index]["image"],
+                                                                  "options1":
+                                                                      selectedOptions1
+                                                                          .join(
+                                                                            ",",
+                                                                          ),
+                                                                  "options2":
+                                                                      selectedOptions2
+                                                                          .join(
+                                                                            ",",
+                                                                          ),
+                                                              "quantity":1,
+                                                                })
+                                                                .then((value) {
+                                                                  setState(() {
+                                                                    loading =
+                                                                        false;
+                                                                  });
+                                                                  Utils().toastMessage(
+                                                                    "Added Successfully",
+                                                                  );
+                                                                })
+                                                                .onError((
+                                                                  error,
+                                                                  stacktrace,
+                                                                ) {
+                                                                  Utils().toastMessage(
+                                                                    error
+                                                                        .toString(),
+                                                                  );
+                                                                  setState(() {
+                                                                    loading =
+                                                                        false;
+                                                                  });
+                                                                });
+                                                          }
+                                                        },
                                                       ),
                                                     ),
                                                     SizedBox(height: 20),
@@ -976,25 +1081,29 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                       SizedBox(height: 15),
                                                       Row(
                                                         children: [
-                                                          isWithPromotionalHours()?Text(
-                                                            "RM ${discounted}",
-                                                            style: TextStyle(
-                                                              color: Colors.orange,
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                            ),
-                                                          ):Text(
-                                                            "RM ${filteredList[index]["price"]}",
-                                                            style:
-                                                                const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .orange,
+                                                          isWithPromotionalHours()
+                                                              ? Text(
+                                                                  "RM ${discounted}",
+                                                                  style: TextStyle(
+                                                                    color: Colors
+                                                                        .orange,
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  "RM ${filteredList[index]["price"]}",
+                                                                  style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .orange,
+                                                                  ),
                                                                 ),
-                                                          ),
                                                           Spacer(),
                                                           Icon(
                                                             Icons.add_box_sharp,
@@ -1025,43 +1134,53 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: filteredList.isNotEmpty
-                              ? Card(
-                                  elevation: 4,
-                                  child: Container(
-                                    height: 50,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Colors.amber,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 20,
-                                          ),
-                                          child: Text(
-                                            "Proceed to booking",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                              ? InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ReviewOrder(),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    elevation: 4,
+                                    child: Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Colors.amber,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 20,
+                                            ),
+                                            child: Text(
+                                              "Proceed to booking",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Spacer(),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 20,
-                                          ),
-                                          child: Text(
-                                            "RM 49.20",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                                          Spacer(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 20,
+                                            ),
+                                            child: Text(
+                                              "RM 49.20",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 )

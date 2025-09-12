@@ -67,7 +67,7 @@ class _OperationalPromotionalHoursState
     return Scaffold(
       appBar: AppBar(
         title: Text("Operational and Promotional Hours Setting"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.black12,
       ),
       body: Column(
         children: [
