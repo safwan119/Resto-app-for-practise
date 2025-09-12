@@ -1,38 +1,75 @@
-// import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/prome_code/promo_code_database.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 import 'bottom_navigator/bottom_navigator_bar.dart';
 
 class ReviewOrder extends StatefulWidget {
+  const ReviewOrder({super.key});
+
   @override
   State<ReviewOrder> createState() => _ReviewOrderState();
 }
 
 class _ReviewOrderState extends State<ReviewOrder> {
-  var notes = TextEditingController();
-  String guestcount1 = "1";
-  var guestno1 = TextEditingController();
-  var name = TextEditingController();
-  var number = TextEditingController();
+  final databaseReference = FirebaseDatabase.instance.ref(
+    "UserDetail During Booking",
+  );
+  final databaseRef = FirebaseDatabase.instance.ref("AddToCard Menu");
+  final firebaseDatabaseReference = FirebaseDatabase.instance.ref(
+    "Promo Codes",
+  );
+  var notesController = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneNumberController = TextEditingController();
   var itemIndex = 0;
-  var code=TextEditingController();
-  List<Map<String,dynamic>> FoodDetailList=[
-    {
-      "title":"Laksa johor"
-    },
-    {
-      "title":"Laksa Penang"
-    },
-    {
-      "title":"Laksa Lorem"
-    },
-    {
-      "title":"Laksa Ipsum"
-    },
-  ];
-  Widget build(BuildContext contex) {
+  var codeController = TextEditingController();
+  String? id;
+  User? user = FirebaseAuth.instance.currentUser;
+  double totalPrice = 0.0;
+  int itemCount = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    if (user != null) {
+      id = user!.uid;
+      databaseReference
+          .child(id!)
+          .once()
+          .then((snapshot) {
+            final data = snapshot.snapshot.value as Map?;
+            if (data != null) {
+              nameController.text = data["userName"] ?? " ";
+              phoneNumberController.text = data["userContact"] ?? " ";
+              notesController.text = data["note"] ?? "";
+            }
+          })
+          .onError((error, stackTrace) {
+            Utils().toastMessage(error.toString());
+          });
+    } else {
+      print("No user login");
+    }
+  }
+
+  double calculatingPrice(String promoCode, String percentage) {
+    if (codeController.text == promoCode) {
+      String percentage1 = percentage.replaceAll("%", "");
+      double percent = double.parse(percentage1);
+      double discountAmount = (totalPrice) * (percent / 100);
+      return totalPrice - discountAmount;
+    } else {
+      return totalPrice;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 90,
@@ -49,7 +86,6 @@ class _ReviewOrderState extends State<ReviewOrder> {
             Container(
               width: 150,
               height: 26,
-              // color: Colors.black,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(25),
@@ -59,7 +95,6 @@ class _ReviewOrderState extends State<ReviewOrder> {
                   "MAKE FLASH ORDER",
                   style: TextStyle(
                     color: Colors.amber,
-                    // backgroundColor: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
@@ -72,18 +107,32 @@ class _ReviewOrderState extends State<ReviewOrder> {
         backgroundColor: Colors.amber,
       ),
       endDrawer: Drawer1(),
-      bottomNavigationBar:BottomNavigatorBar1(),
+      bottomNavigationBar: BottomNavigatorBar1(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PromoCodeDatabase()),
+          );
+        },
+        backgroundColor: Colors.amber,
+        child: Icon(Icons.add, color: Colors.black),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Row(
               children: [
-                 IconButton(
-                   onPressed: () {
-                     Navigator.pop(context);
-                   },
-                   icon: Icon(Icons.arrow_back_outlined,size: 20,color: Colors.black,),
-                 ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_outlined,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
 
                 SizedBox(width: 8),
                 Text(
@@ -96,10 +145,11 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 ),
               ],
             ),
-            SizedBox(height: 30,),
+            SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Align(alignment: Alignment.centerLeft,
+              child: Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   " Contact details",
                   style: TextStyle(
@@ -110,39 +160,39 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: name,
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: "Enter your name",
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.blue)
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.black)
+                    borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: number,
+                controller: phoneNumberController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: "+92 | 3401234456",
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.blue)
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.black)
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
               ),
@@ -150,15 +200,13 @@ class _ReviewOrderState extends State<ReviewOrder> {
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: LinearProgressIndicator(
-                color: Colors.black12,
-                value: 0,
-              ),
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
             ),
             SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Align(alignment: Alignment.centerLeft,
+              child: Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "Reservation Summary",
                   style: TextStyle(
@@ -176,15 +224,13 @@ class _ReviewOrderState extends State<ReviewOrder> {
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: LinearProgressIndicator(
-                color: Colors.black12,
-                value: 0,
-              ),
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
             ),
             SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Align(alignment: Alignment.centerLeft,
+              child: Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "Order Summary",
                   style: TextStyle(
@@ -195,29 +241,213 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
-             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 10),
-               child: ListView.builder(physics: NeverScrollableScrollPhysics(),
-                   shrinkWrap: true,
-                   itemCount: FoodDetailList.length,
-                   itemBuilder: (context,index){
-                 String title=FoodDetailList[index]["title"];
-                   return FoodDetail(title);
-               }),
-             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: LinearProgressIndicator(
-                color: Colors.black12,
-                value: 0,
-              ),
+            StreamBuilder(
+              stream: databaseRef.child(id!).onValue,
+              builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4,
+                      color: Colors.black,
+                    ),
+                  );
+                }
+                if (!snapshot.hasData ||
+                    snapshot.data!.snapshot.children.isEmpty) {
+                  return Text("No data available");
+                }
+                if (snapshot.hasError) {
+                  return Text("some error contain");
+                }
+                final allData = snapshot.data!.snapshot.value as Map?;
+                List list = allData!.values.toList();
+                double newTotalPrice = 0.0;
+                for (var item in list) {
+                  if (item["price"] != null) {
+                    double price =
+                        double.tryParse(item["price"].toString()) ?? 0.0;
+                    newTotalPrice += price;
+                  }
+                }
+                if (newTotalPrice != totalPrice) {
+                  totalPrice = newTotalPrice;
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: Card(
+                              child: Container(
+                                width: double.infinity,
+                                color: Colors.white,
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 6),
+                                    SizedBox(
+                                      width: 100,
+                                      height: 75,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(2),
+                                        child: Image.network(
+                                          list[index]["image"] ?? " ",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 6),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 8),
+                                          Text(
+                                            list[index]["title"] ?? " ",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          Text(
+                                            list[index]["description"] ?? " ",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            softWrap: false,
+                                          ),
+                                          Text(
+                                            "RM ${list[index]["price"] ?? " "}",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                        ],
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 7),
+                                      child: SizedBox(
+                                        width: 30,
+                                        child: InkWell(
+                                          onTap: () {
+                                            int currentQuantity =
+                                                list[index]['quantity'];
+                                            int addedQuantity =
+                                                currentQuantity + 1;
+                                            var retrievedPrice =
+                                                list[index]["price"];
+                                            double currentTotalPrice;
+
+                                            if (retrievedPrice is String) {
+                                              currentTotalPrice = double.parse(
+                                                retrievedPrice,
+                                              );
+                                            } else if (retrievedPrice
+                                                is double) {
+                                              currentTotalPrice =
+                                                  retrievedPrice;
+                                            } else {
+                                              currentTotalPrice = 0.0;
+                                            }
+                                            double basePrice =
+                                                (currentQuantity > 0)
+                                                ? (currentTotalPrice /
+                                                      currentQuantity)
+                                                : currentTotalPrice;
+                                            double newTotalPrice =
+                                                basePrice * addedQuantity;
+                                            databaseRef
+                                                .child(id!)
+                                                .child(list[index]["id"])
+                                                .update({
+                                                  "quantity": addedQuantity,
+                                                  "price": newTotalPrice
+                                                      .toString(),
+                                                })
+                                                .then((value) {
+                                                  Utils().toastMessage(
+                                                    "Update Successfully",
+                                                  );
+                                                })
+                                                .onError((error, stackTrace) {
+                                                  Utils().toastMessage(
+                                                    error.toString(),
+                                                  );
+                                                });
+                                          },
+                                          child: Text(
+                                            "${list[index]["quantity"]}x",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.amber,
+                                              fontSize: 21,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              final itemId = list[index]?["id"];
+                              print("All data id's:${list[index]["id"]}");
+                              if (itemId == null) {
+                                Utils().toastMessage(
+                                  "Error while deleting the menu..",
+                                );
+                                return;
+                              }
+                              await databaseRef
+                                  .child(id!)
+                                  .child(itemId)
+                                  .remove()
+                                  .then((value) {
+                                    Utils().toastMessage("Delete Successfully");
+                                  })
+                                  .onError((error, stackTrace) {
+                                    Utils().toastMessage(error.toString());
+                                  });
+                            },
+                            icon: Icon(
+                              Icons.delete_rounded,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              },
             ),
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Align(alignment: Alignment.centerLeft,
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "Add your notes(Optional)",
                   style: TextStyle(
@@ -232,53 +462,60 @@ class _ReviewOrderState extends State<ReviewOrder> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: notes,
+                controller: notesController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: "The cake I ordered is for surprised party!",
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.blue)
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.black)
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 19,),
+            SizedBox(height: 19),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: LinearProgressIndicator(
-                color: Colors.black12,
-                value: 0,
-
-              ),
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
             ),
-            SizedBox(height: 15,),
-                Padding(
+            SizedBox(height: 15),
+            StreamBuilder(
+              stream: firebaseDatabaseReference.onValue,
+              builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                final promoData = Map<dynamic, dynamic>.from(
+                  snapshot.data!.snapshot.value as Map,
+                );
+                final first = promoData.values.first;
+                print("Promo data in this:${first["promo"]}");
+                return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
-                          controller: code,
+                          controller: codeController,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.code_off),
                             hintText: " |   ENTER PROMO CODE HERE",
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.blue)
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: Colors.black)
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 4,),
+                      SizedBox(width: 4),
                       InkWell(
                         child: Container(
                           height: 55,
@@ -286,18 +523,52 @@ class _ReviewOrderState extends State<ReviewOrder> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.amber,
-
                           ),
-                          child: Center(child: Text("Use",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 25),)),
-
+                          child: Center(
+                            child: Text(
+                              "Use",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ),
+                          ),
                         ),
-                        onTap: (){},
-                      )
+                        onTap: () {
+                          if (codeController.text == first["promo"]) {
+                            String percentage1 = first["percentage"].replaceAll(
+                              "%",
+                              "",
+                            );
+                            double percent = double.parse(percentage1);
+                            double discountAmount =
+                                (totalPrice) * (percent / 100);
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              setState(() {
+                                totalPrice = totalPrice - discountAmount;
+                              });
+                            });
+
+                            print("The price is :$totalPrice");
+                          } else {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              setState(() {
+                                totalPrice = totalPrice;
+                              });
+                            });
+
+                            print("The price is :$totalPrice");
+                          }
+                        },
+                      ),
                     ],
                   ),
-                ),
+                );
+              },
+            ),
 
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             InkWell(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -306,64 +577,68 @@ class _ReviewOrderState extends State<ReviewOrder> {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                      color:Colors.amber
+                    color: Colors.amber,
                   ),
                   child: Row(
                     children: [
-                      SizedBox(width: 20,),
+                      SizedBox(width: 20),
                       Icon(Icons.monetization_on_sharp),
-                      SizedBox(width: 20,),
+                      SizedBox(width: 20),
                       Text("|"),
-                      SizedBox(width:30),
-                      Text("REDEEM RM 5 WITH YOUR COINS",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                      SizedBox(width: 30),
+                      Text(
+                        "REDEEM RM 5 WITH YOUR COINS",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              onTap: (){},
+              onTap: () {},
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: LinearProgressIndicator(
-                color: Colors.black12,
-                value: 0,
-
-              ),
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Row(
               children: [
-                SizedBox(width: 17,),
-                Text("SUBTOTAL",style: TextStyle(fontWeight: FontWeight.bold),),
+                SizedBox(width: 17),
+                Text("SUBTOTAL", style: TextStyle(fontWeight: FontWeight.bold)),
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: Text("RM 78.00",style: TextStyle(color: Colors.black,fontSize: 15),),
+                  child: Text(
+                    "RM ${totalPrice.toStringAsFixed(2)}",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
                 ),
               ],
             ),
             Row(
               children: [
-                SizedBox(width: 17,),
-                Text("SERVICE CHARGE",style: TextStyle(),),
+                SizedBox(width: 17),
+                Text("SERVICE CHARGE", style: TextStyle()),
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
-                  child: Text("RM 7.02",style: TextStyle(color: Colors.black,fontSize: 15),),
+                  child: Text(
+                    "RM 0.00",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: LinearProgressIndicator(
-                color: Colors.black12,
-                value: 0,
-
-              ),
+              child: LinearProgressIndicator(color: Colors.black12, value: 0),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             InkWell(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -373,81 +648,79 @@ class _ReviewOrderState extends State<ReviewOrder> {
                     width: double.infinity,
                     height: 50,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color:Colors.amber,
-
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.amber,
                     ),
-                     child: Row(
-                       children: [
-                         SizedBox(width: 20,),
-                         Text("Place Order Now",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                       Spacer(),
-                         Padding(
-                           padding: const EdgeInsets.only(right:20),
-                           child: Text("RM 78.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15),),
-                         ),
-                       ],
-                     ),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 20),
+                        Text(
+                          "Place Order Now",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(
+                            "RM ${totalPrice.toStringAsFixed(2)}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              onTap: (){},
-            )
+              onTap: () async {
+                if (id != null) {
+                  final userSnapshot = await databaseReference
+                      .child(id!)
+                      .once();
+                  final allData = userSnapshot.snapshot.value as Map?;
+                  if (allData != null && allData.isNotEmpty) {
+                    await databaseReference
+                        .child(id!)
+                        .update({
+                          "userName": nameController.text,
+                          "userContact": phoneNumberController.text,
+                          "note": notesController.text,
+                        })
+                        .then((value) {
+                          Utils().toastMessage(
+                            "User Detail Update Successfully",
+                          );
+                        })
+                        .onError((error, stackTrace) {
+                          Utils().toastMessage(error.toString());
+                        });
+                  } else {
+                    await databaseReference
+                        .child(id!)
+                        .set({
+                          "userName": nameController.text,
+                          "userContact": phoneNumberController.text,
+                          "note": notesController.text,
+                        })
+                        .then((value) {
+                          Utils().toastMessage("User Detail Set Successfully");
+                        })
+                        .onError((error, stackTrace) {
+                          Utils().toastMessage(error.toString());
+                        });
+                  }
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
-class FoodDetail extends StatelessWidget {
-  String? title;
-  FoodDetail(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Card(
-            child: Container(
-                color: Colors.white,
-              child: Row(
-                children: [
-                  SizedBox(width: 6,),
-                  Container(
-                    width: 100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(2),
-                      child: Image.asset("assets/image/picture.jpg",fit: BoxFit.cover,),
-
-                    ),
-                  ),
-                  SizedBox(width: 6,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 8,),
-                      Text(title!,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                      Text("Original flavour,spicy spices"),
-                      Text("RM 17.00",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),
-                      SizedBox(height: 8,),
-                    ],
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5),
-                    child: Text("1x",style: TextStyle(color: Colors.amber,fontSize: 21),),
-                  )
-
-                ],
-              ),
-            ),
-          ),
-        ),
-        IconButton(onPressed: (){}, icon: Icon(Icons.delete_rounded,color: Colors.red,size: 30,)),
-
-      ],
-    );
-  }
-}
-
