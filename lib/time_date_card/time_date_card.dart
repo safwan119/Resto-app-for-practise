@@ -26,8 +26,31 @@ class _TimeDateCardState extends State<TimeDateCard> {
     super.initState();
     if (user != null) {
       id = user!.uid;
+      dataEntry();
     } else {
-      print("No user is login");
+      print("No user login");
+    }
+  }
+
+  Future<void> dataEntry() async {
+    if (id == null) return;
+    final reservationData = await databaseRefer.child(id!).once();
+    final data = reservationData.snapshot.value as Map?;
+    if (data != null && data.isNotEmpty) {
+      setState(() {
+        guestController.text = data["guestCount"] ?? " ";
+        guestCount = data["guestCount"] ?? " ";
+        String dateString = data["date"] ?? " ";
+        String timeString = data["time"] ?? " ";
+        if (dateString.isNotEmpty) {
+          selectedDate = DateFormat('EEE, d MMM').parse(dateString);
+        }
+
+        if (timeString.isNotEmpty) {
+          DateTime parsedTime = DateFormat('hh:mm a').parse(timeString);
+          selectedTime = TimeOfDay.fromDateTime(parsedTime);
+        }
+      });
     }
   }
 
