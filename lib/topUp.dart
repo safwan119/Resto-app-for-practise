@@ -1,18 +1,41 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/rounded_button/rounded_button.dart';
+import 'package:my_first_proj/service/payment_method_services.dart';
+import 'package:my_first_proj/topUp1.dart';
+import 'package:my_first_proj/topUp2.dart';
+import 'package:my_first_proj/util/utills.dart';
 
 import 'bottom_navigator/bottom_navigator_bar.dart';
 import 'drawer/drawer.dart';
+
 class TopUp extends StatefulWidget {
   @override
   State<TopUp> createState() => _TopUpState();
 }
+
 class _TopUpState extends State<TopUp> {
   final priceController = TextEditingController();
+  final firebaseReference = FirebaseDatabase.instance.ref("Wallet Balance");
+  User? user = FirebaseAuth.instance.currentUser;
+  String? id;
+
+  @override
+  void initState() {
+    super.initState();
+    if (user != null) {
+      id = user!.uid;
+    } else {
+      print("No user login");
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
+        automaticallyImplyLeading: false,
         title: Column(
           children: [
             Text(
@@ -57,7 +80,9 @@ class _TopUpState extends State<TopUp> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 7),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(
                       Icons.arrow_back_outlined,
                       size: 30,
@@ -110,12 +135,12 @@ class _TopUpState extends State<TopUp> {
                             "RM",
                             style: TextStyle(color: Colors.black, fontSize: 19),
                           ),
-                          SizedBox(width: 5),
+                          SizedBox(width: 4),
                           Padding(
                             padding: const EdgeInsets.only(
-                              right: 0,
+                              right: 5,
                               left: 0,
-                              top: 11,
+                              top: 6,
                             ),
                             child: Container(
                               height: 40,
@@ -132,7 +157,7 @@ class _TopUpState extends State<TopUp> {
                                   hintText: "90.00",
                                   hintStyle: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 35,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   border: InputBorder.none,
@@ -152,7 +177,7 @@ class _TopUpState extends State<TopUp> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
@@ -242,29 +267,64 @@ class _TopUpState extends State<TopUp> {
                     SizedBox(height: 110),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Card(
-                        elevation: 3,
-                        child: InkWell(
-                          child: Container(
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "PAY NOW",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                      child: RoundedButton(
+                        title: "PAY NOW",
+                        ontap: () async {
+                          double? price1 = double.tryParse(
+                            priceController.text,
+                          );
+                          if (price1 != null) {
+                            bool paymentSuccessful = await PaymentMethodServices.instance.makePayment(price1);
+                            if (paymentSuccessful) {
+                              final id1 = DateTime.now().millisecondsSinceEpoch.toString();
+                              final localTimestamp = DateTime.now().millisecondsSinceEpoch;
+
+                              final DatabaseReference userRef = firebaseReference.child(id!);
+
+                              // Pehle transaction record save karna
+                              await userRef.child(id1).set({
+                                "id": id1,
+                                "price": priceController.text,
+                                "timestamp": localTimestamp,
+                                "serverTimestamp": ServerValue.timestamp,
+                              }).then((value) async {
+                                DataSnapshot snapshot = await userRef.child("currentPrice").get();
+                                double existingPrice = 0.0;
+                                if (snapshot.exists && snapshot.value != null) {
+                                  existingPrice = double.tryParse(snapshot.value.toString()) ?? 0.0;
+                                }
+                                double newCurrentPrice = existingPrice + price1;
+                                await userRef.child("currentPrice").set(newCurrentPrice);
+
+                                Utils().toastMessage("Payment saved successfully");
+                                priceController.clear();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TopUp1(),
+                                  ),
+                                );
+                              }).onError((error, stackTrace) {
+                                Utils().toastMessage(error.toString());
+                              });
+
+                            } else {
+                              Utils().toastMessage(
+                                "Payment cancelled or failed.",
+                              );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TopUp2(),
                                 ),
-                              ),
-                            ),
-                          ),
-                          onTap: () {},
-                        ),
+                              );
+                            }
+                          } else {
+                            Utils().toastMessage(
+                              "Please enter any amount or enter valid amount.",
+                            );
+                          }
+                        },
                       ),
                     ),
                     SizedBox(height: 7),
