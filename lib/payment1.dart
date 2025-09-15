@@ -192,7 +192,7 @@ class _Payment2State extends State<Payment2> {
                 ),
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RateRestorant()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RateRestaurant()));
               },
             ),
           ],

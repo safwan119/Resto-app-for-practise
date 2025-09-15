@@ -180,20 +180,17 @@ class _Payment1State extends State<Payment1> {
               ),
             ),
             SizedBox(height: 200),
-            InkWell(
-              child: Padding(
+             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: RoundedButton(
                   title: "VIEW ORDER DETAILS",
                   ontap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>RateRestorant())
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>RateRestaurant())
                     );
                   },
                 ),
               ),
-              onTap: () {
-              },
-            ),
+
           ],
         ),
       ),
