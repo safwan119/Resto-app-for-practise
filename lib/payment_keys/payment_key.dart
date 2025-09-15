@@ -1,0 +1,3 @@
+const String stripePublishableKey=
+    "pk_test_51S6pjqKiJWAGPvZR2WvdmFodMFuxrkWEiovIwI6wukF0jtxLnuYNYfnq0VFoDbcW2QchYwPIk55A7tLoyqs6itgC00RytySy1A";
+const String stripeSecretKey="sk_test_51S6pjqKiJWAGPvZR1EgO2DCz2zX5PgzenIrMclQ4wKKybBPfJJgXVdo1usN3UdanBbx7546xVUjU6p1855uCLXdj00gNdDNF5x";
