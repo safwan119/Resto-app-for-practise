@@ -1,27 +1,34 @@
 import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
-
+import 'package:my_first_proj/rounded_button/rounded_button.dart';
+import 'package:my_first_proj/util/utills.dart';
 import 'cloudinary_sevice/cloudinary.dart';
 
 class SubmitReview extends StatefulWidget {
+  const SubmitReview({super.key});
+
   @override
   State<SubmitReview> createState() => _SubmitReviewState();
 }
 
 class _SubmitReviewState extends State<SubmitReview> {
-  double _rating = 3.0;
-  var review = TextEditingController();
+  final databaseReference=FirebaseDatabase.instance.ref("Star and Review");
+  User? user=FirebaseAuth.instance.currentUser;
+  String? id;
+  double _rating = 0.0;
+  var reviewController = TextEditingController();
   String? imageUrl;
   var itemIndex = 0;
   File? image;
   final picker = ImagePicker();
 
-  Future<void> ImageGallery() async {
+  Future<void> imageGallery() async {
     final imagePicker = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 80,
@@ -37,48 +44,80 @@ class _SubmitReviewState extends State<SubmitReview> {
 
   Future<void> uploadImages() async {
     if (image != null) {
-      final CloudinaryUrls = await Cloudinary().uploadImage(XFile(image!.path));
+      final cloudinaryUrls = await Cloudinary().uploadImage(XFile(image!.path));
       setState(() {
-        if (CloudinaryUrls != null) {
-          imageUrl = CloudinaryUrls;
+        if (cloudinaryUrls != null) {
+          imageUrl = cloudinaryUrls;
         }
       });
     }
   }
+  @override
+  void initState() {
+    super.initState();
+    if(user!=null){
+      id=user!.uid;
+      databaseReference
+          .child(id!)
+          .once()
+          .then((snapshot) {
+        final data = snapshot.snapshot.value as Map?;
+        if (data != null) {
+          reviewController.text = data["review"] ?? " ";
+          imageUrl = data["image"] ?? " ";
+          _rating= data["rating"] ?? "";
+        }
+      })
+          .onError((error, stackTrace) {
+        Utils().toastMessage(error.toString());
+      });
+    }
+    else{
+      print("No user login now");
+    }
+  }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 90,
-        title: Column(
+        title: Row(
           children: [
-            Text(
-              "RESTO.COM",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              width: 150,
-              height: 25,
-              // color: Colors.black,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Center(
-                child: Text(
-                  "MAKE FLASH ORDER",
+            IconButton(onPressed: (){
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back_outlined)),
+            Column(
+              children: [
+                Text(
+                  "RESTO.COM",
                   style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 14,
+                    color: Colors.black,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
                   ),
                 ),
-              ),
+                Container(
+                  width: 160,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "MAKE FLASH ORDER",
+                      style: TextStyle(
+                        color: Colors.amber,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -121,7 +160,7 @@ class _SubmitReviewState extends State<SubmitReview> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
-                controller: review,
+                controller: reviewController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: "Enter review here...",
@@ -149,15 +188,12 @@ class _SubmitReviewState extends State<SubmitReview> {
             SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
+              child: SizedBox(
                 height: 400,
-
                 child: GridView.count(
                   crossAxisCount: 2,
-                  // scrollDirection: Axis.vertical,
                   crossAxisSpacing: 11,
                   mainAxisSpacing: 11,
-
                   children: [
                     Container(
                       width: double.infinity,
@@ -173,7 +209,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                             Expanded(
                               child: IconButton(
                                 onPressed: () {
-                                  ImageGallery();
+                                  imageGallery();
                                 },
                                 icon: imageUrl != null
                                     ? Image.network(
@@ -209,7 +245,6 @@ class _SubmitReviewState extends State<SubmitReview> {
                     ),
                     Container(
                       width: double.infinity,
-                      // height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.black),
@@ -224,7 +259,6 @@ class _SubmitReviewState extends State<SubmitReview> {
                     ),
                     Container(
                       width: double.infinity,
-                      // height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.black),
@@ -242,34 +276,47 @@ class _SubmitReviewState extends State<SubmitReview> {
               ),
             ),
             SizedBox(height: 20),
-            InkWell(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Card(
-                  elevation: 4,
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.amber,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Submit review",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: RoundedButton(
+                title: "Submit Review",
+                ontap: () async {
+                  await uploadImages();
+                  final reviewSnapshot=await databaseReference.child(id!).once();
+                  final allData=reviewSnapshot.snapshot.value as Map?;
+                  if (allData != null && allData.isNotEmpty) {
+                    await databaseReference
+                        .child(id!)
+                        .update({
+                      "review": reviewController.text,
+                      "image": imageUrl,
+                      "rating": _rating,
+                    })
+                        .then((value) {
+                      Utils().toastMessage(
+                        "User Detail Update Successfully",
+                      );
+                    })
+                        .onError((error, stackTrace) {
+                      Utils().toastMessage(error.toString());
+                    });
+                  } else {
+                    await databaseReference
+                        .child(id!)
+                        .set({
+                      "review": reviewController.text,
+                      "image": imageUrl,
+                      "rating": _rating,
+                    })
+                        .then((value) {
+                      Utils().toastMessage("User Detail Set Successfully");
+                    })
+                        .onError((error, stackTrace) {
+                      Utils().toastMessage(error.toString());
+                    });
+                  }
+                },
               ),
-              onTap: () {
-                uploadImages();
-              },
             ),
             SizedBox(height: 100),
           ],
