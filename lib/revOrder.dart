@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/payment.dart';
+import 'package:my_first_proj/payment1.dart';
 import 'package:my_first_proj/prome_code/promo_code_database.dart';
 import 'package:my_first_proj/time_date_card/time_date_card.dart';
 import 'package:my_first_proj/util/utills.dart';
@@ -16,6 +18,7 @@ class ReviewOrder extends StatefulWidget {
 }
 
 class _ReviewOrderState extends State<ReviewOrder> {
+  var remainingPrice=0;
   final databaseReference = FirebaseDatabase.instance.ref(
     "UserDetail During Booking",
   );
@@ -23,6 +26,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
   final firebaseDatabaseReference = FirebaseDatabase.instance.ref(
     "Promo Codes",
   );
+  final firebaseReference = FirebaseDatabase.instance.ref("Wallet Balance");
   var notesController = TextEditingController();
   var nameController = TextEditingController();
   var phoneNumberController = TextEditingController();
@@ -551,6 +555,12 @@ class _ReviewOrderState extends State<ReviewOrder> {
                             });
 
                             print("The price is :$totalPrice");
+                          } else if (codeController.text.isEmpty) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              setState(() {
+                                totalPrice = totalPrice;
+                              });
+                            });
                           } else {
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               setState(() {
@@ -679,6 +689,50 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 ),
               ),
               onTap: () async {
+    final walletSnapshot = await firebaseReference.once();
+    final walletData = walletSnapshot.snapshot.value as Map?;
+
+    if (walletData != null && walletData.isNotEmpty) {
+    // Get the user's data object, which contains all their fields.
+    final userData = walletData.values.first as Map?;
+
+    if (userData != null && userData.containsKey("currentPrice")) {
+    // Access the currentPrice specifically and cast it to a double.
+    // This is the key fix to prevent the type error.
+    double currentPrice = (userData["currentPrice"] as num).toDouble();
+
+    // Make sure your totalPrice is also a double.
+    // Assuming totalPrice is already a double from your business logic.
+    // If it's an int, you should convert it to double: totalPrice.toDouble()
+
+    double remainingPrice;
+
+    if (currentPrice >= totalPrice) {
+    remainingPrice = currentPrice - totalPrice;
+
+    Utils().toastMessage("Transaction successful!");
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) => Payment1()));
+    } else {
+    remainingPrice = currentPrice;
+    Utils().toastMessage("Transaction Unsuccessful!");
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) => Payment2()));
+    }
+
+    // Update the price on Firebase.
+    await firebaseReference.child(id!).update({
+    "currentPrice": remainingPrice,
+    });
+
+    } else {
+    // Handle the case where 'currentPrice' doesn't exist.
+    Utils().toastMessage("Current balance not found.");
+    }
+    } else {
+    // Handle the case where no wallet data is available.
+    Utils().toastMessage("No wallet data available.");
+    }
                 if (id != null) {
                   final userSnapshot = await databaseReference
                       .child(id!)
@@ -691,6 +745,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
                           "userName": nameController.text,
                           "userContact": phoneNumberController.text,
                           "note": notesController.text,
+                          "price": totalPrice,
                         })
                         .then((value) {
                           Utils().toastMessage(
@@ -707,6 +762,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
                           "userName": nameController.text,
                           "userContact": phoneNumberController.text,
                           "note": notesController.text,
+                          "price": totalPrice,
                         })
                         .then((value) {
                           Utils().toastMessage("User Detail Set Successfully");
