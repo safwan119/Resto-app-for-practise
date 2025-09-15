@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
-
+import 'package:my_first_proj/topUp.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'drawer/drawer.dart';
 
 class WalletBalance extends StatefulWidget {
+  const WalletBalance({super.key});
+
   @override
   State<WalletBalance> createState() => _WalletBalanceState();
 }
 
 class _WalletBalanceState extends State<WalletBalance> {
+  final firebaseReference = FirebaseDatabase.instance.ref("Wallet Balance");
   var itemIndex = 0;
-  List<Map<String, dynamic>> walletList = [
-    {"subtitle": "Payment to McDonald's Seri Austin DT", "title": "PAYMENT"},
-    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
-    {"subtitle": "Top up to app account", "title": "CASH IN TOP UP"},
-    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
-    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
-    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
-    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
-    {"subtitle": "Payment to Starbucks TD Central", "title": "PAYMENT"},
-  ];
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 100,
         title: Column(
           children: [
@@ -38,7 +34,6 @@ class _WalletBalanceState extends State<WalletBalance> {
             Container(
               width: 170,
               height: 30,
-              // color: Colors.black,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(25),
@@ -48,7 +43,6 @@ class _WalletBalanceState extends State<WalletBalance> {
                   "MAKE FLASH ORDER",
                   style: TextStyle(
                     color: Colors.amber,
-                    // backgroundColor: Colors.black,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
@@ -73,7 +67,9 @@ class _WalletBalanceState extends State<WalletBalance> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: Icon(Icons.arrow_back_outlined, size: 27),
                     ),
                   ),
@@ -103,7 +99,7 @@ class _WalletBalanceState extends State<WalletBalance> {
                     children: [
                       Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             width: double.infinity,
 
                             child: ClipRRect(
@@ -121,8 +117,11 @@ class _WalletBalanceState extends State<WalletBalance> {
                             children: [
                               SizedBox(height: 10),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Align(alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
                                   child: Text(
                                     "RESTO.COM",
                                     style: TextStyle(
@@ -134,11 +133,14 @@ class _WalletBalanceState extends State<WalletBalance> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Align(alignment:Alignment.centerLeft,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
                                   child: Container(
                                     height: 17,
-                                    width: 105,
+                                    width: 120,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: Colors.white,
@@ -159,22 +161,56 @@ class _WalletBalanceState extends State<WalletBalance> {
                             ],
                           ),
                           Positioned(
-                            bottom: 50,
+                            bottom: 40,
                             right: 0,
                             left: 20,
                             child: Column(
                               children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "RM 99.00",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
+                                StreamBuilder(
+                                  stream: firebaseReference.onValue,
+                                  builder:
+                                      (
+                                        context,
+                                        AsyncSnapshot<DatabaseEvent> snapshot,
+                                      ) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 4,
+                                              color: Colors.white,
+                                            ),
+                                          );
+                                        }
+                                        if (!snapshot.hasData ||
+                                            snapshot
+                                                .data!
+                                                .snapshot
+                                                .children
+                                                .isEmpty) {
+                                          return Text("No data available");
+                                        }
+                                        if (snapshot.hasError) {
+                                          return Text("some error contain");
+                                        }
+                                        final allData =
+                                            snapshot.data!.snapshot.value
+                                                as Map?;
+                                        final first=allData!.values.first;
+                                        return Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "RM ${first["currentPrice"].toStringAsFixed(2)}",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                 ),
+
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
@@ -217,7 +253,12 @@ class _WalletBalanceState extends State<WalletBalance> {
                           ),
                         ),
                         trailing: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => TopUp()),
+                            );
+                          },
                           icon: Icon(Icons.keyboard_arrow_right),
                         ),
                       ),
@@ -248,52 +289,83 @@ class _WalletBalanceState extends State<WalletBalance> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: walletList.length,
-                        separatorBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: LinearProgressIndicator(value: 0),
-                          );
-                        },
-                        itemBuilder: (context, index) {
-                          String title = walletList[index]["title"];
-                          String subtitle = walletList[index]["subtitle"];
-                          return Wallet(subtitle, title);
-                        },
-                      ),
+                    StreamBuilder(
+                      stream: firebaseReference.onValue,
+                      builder:
+                          (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 4,
+                                  color: Colors.black,
+                                ),
+                              );
+                            }
+                            if (!snapshot.hasData || snapshot.data!.snapshot.value == null) {
+                              return Text("No transactions found.");
+                            }
+
+                            if (snapshot.hasError) {
+                              return Text("An error occurred: ${snapshot.error}");
+                            }
+                            final allData = snapshot.data!.snapshot.value as Map?;
+                            if (allData == null || allData.isEmpty) {
+                              return Text("No data available");
+                            }
+                             final userData = allData.values.first as Map?;
+
+                            if (userData == null) {
+                              return Text("No user data available");
+                            }
+                            List transactionList = [];
+                            userData.forEach((key, value) {
+                              if (value is Map) {
+                                transactionList.add(value);
+                              }
+                            });
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: transactionList.length,
+                                separatorBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                    ),
+                                    child: LinearProgressIndicator(value: 0),
+                                  );
+                                },
+                                itemBuilder: (context, index) {
+                                  print("the one transaction is :${transactionList[index]["price"]}");
+                                  final transaction=transactionList[index];
+                                  return ListTile(
+                                    title: Text("PAYMENT"),
+                                    subtitle: Text(
+                                      "Top up to app account",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    trailing: Text(
+                                      "RM${transaction["price"]}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                     ),
                   ],
                 ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class Wallet extends StatelessWidget {
-  String subtitle;
-  String title;
-
-  Wallet(this.subtitle, this.title);
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle, overflow: TextOverflow.ellipsis),
-      trailing: Text(
-        "RM 82.30",
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
