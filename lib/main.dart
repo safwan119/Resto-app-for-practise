@@ -2,19 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:my_first_proj/admin_auth/login_panel.dart';
-import 'package:my_first_proj/admin_dashboard/dashboard.dart';
-import 'package:my_first_proj/book_table.dart';
-import 'package:my_first_proj/reservation/up_coming_reservation.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:my_first_proj/payment_keys/payment_key.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
+import 'package:my_first_proj/service/payment_ui.dart';
 import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/forgetPassword.dart';
 import 'package:my_first_proj/splash_screen/splash_screen.dart';
 import 'package:my_first_proj/util/utills.dart';
-import 'package:my_first_proj/vacation_mood/vacation_mode_database.dart';
 import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  await Stripe.instance.applySettings();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
   runApp(MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home:SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }
@@ -45,7 +46,7 @@ class _RestoAppState extends State<RestoApp> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  bool isObscure= true;
+  bool isObscure = true;
   final auth = FirebaseAuth.instance;
   bool loading = false;
 
@@ -54,14 +55,20 @@ class _RestoAppState extends State<RestoApp> {
       loading = true;
     });
     auth
-        .signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
+        .signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        )
         .then((value) {
           setState(() {
             loading = false;
           });
-          User? user=value.user;
-          if(user!=null){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantMenuDetail()));
+          User? user = value.user;
+          if (user != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RestaurantMenuDetail()),
+            );
           }
           Utils().toastMessage("Login Successfully");
         })
@@ -76,7 +83,6 @@ class _RestoAppState extends State<RestoApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -86,7 +92,7 @@ class _RestoAppState extends State<RestoApp> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                SizedBox(height: 40,),
+                SizedBox(height: 40),
                 Text(
                   "RESTO.COM",
                   style: TextStyle(
