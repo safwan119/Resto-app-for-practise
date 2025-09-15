@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
 
@@ -9,6 +11,9 @@ class Payment2 extends StatefulWidget {
 
 class _Payment2State extends State<Payment2> {
   var itemIndex = 0;
+  final databaseReference = FirebaseDatabase.instance.ref(
+    "UserDetail During Booking",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,6 @@ class _Payment2State extends State<Payment2> {
                   "MAKE FLASH ORDER",
                   style: TextStyle(
                     color: Colors.amber,
-                    // backgroundColor: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
@@ -56,23 +60,20 @@ class _Payment2State extends State<Payment2> {
         child: Column(
           children: [
             SizedBox(height: 80),
-            Center(
-              child: Icon(
-                Icons.cancel,
-                size: 90,
-                color: Colors.red,
-              ),
-            ),
+            Center(child: Icon(Icons.cancel, size: 90, color: Colors.red)),
             SizedBox(height: 10),
             Text(
-              "Reservation placed successful!",
+              "Reservation placed Unsuccessful!",
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 23,
               ),
             ),
-            Text("18 August 2024,12:39 PM", style: TextStyle(fontSize: 17)),
+            Text(
+              DateFormat('dd MMMM yyyy, mm:hh a').format(DateTime.now()),
+              style: TextStyle(fontSize: 17),
+            ),
             SizedBox(height: 40),
 
             Row(
@@ -88,16 +89,30 @@ class _Payment2State extends State<Payment2> {
                   ),
                 ),
                 Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Text(
-                    "RM 90.00",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                    ),
-                  ),
+                StreamBuilder(
+                  stream: databaseReference.onValue,
+                  builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData ||
+                        snapshot.data!.snapshot.children.isEmpty) {
+                      return Text("No data available");
+                    }
+                    final data = snapshot.data!.snapshot.value as Map?;
+                    final first = data!.values.first;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Text(
+                        "RM${first["price"]}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

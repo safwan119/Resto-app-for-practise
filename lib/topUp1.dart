@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/rounded_button/rounded_button.dart';
 
 import 'bottom_navigator/bottom_navigator_bar.dart';
 
@@ -10,11 +14,54 @@ class TopUp1 extends StatefulWidget {
 
 class _Payment1State extends State<TopUp1> {
   var itemIndex = 0;
+  final firebaseReference = FirebaseDatabase.instance.ref("Wallet Balance");
+  String _currentPrice = "0.00";
+  User? user = FirebaseAuth.instance.currentUser;
+  String? id;
+
+  @override
+  void initState() {
+    super.initState();
+    if (user != null) {
+      id = user!.uid;
+    } else {
+      print("No User login ");
+    }
+    firebaseReference
+        .child(id!)
+        .orderByChild('id')
+        .limitToLast(1)
+        .onValue
+        .listen((event) {
+          final allData = event.snapshot.value as Map?;
+          if (allData != null && allData.isNotEmpty) {
+            final latestTransactionParent = allData.values.first;
+            final price = latestTransactionParent["price"];
+            if (price != null) {
+              updatePrice(price);
+              // setState(() {
+              //   _currentPrice = price.toString();
+              // });
+            } else {
+              updatePrice("0.00");
+            }
+          }
+        });
+  }
+
+  void updatePrice(String newPrice) {
+    if (_currentPrice != newPrice) {
+      setState(() {
+        _currentPrice = newPrice;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 90,
         title: Column(
           children: [
@@ -29,7 +76,6 @@ class _Payment1State extends State<TopUp1> {
             Container(
               width: 150,
               height: 25,
-              // color: Colors.black,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(25),
@@ -72,7 +118,10 @@ class _Payment1State extends State<TopUp1> {
                 fontSize: 27,
               ),
             ),
-            Text("18 August 2024,12:39 PM", style: TextStyle(fontSize: 16)),
+            Text(
+              DateFormat('dd MMMM yyyy, hh:mm a').format(DateTime.now()),
+              style: TextStyle(fontSize: 16),
+            ),
             SizedBox(height: 40),
             Row(
               children: [
@@ -90,7 +139,8 @@ class _Payment1State extends State<TopUp1> {
                         ),
                       ),
                       Text(
-                        "Total amount of top-up",overflow: TextOverflow.ellipsis,
+                        "Total amount of top-up",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 14),
                       ),
                     ],
@@ -100,7 +150,7 @@ class _Payment1State extends State<TopUp1> {
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: Text(
-                    "RM 90.00",
+                    "RM ${_currentPrice}",
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -142,33 +192,14 @@ class _Payment1State extends State<TopUp1> {
               ),
             ),
             SizedBox(height: 200),
-            InkWell(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Card(
-                  elevation: 4,
-                  child: Container(
-                    width: double.infinity,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: Colors.amber,
-                    ),
-
-                    child: Center(
-                      child: Text(
-                        "BACK HOME",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: RoundedButton(
+                title: "BACK HOME",
+                ontap: () {
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {},
             ),
           ],
         ),

@@ -1,13 +1,24 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/revOrder.dart';
+import 'package:my_first_proj/rounded_button/rounded_button.dart';
+import 'package:my_first_proj/wallet_balance.dart';
 
 class Payment1 extends StatefulWidget {
+  const Payment1({super.key});
+
   @override
   State<Payment1> createState() => _Payment1State();
 }
 
 class _Payment1State extends State<Payment1> {
+  final firebaseRef = FirebaseDatabase.instance.ref("Reservation Setting");
+  final databaseReference = FirebaseDatabase.instance.ref(
+    "UserDetail During Booking",
+  );
   var itemIndex = 0;
 
   @override
@@ -28,7 +39,6 @@ class _Payment1State extends State<Payment1> {
             Container(
               width: 150,
               height: 25,
-              // color: Colors.black,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(25),
@@ -38,7 +48,6 @@ class _Payment1State extends State<Payment1> {
                   "MAKE FLASH ORDER",
                   style: TextStyle(
                     color: Colors.amber,
-                    // backgroundColor: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
@@ -72,7 +81,11 @@ class _Payment1State extends State<Payment1> {
                 fontSize: 23,
               ),
             ),
-            Text("18 August 2024,12:39 PM", style: TextStyle(fontSize: 17)),
+            Text(
+              DateFormat("dd MMMM yyyy, mm:hh a").format(DateTime.now()),
+              style: TextStyle(fontSize: 17),
+            ),
+
             SizedBox(height: 40),
 
             Row(
@@ -88,16 +101,30 @@ class _Payment1State extends State<Payment1> {
                   ),
                 ),
                 Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Text(
-                    "RM 90.00",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                    ),
-                  ),
+                StreamBuilder(
+                  stream: databaseReference.onValue,
+                  builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (!snapshot.hasData ||
+                        snapshot.data!.snapshot.children.isEmpty) {
+                      return Text("No data available");
+                    }
+                    final data = snapshot.data!.snapshot.value as Map?;
+                    final first = data!.values.first;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Text(
+                        "RM${first["price"]}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -133,12 +160,20 @@ class _Payment1State extends State<Payment1> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "In APP WALLET",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WalletBalance()),
+                    );
+                  },
+                  child: Text(
+                    "In APP WALLET",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -147,27 +182,14 @@ class _Payment1State extends State<Payment1> {
             InkWell(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Card(
-                  elevation: 4,
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.amber,
-                    ),
-
-                    child: Center(
-                      child: Text(
-                        "VIEW ORDER DETAILS",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
+                child: RoundedButton(
+                  title: "VIEW ORDER DETAILS",
+                  ontap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ReviewOrder()),
+                    );
+                  },
                 ),
               ),
               onTap: () {},
