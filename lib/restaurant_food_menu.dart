@@ -110,7 +110,7 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
       "Thursday",
       "Friday",
       "Saturday",
-    ][now.weekday];
+    ][now.weekday-1];
     final currentTime =
         "${now.hour.toString().padLeft(2, "0")}:${now.minute.toString().padLeft(2, "0")}";
     for (var promo in promotionHours) {
@@ -635,7 +635,7 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                       trailing:
                                                           isWithPromotionalHours()
                                                           ? Text(
-                                                              "RM ${discounted}",
+                                                              "RM ${discounted.toStringAsFixed(2)}",
                                                               style: TextStyle(
                                                                 color: Colors
                                                                     .black,
@@ -1083,7 +1083,7 @@ class _RestaurantFoodMenuState extends State<RestaurantFoodMenu> {
                                                         children: [
                                                           isWithPromotionalHours()
                                                               ? Text(
-                                                                  "RM ${discounted}",
+                                                                  "RM ${discounted.toStringAsFixed(2)}",
                                                                   style: TextStyle(
                                                                     color: Colors
                                                                         .orange,

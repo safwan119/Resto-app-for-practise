@@ -109,7 +109,7 @@ class _RestaurantMenuPractiseState extends State<RestaurantMenuDetail> {
             return  Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: InkWell(onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantFoodMenu()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RestaurantFoodMenu()));
               },
                 child: StreamBuilder(
                   stream: dbRef.onValue,
