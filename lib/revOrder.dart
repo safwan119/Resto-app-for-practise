@@ -18,7 +18,7 @@ class ReviewOrder extends StatefulWidget {
 }
 
 class _ReviewOrderState extends State<ReviewOrder> {
-  var remainingPrice=0;
+  var remainingPrice = 0;
   final databaseReference = FirebaseDatabase.instance.ref(
     "UserDetail During Booking",
   );
@@ -689,50 +689,45 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 ),
               ),
               onTap: () async {
-    final walletSnapshot = await firebaseReference.once();
-    final walletData = walletSnapshot.snapshot.value as Map?;
+                final walletSnapshot = await firebaseReference.once();
+                final walletData = walletSnapshot.snapshot.value as Map?;
 
-    if (walletData != null && walletData.isNotEmpty) {
-    // Get the user's data object, which contains all their fields.
-    final userData = walletData.values.first as Map?;
+                if (walletData != null && walletData.isNotEmpty) {
+                  final userData = walletData.values.first as Map?;
 
-    if (userData != null && userData.containsKey("currentPrice")) {
-    // Access the currentPrice specifically and cast it to a double.
-    // This is the key fix to prevent the type error.
-    double currentPrice = (userData["currentPrice"] as num).toDouble();
+                  if (userData != null &&
+                      userData.containsKey("currentPrice")) {
+                    double currentPrice = (userData["currentPrice"] as num)
+                        .toDouble();
 
-    // Make sure your totalPrice is also a double.
-    // Assuming totalPrice is already a double from your business logic.
-    // If it's an int, you should convert it to double: totalPrice.toDouble()
+                    double remainingPrice;
 
-    double remainingPrice;
+                    if (currentPrice >= totalPrice) {
+                      remainingPrice = currentPrice - totalPrice;
 
-    if (currentPrice >= totalPrice) {
-    remainingPrice = currentPrice - totalPrice;
+                      Utils().toastMessage("Transaction successful!");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Payment1()),
+                      );
+                    } else {
+                      remainingPrice = currentPrice;
+                      Utils().toastMessage("Transaction Unsuccessful!");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Payment2()),
+                      );
+                    }
 
-    Utils().toastMessage("Transaction successful!");
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) => Payment1()));
-    } else {
-    remainingPrice = currentPrice;
-    Utils().toastMessage("Transaction Unsuccessful!");
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) => Payment2()));
-    }
-
-    // Update the price on Firebase.
-    await firebaseReference.child(id!).update({
-    "currentPrice": remainingPrice,
-    });
-
-    } else {
-    // Handle the case where 'currentPrice' doesn't exist.
-    Utils().toastMessage("Current balance not found.");
-    }
-    } else {
-    // Handle the case where no wallet data is available.
-    Utils().toastMessage("No wallet data available.");
-    }
+                    await firebaseReference.child(id!).update({
+                      "currentPrice": remainingPrice,
+                    });
+                  } else {
+                    Utils().toastMessage("Current balance not found.");
+                  }
+                } else {
+                  Utils().toastMessage("No wallet data available.");
+                }
                 if (id != null) {
                   final userSnapshot = await databaseReference
                       .child(id!)
