@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/rate_restaurant.dart';
+import 'package:my_first_proj/wallet_balance.dart';
 
 class Payment2 extends StatefulWidget {
   @override
@@ -67,11 +69,11 @@ class _Payment2State extends State<Payment2> {
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 23,
+                fontSize: 21,
               ),
             ),
             Text(
-              DateFormat('dd MMMM yyyy, mm:hh a').format(DateTime.now()),
+              DateFormat('dd MMMM yyyy, hh:mm a').format(DateTime.now()),
               style: TextStyle(fontSize: 17),
             ),
             SizedBox(height: 40),
@@ -148,12 +150,16 @@ class _Payment2State extends State<Payment2> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "In APP WALLET",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                child: InkWell(onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>WalletBalance()));
+                },
+                  child: Text(
+                    "In APP WALLET",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -185,7 +191,9 @@ class _Payment2State extends State<Payment2> {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RateRestorant()));
+              },
             ),
           ],
         ),

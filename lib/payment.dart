@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/drawer/drawer.dart';
+import 'package:my_first_proj/rate_restaurant.dart';
 import 'package:my_first_proj/revOrder.dart';
 import 'package:my_first_proj/rounded_button/rounded_button.dart';
 import 'package:my_first_proj/wallet_balance.dart';
@@ -185,14 +186,13 @@ class _Payment1State extends State<Payment1> {
                 child: RoundedButton(
                   title: "VIEW ORDER DETAILS",
                   ontap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReviewOrder()),
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>RateRestorant())
                     );
                   },
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+              },
             ),
           ],
         ),
