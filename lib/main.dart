@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_first_proj/payment_keys/payment_key.dart';
+import 'package:my_first_proj/rate_restaurant.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
+import 'package:my_first_proj/review.dart';
 import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/forgetPassword.dart';
 import 'package:my_first_proj/splash_screen/splash_screen.dart';
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: SplashScreen(),
+      home: ReviewProducts(),
     );
   }
 }
