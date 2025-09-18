@@ -3,14 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:my_first_proj/notification/notification_control.dart';
+import 'package:my_first_proj/notification/notification_send_screen.dart';
 import 'package:my_first_proj/payment_keys/payment_key.dart';
-import 'package:my_first_proj/rate_restaurant.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
-import 'package:my_first_proj/review.dart';
 import 'package:my_first_proj/signUp1.dart';
 import 'package:my_first_proj/forgetPassword.dart';
-import 'package:my_first_proj/splash_screen/splash_screen.dart';
 import 'package:my_first_proj/util/utills.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,6 +19,10 @@ void main() async {
   await Stripe.instance.applySettings();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
+  OneSignal.Debug.setLogLevel(OSLogLevel.debug);
+  OneSignal.initialize("9723d941-1ba6-4a0e-b44b-852fbbb23777");
+  NotificationControl notificationControl=NotificationControl();
+  notificationControl.chekNotificationPermission();
   runApp(MyApp());
 }
 
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter application",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.amber),
-      home: ReviewProducts(),
+      home: NotificationSendScreen(),
     );
   }
 }
@@ -51,7 +55,7 @@ class _RestoAppState extends State<RestoApp> {
   final auth = FirebaseAuth.instance;
   bool loading = false;
 
-  void Login() {
+  void login() {
     setState(() {
       loading = true;
     });
@@ -259,7 +263,7 @@ class _RestoAppState extends State<RestoApp> {
                   child: InkWell(
                     onTap: () {
                       if (formKey.currentState!.validate()) {
-                        Login();
+                        login();
                       }
                     },
                     child: Container(
