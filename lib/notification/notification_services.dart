@@ -6,7 +6,7 @@ import 'package:my_first_proj/keys/one_signal_keys.dart';
 class NotificationServices {
   String url = "https://onesignal.com/api/v1/notifications";
 
-  sendNotification(String title, String description) async {
+  sendNotification(String title, String description ,String id) async {
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -18,7 +18,8 @@ class NotificationServices {
           "app_id": OneSignalKeys.appKey,
           "contents": {"en": description},
           "headings": {"en": title},
-          "included_segments": ["Total Subscriptions"],
+          "included_segments":null,
+          "include_external_user_ids": [id],
           "small_icon": "@mipmap/ic_launcher",
         }),
       );
