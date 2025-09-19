@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,18 @@ class _Payment1State extends State<Payment1> {
     "UserDetail During Booking",
   );
   var itemIndex = 0;
+  String? id;
+  User? user=FirebaseAuth.instance.currentUser;
+  @override
+  void initState() {
+    super.initState();
+    if(user!=null){
+      id=user!.uid;
+    }
+    else{
+      debugPrint("No User login now");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +116,7 @@ class _Payment1State extends State<Payment1> {
                 ),
                 Spacer(),
                 StreamBuilder(
-                  stream: databaseReference.onValue,
+                  stream: databaseReference.child(id!).onValue,
                   builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -113,11 +126,11 @@ class _Payment1State extends State<Payment1> {
                       return Text("No data available");
                     }
                     final data = snapshot.data!.snapshot.value as Map?;
-                    final first = data!.values.first;
+                    final price=data?["price"]??'0.00';
                     return Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: Text(
-                        "RM${first["price"]}",
+                        "RM${price}",
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
