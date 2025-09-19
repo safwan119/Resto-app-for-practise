@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
 import 'package:my_first_proj/topUp.dart';
@@ -14,6 +16,20 @@ class WalletBalance extends StatefulWidget {
 class _WalletBalanceState extends State<WalletBalance> {
   final firebaseReference = FirebaseDatabase.instance.ref("Wallet Balance");
   var itemIndex = 0;
+  User? user=FirebaseAuth.instance.currentUser;
+  String? id;
+  @override
+  void initState() {
+    super.initState();
+    if(user!=null){
+      id=user!.uid;
+    }
+    else{
+      if (kDebugMode) {
+        print("No user login currently");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +183,7 @@ class _WalletBalanceState extends State<WalletBalance> {
                             child: Column(
                               children: [
                                 StreamBuilder(
-                                  stream: firebaseReference.onValue,
+                                  stream: firebaseReference.child(id!).onValue,
                                   builder:
                                       (
                                         context,
@@ -196,11 +212,11 @@ class _WalletBalanceState extends State<WalletBalance> {
                                         final allData =
                                             snapshot.data!.snapshot.value
                                                 as Map?;
-                                        final first=allData!.values.first;
+                                        final currentPrice=allData?["currentPrice"].toStringAsFixed(2)??"0.00";
                                         return Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "RM ${first["currentPrice"].toStringAsFixed(2)}",
+                                            "RM $currentPrice",
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -290,7 +306,7 @@ class _WalletBalanceState extends State<WalletBalance> {
                       ),
                     ),
                     StreamBuilder(
-                      stream: firebaseReference.onValue,
+                      stream: firebaseReference.child(id!).onValue,
                       builder:
                           (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                             if (snapshot.connectionState ==
@@ -310,16 +326,17 @@ class _WalletBalanceState extends State<WalletBalance> {
                               return Text("An error occurred: ${snapshot.error}");
                             }
                             final allData = snapshot.data!.snapshot.value as Map?;
+                            // List list=allData!.values.toList();
                             if (allData == null || allData.isEmpty) {
                               return Text("No data available");
                             }
-                             final userData = allData.values.first as Map?;
+                             final userData = allData.values.toList();
 
                             if (userData == null) {
                               return Text("No user data available");
                             }
                             List transactionList = [];
-                            userData.forEach((key, value) {
+                            userData.forEach((value) {
                               if (value is Map) {
                                 transactionList.add(value);
                               }
@@ -340,7 +357,7 @@ class _WalletBalanceState extends State<WalletBalance> {
                                 },
                                 itemBuilder: (context, index) {
                                   print("the one transaction is :${transactionList[index]["price"]}");
-                                  final transaction=transactionList[index];
+                                  final transactionPrice=transactionList[index]["price"]??"0.00";
                                   return ListTile(
                                     title: Text("PAYMENT"),
                                     subtitle: Text(
@@ -348,7 +365,7 @@ class _WalletBalanceState extends State<WalletBalance> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     trailing: Text(
-                                      "RM${transaction["price"]}",
+                                      "RM${transactionPrice}",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 15,

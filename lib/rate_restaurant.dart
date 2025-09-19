@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_first_proj/bottom_navigator/bottom_navigator_bar.dart';
@@ -20,16 +21,18 @@ class _RateRestaurantState extends State<RateRestaurant> {
     "UserDetail During Booking",
   );
   final databaseRef = FirebaseDatabase.instance.ref("AddToCard Menu");
-  User? user=FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   String? id;
+
   @override
   void initState() {
     super.initState();
-    if(user!=null){
-      id=user!.uid;
-    }
-    else{
-      print("No user login");
+    if (user != null) {
+      id = user!.uid;
+    } else {
+      if (kDebugMode) {
+        print("No user login");
+      }
     }
   }
 
@@ -37,6 +40,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 90,
         title: Row(
           children: [
@@ -177,7 +181,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
             ),
             SizedBox(height: 2),
             StreamBuilder(
-              stream: databaseRef.onValue,
+              stream: databaseRef.child(id!).onValue,
               builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -195,8 +199,8 @@ class _RateRestaurantState extends State<RateRestaurant> {
                   return Text("some error contain");
                 }
                 final allData = snapshot.data!.snapshot.value as Map?;
-                final first=allData!.values.first;
-                List list = first!.values.toList();
+                // final first = allData!.values.first;
+                List list = allData!.values.toList();
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: ListView.builder(
@@ -229,7 +233,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(height: 8),
                                           Text(
@@ -267,7 +271,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
                                       child: SizedBox(
                                         width: 30,
                                         child: Text(
-                                          "${list[index]["quantity"]??" "}x",
+                                          "${list[index]["quantity"] ?? " "}x",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: Colors.amber,
@@ -311,7 +315,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
             ),
             SizedBox(height: 1),
             StreamBuilder(
-              stream: databaseReference.onValue,
+              stream: databaseReference.child(id!).onValue,
               builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -329,7 +333,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
                   return Text("some error contain");
                 }
                 final allData = snapshot.data!.snapshot.value as Map?;
-                final first = allData!.values.first;
+                // final first = allData!.values.first;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Container(
@@ -341,7 +345,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(first["note"]),
+                      child: Text(allData?["note"]??""),
                     ),
                   ),
                 );
@@ -359,7 +363,7 @@ class _RateRestaurantState extends State<RateRestaurant> {
                 Text("SUBTOTAL", style: TextStyle()),
                 Spacer(),
                 StreamBuilder(
-                  stream: databaseReference.onValue,
+                  stream: databaseReference.child(id!).onValue,
                   builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                     if (!snapshot.hasData ||
                         snapshot.data!.snapshot.children.isEmpty) {
@@ -369,11 +373,11 @@ class _RateRestaurantState extends State<RateRestaurant> {
                       return Text("some error contain");
                     }
                     final allData = snapshot.data!.snapshot.value as Map?;
-                    final first = allData!.values.first;
+                    // final first = allData!.values.first;
                     return Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: Text(
-                        "RM ${first["price"]}",
+                        "RM ${allData?["price"]??""}",
                         style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                     );

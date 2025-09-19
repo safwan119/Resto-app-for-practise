@@ -689,15 +689,15 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 ),
               ),
               onTap: () async {
-                final walletSnapshot = await firebaseReference.once();
+                final walletSnapshot = await firebaseReference.child(id!).once();
                 final walletData = walletSnapshot.snapshot.value as Map?;
 
                 if (walletData != null && walletData.isNotEmpty) {
-                  final userData = walletData.values.first as Map?;
+                  // final userData = walletData.values.first as Map?;
 
-                  if (userData != null &&
-                      userData.containsKey("currentPrice")) {
-                    double currentPrice = (userData["currentPrice"] as num)
+                  if (walletData != null &&
+                      walletData.containsKey("currentPrice")) {
+                    double currentPrice = (walletData["currentPrice"] as num)
                         .toDouble();
 
                     double remainingPrice;

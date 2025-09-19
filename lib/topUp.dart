@@ -280,8 +280,6 @@ class _TopUpState extends State<TopUp> {
                               final localTimestamp = DateTime.now().millisecondsSinceEpoch;
 
                               final DatabaseReference userRef = firebaseReference.child(id!);
-
-                              // Pehle transaction record save karna
                               await userRef.child(id1).set({
                                 "id": id1,
                                 "price": priceController.text,
