@@ -71,7 +71,7 @@ class _WalletBalanceState extends State<WalletBalance> {
         backgroundColor: Colors.amber,
       ),
       endDrawer: Drawer1(),
-      bottomNavigationBar: BottomNavigatorBar1(),
+      // bottomNavigationBar: BottomNavigatorBar1(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -216,7 +216,7 @@ class _WalletBalanceState extends State<WalletBalance> {
                                         return Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            "RM $currentPrice",
+                                            "RM$currentPrice",
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

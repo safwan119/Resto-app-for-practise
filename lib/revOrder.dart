@@ -693,7 +693,6 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 final walletData = walletSnapshot.snapshot.value as Map?;
 
                 if (walletData != null && walletData.isNotEmpty) {
-                  // final userData = walletData.values.first as Map?;
 
                   if (walletData != null &&
                       walletData.containsKey("currentPrice")) {
@@ -725,7 +724,8 @@ class _ReviewOrderState extends State<ReviewOrder> {
                   } else {
                     Utils().toastMessage("Current balance not found.");
                   }
-                } else {
+                }
+                else {
                   Utils().toastMessage("No wallet data available.");
                 }
                 if (id != null) {

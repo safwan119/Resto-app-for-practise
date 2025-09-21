@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_proj/main.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/util/utills.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -20,7 +22,7 @@ class _SignUpState extends State<SignUp> {
   final auth = FirebaseAuth.instance;
   var confirmPasswordController = TextEditingController();
   bool isObscure = true;
-  final firebaseDatabase = FirebaseDatabase.instance.ref("User SignUp detail");
+  final firebaseDatabase = FirebaseDatabase.instance.ref("User UID");
   String? id;
 
   void signUp2() async {
@@ -36,14 +38,29 @@ class _SignUpState extends State<SignUp> {
           setState(() {
             loading = false;
           });
-          User? user = value.user;
+          User? user=value.user;
           if (user != null) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => RestaurantMenuDetail()),
             );
+            user=FirebaseAuth.instance.currentUser;
+            if(user!=null){
+              id=user.uid;
+            }
+            else{
+              if (kDebugMode) {
+                print("No user login at that time");
+              }
+            }
           }
+          final id1=DateTime.now().millisecondsSinceEpoch.toString();
+          firebaseDatabase.child(id1).set({
+            "UID":id
+          });
+          OneSignal.login(id!);
           Utils().toastMessage("SignUp successfully");
+
         })
         .onError((error, stackTrace) {
           Utils().toastMessage(error.toString());
@@ -53,11 +70,12 @@ class _SignUpState extends State<SignUp> {
         });
   }
 
-  void ConfirmPassword1() {
+  void confirmPassword1() {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Enter correct password")));
+      ).showSnackBar(SnackBar(backgroundColor: Colors.red,
+          content: Text("Enter correct Confirm password")));
     } else {
       signUp2();
     }
@@ -295,7 +313,7 @@ class _SignUpState extends State<SignUp> {
                 child: InkWell(
                   onTap: () {
                     if (formKey.currentState!.validate()) {
-                      ConfirmPassword1();
+                      confirmPassword1();
                     }
                   },
                   child: Container(
