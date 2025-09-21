@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_proj/wallet_balance.dart';
 class BottomNavigatorBar1 extends StatefulWidget {
   const BottomNavigatorBar1({super.key});
 
@@ -16,6 +17,9 @@ class _BottomNavigatorBar1State extends State<BottomNavigatorBar1> {
         onTap:(index) {
             setState(() {
               itemIndex = index;
+              if(index==2){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>WalletBalance()));
+              }
             });
         },
       currentIndex: itemIndex,

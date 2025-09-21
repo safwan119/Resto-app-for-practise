@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_first_proj/addressDetail.dart';
 import 'package:my_first_proj/restaurants_detail/restaurant_menu_detail.dart';
 import 'package:my_first_proj/tab_bar.dart';
+import 'package:my_first_proj/wallet_balance.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
 
@@ -13,7 +14,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   List<dynamic> screens=[
     RestaurantMenuDetail(),
     TabBar1(),
-    RestaurantMenuDetail(),
+    WalletBalance(),
     AddressDetail(),
     RestaurantMenuDetail(),
   ];
