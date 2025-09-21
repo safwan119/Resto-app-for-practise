@@ -7,6 +7,14 @@ class NotificationServices {
   String url = "https://onesignal.com/api/v1/notifications";
 
   sendNotification(String title, String description ,String id) async {
+    List<String> includedSubscriptionList=[];
+    List<String> externalSubscriptionList=[];
+    if(id=="All Subscribers"){
+      includedSubscriptionList.add("Total Subscriptions");
+    }
+    else{
+      externalSubscriptionList.add(id);
+    }
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -18,8 +26,8 @@ class NotificationServices {
           "app_id": OneSignalKeys.appKey,
           "contents": {"en": description},
           "headings": {"en": title},
-          "included_segments":null,
-          "include_external_user_ids": [id],
+          "included_segments":includedSubscriptionList,
+          "include_external_user_ids": externalSubscriptionList,
           "small_icon": "@mipmap/ic_launcher",
         }),
       );
